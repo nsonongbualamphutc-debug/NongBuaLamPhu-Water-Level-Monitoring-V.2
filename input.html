@@ -30,6 +30,54 @@ button{cursor:pointer;border:0;background:none}
 .hide{display:none !important}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
+
+/* ═══════ เมนูไปหน้าอื่น ═══════ */
+a.logo{text-decoration:none;color:#fff}
+.navsheet{position:fixed;inset:0;z-index:150;background:rgba(8,20,38,.5);backdrop-filter:blur(3px);
+  display:none;align-items:flex-start;justify-content:center;padding:64px 14px 20px;overflow:auto}
+.navsheet.on{display:flex;animation:fade .2s}
+.navbox{background:#fff;border-radius:18px;width:100%;max-width:420px;overflow:hidden;box-shadow:var(--sh2)}
+.navbox h4{margin:0;padding:14px 16px;font-family:var(--disp);font-size:13px;color:var(--navy);
+  border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}
+.navbox h4 button{margin-left:auto;width:30px;height:30px;border-radius:50%;background:var(--bg);color:var(--muted)}
+.navbox a{display:flex;align-items:center;gap:11px;padding:12px 16px;text-decoration:none;color:var(--ink);
+  border-bottom:1px solid var(--line);font-size:14px;transition:background .15s}
+.navbox a:last-child{border-bottom:0}
+.navbox a:active{background:var(--bg)}
+.navbox a .i{font-size:18px;width:24px;text-align:center}
+.navbox a .l{flex:1;min-width:0}
+.navbox a .l b{display:block;font-family:var(--disp);font-weight:600;font-size:13.5px;line-height:1.25}
+.navbox a .l span{display:block;font-size:10px;color:var(--faint);letter-spacing:.3px}
+.navbox a.cur{background:linear-gradient(90deg,#eff6ff,#fff)}
+.navbox a.cur .l b{color:var(--navy)}
+
+/* ═══════ โหมดกรอกคนเดียว (Sub-admin) ═══════ */
+.sabar{background:#fff;border:1px dashed #cbd5e1;border-radius:14px;padding:11px 13px;margin-bottom:11px}
+.sabar>button.tg{width:100%;display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:600;
+  font-size:12.5px;color:var(--navy);text-align:left}
+.sabar>button.tg .c{margin-left:auto;color:var(--muted);transition:.2s}
+.sabar.open>button.tg .c{transform:rotate(180deg)}
+.sapick{display:none;gap:7px;margin-top:11px;flex-wrap:wrap}
+.sabar.open .sapick{display:flex}
+.sapick button{flex:1 1 auto;min-width:112px;height:42px;border-radius:11px;color:#fff;font-family:var(--disp);
+  font-weight:600;font-size:12px;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.saon{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:14px;
+  padding:12px 14px;margin-bottom:11px;display:flex;align-items:center;gap:12px}
+.saon .ic{font-size:24px}
+.saon .tx{flex:1;min-width:0}
+.saon .tx b{display:block;font-family:var(--disp);font-weight:700;font-size:13.5px;color:#92400e}
+.saon .tx span{display:block;font-size:11.5px;color:#78350f;line-height:1.45;margin-top:1px}
+.saon button{height:34px;padding:0 12px;border-radius:99px;background:#92400e;color:#fff;
+  font-family:var(--disp);font-size:11.5px;font-weight:600;white-space:nowrap}
+
+/* ช่องพิมพ์ PIN */
+.pintype{position:relative;max-width:300px;margin:0 auto 14px}
+.pintype input{width:100%;height:52px;border-radius:14px;border:1px solid var(--line);background:#fff;
+  padding:0 46px 0 16px;font-family:var(--disp);font-size:19px;font-weight:700;letter-spacing:5px;
+  text-align:center;box-shadow:var(--sh)}
+.pintype input:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(10,30,60,.09)}
+.pintype .eye{position:absolute;right:7px;top:50%;transform:translateY(-50%);width:38px;height:38px;
+  border-radius:50%;font-size:16px;color:var(--muted)}
 /* ═══════ TOP BAR ═══════ */
 .top{position:sticky;top:0;z-index:60;background:linear-gradient(120deg,var(--navy),var(--navy2));
   color:#fff;padding:calc(9px + env(safe-area-inset-top)) 14px 9px;display:flex;align-items:center;gap:10px;
@@ -269,11 +317,28 @@ details.more .inner{padding:0 14px 14px}
 </style></head>
 <body>
 <header class="top">
-  <div class="logo">💧</div>
+  <a class="logo" href="index.html" title="กลับหน้าปกนำเสนอ">💧</a>
   <div class="tt"><b>บันทึกข้อมูลสถานการณ์น้ำ</b><span>Nong Bua Lam Phu · Water Data Entry</span></div>
   <span id="netpill" class="netpill" onclick="showScreen('scr-queue')"></span>
-  <button class="tbtn" id="btnAdmin" onclick="openAdmin()">🔐</button>
+  <button class="tbtn" onclick="toggleNav()" title="ไปยังหน้าอื่น">☰</button>
+  <button class="tbtn" id="btnAdmin" onclick="openAdmin()" title="ผู้ดูแลระบบ">🔐</button>
 </header>
+
+<div class="navsheet" id="navSheet" onclick="if(event.target===this)toggleNav()">
+  <div class="navbox">
+    <h4>🧭 ไปยังหน้าอื่น <button onclick="toggleNav()">✕</button></h4>
+    <a href="index.html"><span class="i">🏠</span><span class="l"><b>หน้าปกนำเสนอ</b><span>COVER</span></span></a>
+    <a href="dashboard.html"><span class="i">📊</span><span class="l"><b>ภาพรวมสถานการณ์</b><span>EXECUTIVE SUMMARY</span></span></a>
+    <a href="daily_briefing.html"><span class="i">📄</span><span class="l"><b>รายงานประจำวัน</b><span>DAILY BRIEFING</span></span></a>
+    <a href="paneang.html"><span class="i">🌊</span><span class="l"><b>ลำน้ำพะเนียง</b><span>PHANEANG</span></span></a>
+    <a href="mong.html"><span class="i">🌊</span><span class="l"><b>ลำน้ำโมง</b><span>MONG</span></span></a>
+    <a href="mo.html"><span class="i">🌊</span><span class="l"><b>ลำน้ำมอ</b><span>MO</span></span></a>
+    <a href="phuay.html"><span class="i">🌊</span><span class="l"><b>ลำน้ำพวย</b><span>PHUAY</span></span></a>
+    <a href="rainfall.html"><span class="i">🌧️</span><span class="l"><b>ปริมาณฝน</b><span>RAINFALL</span></span></a>
+    <a href="reservoir.html"><span class="i">🏞️</span><span class="l"><b>อ่างเก็บน้ำ</b><span>RESERVOIR</span></span></a>
+    <a href="input.html" class="cur"><span class="i">✍️</span><span class="l"><b>บันทึกข้อมูล</b><span>DATA INPUT · หน้านี้</span></span></a>
+  </div>
+</div>
 
 <div class="wrap">
 
@@ -287,6 +352,8 @@ details.more .inner{padding:0 14px 14px}
       <div class="hb" id="progChips"></div>
     </div>
   </div>
+
+  <div id="saBar"></div>
 
   <div class="search">
     <span class="ic">🔍</span>
@@ -305,6 +372,12 @@ details.more .inner{padding:0 14px 14px}
       <div class="ic" id="pinIcon">🔒</div>
       <h2 id="pinTitle">—</h2>
       <p id="pinSub">—</p>
+    </div>
+    <div class="pintype">
+      <input id="pinType" type="password" inputmode="numeric" autocomplete="off" maxlength="20"
+             placeholder="พิมพ์ PIN" oninput="pinTyped(this.value)"
+             onkeydown="if(event.key==='Enter')submitPin()">
+      <button class="eye" onclick="togglePinEye()" id="pinEye" title="แสดง/ซ่อน PIN">👁</button>
     </div>
     <div class="pindots" id="pinDots"></div>
     <div class="kp" id="keypad"></div>
@@ -422,15 +495,9 @@ const LS = {
 const K_FAV='wt_fav_v2', K_DONE='wt_done_v2', K_REC='wt_recorder_v2',
       K_QUEUE='wt_queue_v2', K_DRAFT='wt_draft_v2', K_PIN='wt_pin_v2';
 
-/* PIN: เก็บพร้อมวันหมดอายุ 12 ชม. (ของเดิมเก็บถาวรไม่มีหมดอายุ) */
-const PIN_TTL = 12*3600*1000;
+/* PIN: จำไว้ถาวรเหมือนระบบเดิม — ออกจากระบบเองได้ที่ปุ่ม "ออก" ในฟอร์ม */
 function pinSave(key,pin){ const m=LS.get(K_PIN,{}); m[key]={p:pin,t:Date.now()}; LS.set(K_PIN,m); }
-function pinLoad(key){
-  const m=LS.get(K_PIN,{}), e=m[key];
-  if(!e) return '';
-  if(Date.now()-e.t > PIN_TTL){ delete m[key]; LS.set(K_PIN,m); return ''; }
-  return e.p;
-}
+function pinLoad(key){ const e=LS.get(K_PIN,{})[key]; return e? e.p : ''; }
 function pinDrop(key){ const m=LS.get(K_PIN,{}); delete m[key]; LS.set(K_PIN,m); }
 
 /* บันทึกว่าวันนี้กรอกจุดไหนไปแล้ว */
@@ -710,6 +777,66 @@ const uidOf = (tk,e) => tk+':'+TYPES[tk].idOf(e);
 
 /* ── สถานะรวมของแอป ─────────────────────────────────────────────── */
 let TAB='water', SEL=null, SELT=null, PIN='', CTX=null, PINBUF='', ADMINPIN='', ADMINTAB='water';
+
+/* ══════════════════════════════════════════════════════════════════════════
+   โหมดกรอกคนเดียว (Sub-admin) — เข้าครั้งเดียว กรอกได้ทุกจุดในหมวดนั้น
+   ไม่ต้องใส่ PIN รายจุด · ใช้ action และรหัสชุดเดิมทุกประการ
+   ══════════════════════════════════════════════════════════════════════════ */
+const SUBADMIN_SCOPES = {
+  water:     {ico:'💧', name:'Water Admin',     act:'loginwateradmin',
+              desc:'กรอกระดับน้ำได้ทุกสถานี (20 สถานี · 4 ลำน้ำ)', color:'#0c4a6e'},
+  rain:      {ico:'🌧️', name:'Rain Admin',      act:'loginrainadmin',
+              desc:'กรอกปริมาณฝนได้ทุกอำเภอ (6 อำเภอ)',           color:'#1e40af'},
+  reservoir: {ico:'🏞️', name:'Reservoir Admin', act:'loginreservoiradmin',
+              desc:'กรอกอ่างเก็บน้ำได้ทุกแห่ง (15 อ่าง)',          color:'#065f46'}
+};
+let SUBADMIN = null;   /* {scope, pin, role} */
+let SA_PENDING = null; /* scope ที่กำลังใส่ PIN อยู่ */
+
+function saKey(scope){ return 'wt_subadmin_'+scope; }
+function saRestore(){
+  for(const k of Object.keys(SUBADMIN_SCOPES)){
+    let v=null; try{ v=sessionStorage.getItem(saKey(k)); }catch(e){}
+    if(v){ SUBADMIN={scope:k, pin:v, role:''}; break; }
+  }
+}
+function saExit(){
+  if(SUBADMIN){ try{ sessionStorage.removeItem(saKey(SUBADMIN.scope)); }catch(e){} }
+  SUBADMIN=null; PIN='';
+  renderSaBar(); renderPick();
+  toast('ออกจากโหมดกรอกคนเดียวแล้ว','');
+}
+function saOpen(scope){
+  SA_PENDING=scope; SEL=null; SELT=null;
+  const m=SUBADMIN_SCOPES[scope];
+  PINBUF='';
+  $('pinIcon').textContent=m.ico;
+  $('pinTitle').textContent=m.name;
+  $('pinSub').textContent=m.desc;
+  $('pinMsg').textContent='กรอกรหัสผู้ดูแลหมวดนี้ — เข้าครั้งเดียวกรอกได้ทุกจุด';
+  $('pinMsg').className='pinmsg';
+  buildKeypad(); syncPin();
+  showScreen('scr-pin');
+  setTimeout(()=>{ const el=$('pinType'); if(el) el.focus(); },250);
+}
+function renderSaBar(){
+  const box=$('saBar'); if(!box) return;
+  if(SUBADMIN){
+    const m=SUBADMIN_SCOPES[SUBADMIN.scope];
+    box.innerHTML=`<div class="saon"><span class="ic">${m.ico}</span>
+      <span class="tx"><b>โหมด ${esc(m.name)} ${SUBADMIN.role==='super_admin'?'(Super Admin)':''}</b>
+        <span>${esc(m.desc)} — เลือกจุดใดก็ได้ ไม่ต้องใส่ PIN รายจุด</span></span>
+      <button onclick="saExit()">ออกโหมด</button></div>`;
+  } else {
+    box.innerHTML=`<div class="sabar" id="saWrap">
+      <button class="tg" onclick="document.getElementById('saWrap').classList.toggle('open')">
+        <span>🔐</span><b>โหมดกรอกคนเดียว — กรอกข้ามจุดโดยไม่ต้องใส่ PIN รายจุด</b><i class="c">▾</i></button>
+      <div class="sapick">${Object.keys(SUBADMIN_SCOPES).map(k=>{
+        const m=SUBADMIN_SCOPES[k];
+        return `<button style="background:${m.color}" onclick="saOpen('${k}')">${m.ico} ${esc(m.name)}</button>`;
+      }).join('')}</div></div>`;
+  }
+}
 /* ══════════════════════════════════════════════════════════════════════════
    หน้าจอ & การนำทาง
    ══════════════════════════════════════════════════════════════════════════ */
@@ -719,8 +846,17 @@ function showScreen(id){
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='scr-queue') renderQueue();
 }
-function backToPick(){ SEL=null; SELT=null; PIN=''; CTX=null; renderPick(); renderProgress(); showScreen('scr-pick'); }
-function leaveForm(){ saveDraft(); backToPick(); }
+function backToPick(){ SEL=null; SELT=null; CTX=null; SA_PENDING=null; if(!SUBADMIN) PIN=''; renderSaBar(); renderPick(); renderProgress(); showScreen('scr-pick'); }
+function leaveForm(){
+  saveDraft();
+  /* อยู่ในโหมดกรอกคนเดียว → แค่กลับไปเลือกจุด ไม่ต้องลืมรหัส */
+  if(!(SUBADMIN && SUBADMIN.scope===SELT) && SEL && SELT){
+    if(confirm('ออกจากจุดนี้และลืม PIN ที่จำไว้หรือไม่?\n(กด "ยกเลิก" ถ้าแค่ต้องการกลับไปเลือกจุดอื่น)')){
+      pinDrop(uidOf(SELT,SEL));
+    }
+  }
+  backToPick();
+}
 
 let toastT=null;
 function toast(msg, kind){
@@ -802,7 +938,9 @@ function pickPoint(id){
   const T=TYPES[TAB];
   const e=T.items().find(x=>String(T.idOf(x))===String(id));
   if(!e) return;
-  SEL=e; SELT=TAB;
+  SEL=e; SELT=TAB; SA_PENDING=null;
+  /* โหมดกรอกคนเดียว — ใช้รหัสหมวดแทน PIN รายจุด */
+  if(SUBADMIN && SUBADMIN.scope===TAB){ PIN=SUBADMIN.pin; enterForm(); return; }
   const cached=pinLoad(uidOf(TAB,e));
   if(cached){ PIN=cached; enterForm(); return; }
   openPin();
@@ -811,35 +949,65 @@ function pickPoint(id){
 /* ══════════════════════════════════════════════════════════════════════════
    2) หน้าใส่ PIN — คีย์แพดใหญ่ กดง่ายบนมือถือ
    ══════════════════════════════════════════════════════════════════════════ */
+function buildKeypad(){
+  $('keypad').innerHTML=[1,2,3,4,5,6,7,8,9].map(n=>`<button type="button" onclick="pinKey('${n}')">${n}</button>`).join('')
+    + `<button type="button" class="act" onclick="pinKey('del')">⌫</button>`
+    + `<button type="button" onclick="pinKey('0')">0</button>`
+    + `<button type="button" class="go" onclick="submitPin()">✓</button>`;
+}
 function openPin(){
   const T=TYPES[SELT];
-  PINBUF='';
+  SA_PENDING=null; PINBUF='';
   $('pinIcon').textContent=T.icon;
   $('pinTitle').textContent=T.title(SEL);
   $('pinSub').textContent=T.sub(SEL);
-  $('pinMsg').textContent='กรอก PIN ประจำจุดเพื่อเข้าบันทึก';
+  $('pinMsg').textContent='กรอก PIN ประจำจุด — พิมพ์เองหรือกดแป้นด้านล่างก็ได้';
   $('pinMsg').className='pinmsg';
-  $('keypad').innerHTML=[1,2,3,4,5,6,7,8,9].map(n=>`<button onclick="pinKey('${n}')">${n}</button>`).join('')
-    + `<button class="act" onclick="pinKey('del')">⌫</button>`
-    + `<button onclick="pinKey('0')">0</button>`
-    + `<button class="go" onclick="submitPin()">✓</button>`;
-  drawDots();
+  buildKeypad(); syncPin();
   showScreen('scr-pin');
+  setTimeout(()=>{ const el=$('pinType'); if(el) el.focus(); },250);
 }
-function drawDots(){
+/* ให้ช่องพิมพ์กับคีย์แพดใช้ค่าเดียวกันเสมอ */
+function syncPin(){
+  const el=$('pinType'); if(el && el.value!==PINBUF) el.value=PINBUF;
   const n=Math.max(PINBUF.length,4);
   $('pinDots').className='pindots';
   $('pinDots').innerHTML=Array.from({length:n},(_,i)=>`<i class="${i<PINBUF.length?'f':''}"></i>`).join('');
 }
+function pinTyped(v){ PINBUF=String(v||'').slice(0,20); syncPin(); }
 function pinKey(k){
   if(k==='del') PINBUF=PINBUF.slice(0,-1);
-  else if(PINBUF.length<12) PINBUF+=k;
-  drawDots();
+  else if(PINBUF.length<20) PINBUF+=k;
+  syncPin();
+}
+function togglePinEye(){
+  const el=$('pinType'); if(!el) return;
+  el.type = el.type==='password' ? 'text' : 'password';
+  $('pinEye').textContent = el.type==='password' ? '👁' : '🙈';
 }
 async function submitPin(){
-  if(!PINBUF){ return pinErr('กรุณากรอก PIN'); }
-  const T=TYPES[SELT];
+  if(!PINBUF) return pinErr('กรุณากรอก PIN');
   $('pinMsg').textContent='กำลังตรวจสอบ…'; $('pinMsg').className='pinmsg';
+
+  /* โหมดกรอกคนเดียว */
+  if(SA_PENDING){
+    const m=SUBADMIN_SCOPES[SA_PENDING];
+    const r=await apiRaw({action:m.act, pin:PINBUF});
+    if(!r || !r.ok){
+      return pinErr(r&&r.offline ? 'ออฟไลน์ — เข้าระบบไม่ได้ ต้องต่อเน็ตก่อน'
+                                 : (r&&r.error) || 'รหัสไม่ถูกต้อง');
+    }
+    SUBADMIN={scope:SA_PENDING, pin:PINBUF, role:r.role||''};
+    try{ sessionStorage.setItem(saKey(SA_PENDING), PINBUF); }catch(e){}
+    TAB=SA_PENDING; SA_PENDING=null; PINBUF='';
+    renderSaBar(); renderPick(); renderProgress();
+    showScreen('scr-pick');
+    toast('✅ เข้าโหมด '+esc(m.name)+' แล้ว — เลือกจุดใดก็ได้ ไม่ต้องใส่ PIN อีก','ok');
+    return;
+  }
+
+  /* PIN รายจุดตามปกติ */
+  const T=TYPES[SELT];
   const r=await apiRaw(T.login(SEL,PINBUF));
   if(!r || !r.ok){
     return pinErr(r&&r.offline ? 'ออฟไลน์ — เข้าระบบไม่ได้ ต้องต่อเน็ตครั้งแรกก่อน'
@@ -851,10 +1019,12 @@ async function submitPin(){
 }
 function pinErr(m){
   PINBUF='';
+  const el=$('pinType'); if(el) el.value='';
   $('pinDots').className='pindots err';
-  setTimeout(drawDots,420);
+  setTimeout(syncPin,420);
   $('pinMsg').textContent='❌ '+m; $('pinMsg').className='pinmsg err';
 }
+function toggleNav(){ $('navSheet').classList.toggle('on'); }
 
 /* ══════════════════════════════════════════════════════════════════════════
    3) ฟอร์มบันทึก
@@ -1331,7 +1501,8 @@ function boot(){
   Object.keys(d).forEach(k=>{ if(d[k]===t) nd[k]=d[k]; });
   LS.set(K_DONE,nd);
 
-  renderTabs(); renderPick(); renderProgress(); paintPill();
+  saRestore();
+  renderSaBar(); renderTabs(); renderPick(); renderProgress(); paintPill();
   if(navigator.onLine && queueGet().length) flushQueue();
 
   /* กันเลื่อนล้อเมาส์แล้วค่าเปลี่ยนเอง (บั๊กเดิมของ input type=number) */
