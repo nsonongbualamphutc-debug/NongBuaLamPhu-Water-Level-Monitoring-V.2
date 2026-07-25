@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ds.css?v=30">
+<link rel="stylesheet" href="ds.css?v=31">
 <style>
 /* ═══════ ตารางสรุป (Data Table Overlay) ═══════ */
 .mini-i{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:0 0 17px;
@@ -230,7 +230,7 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 <aside class="side">
   <div class="brand"><a href="index.html" title="กลับหน้าปกนำเสนอ" style="display:contents"><img src="logo-nbp.png" alt="ตราจังหวัด"><div class="bt"><div class="kick">Water Command</div><div class="ttl">สถานการณ์น้ำจังหวัด</div><div class="en">NONG BUA LAM PHU</div></div></a></div>
   <nav class="menu"><a href="dashboard.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span><span class="lbl"><b>ภาพรวมสถานการณ์</b><i>Executive Summary</i></span></a><a href="daily_briefing.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span><span class="lbl"><b>รายงานประจำวัน</b><i>Daily Briefing</i></span></a><a href="paneang.html" class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพะเนียง</b><i>Phaneang</i></span></a><a href="mong.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำโมง</b><i>Mong</i></span></a><a href="mo.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำมอ</b><i>Mo</i></span></a><a href="phuay.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพวย</b><i>Phuay</i></span></a><a href="rainfall.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11.6 2A3.5 3.5 0 0 0 6 18z"/><path d="M8 20l1 2M12 20l1 2M16 20l1 2"/></svg></span><span class="lbl"><b>ปริมาณฝน</b><i>Rainfall</i></span></a><a href="reservoir.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v6a8 8 0 0 1-16 0zM4 5c3 2 5 2 8 0s5-2 8 0"/></svg></span><span class="lbl"><b>อ่างเก็บน้ำ</b><i>Reservoir</i></span></a><a href="input.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="lbl"><b>บันทึกข้อมูล</b><i>Data Input</i></span></a></nav>
-  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v30</span></div></div>
+  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v31</span></div></div>
 </aside>
 <div class="main-col">
   <header class="topbar">
@@ -339,45 +339,51 @@ function recalcScale(){
    ปกติ 0–62% · เฝ้าระวัง 62–86% · วิกฤติ 86–100%
    ป้ายเกณฑ์: วิกฤติอยู่ซ้าย เฝ้าระวังอยู่ขวา — ไม่ทับกัน */
 /* ══════════════════════════════════════════════════════════════════════
-   สเกลเดียวทั้งหน้า — "% ความจุลำน้ำ" (แนวเดียวกับหน้าอ่างเก็บน้ำ)
-     0%    = ท้องน้ำอ้างอิง (สันตลิ่ง − ความลึกอ้างอิง)
-     100%  = เต็มถึงสันตลิ่ง → เริ่มล้นตลิ่ง      ·   >100% = ล้นแล้ว
-   เกณฑ์ 3 ระดับ: ปกติ < เฝ้าระวัง < วิกฤติ/ล้นตลิ่ง
-   ตัวเลข "ระดับน้ำ" ที่โชว์ทุกจุดคือค่าจริง (ม.รทก.) ไม่หักลบเกณฑ์ใด ๆ
+   ตัวเลขทั้งหมด = สูตรเดิมของหน่วยงานเจ้าของข้อมูล — ไม่สมมติท้องน้ำ ไม่เผื่อระยะ
+     • ระดับน้ำ      = ค่าจริง (ม.รทก.)
+     • ต่ำกว่าตลิ่ง   = สันตลิ่ง − ระดับน้ำ
+     • % เทียบตลิ่ง  = ระดับน้ำ ÷ สันตลิ่ง × 100      (สูตรเดิมเป๊ะ)
+   ตำแหน่งบนหลอด/แถบ = "การแสดงผลอย่างเดียว" ไม่ใช่ค่าข้อมูล
+     แบ่งโซนคงที่ให้เส้นเฝ้าระวังกับเส้นตลิ่งแยกกันชัดทุกสถานี
+     ปกติ 0–62% · เฝ้าระวัง 62–86% · วิกฤติ 86–100%
    ══════════════════════════════════════════════════════════════════════ */
-const HEAD=112;                                   /* เผื่อหัวหลอดเหนือ 100% ให้เห็นโซนวิกฤติ */
-function tp(p){ return Math.max(0,Math.min(HEAD,p))/HEAD*100; }
-function depthOf(s){
-  var d=null;
-  if(s.depth!=null&&!isNaN(s.depth)) d=+s.depth;
-  else if(s.bed!=null&&!isNaN(s.bed)) d=+s.bank-(+s.bed);
-  return (d!=null&&d>0.2)?d:SCALE;
+const Z_OK=62, Z_WARN=86;   /* ตำแหน่งเส้นเฝ้าระวัง / เส้นตลิ่ง บนแถบ (คงที่เสมอ) */
+const VSPAN=10;             /* ช่วงที่หลอดครอบคลุมใต้ตลิ่ง (ม.) — ค่าแสดงผลคงที่ ไม่เปลี่ยนตามข้อมูล */
+
+function gapOf(s){ return (+s.bank) - (+s.cur); }                       /* ต่ำกว่าตลิ่ง (ม.) */
+function pctBank(s){ return s.bank ? ((+s.cur)/(+s.bank)*100) : 0; }    /* % เทียบระดับตลิ่ง — สูตรเดิม */
+function warnOf(s){ return (s.warn!=null&&!isNaN(s.warn)) ? +s.warn : (+s.bank-0.5); }
+
+/* ตำแหน่งบนแถบ (0–100) — แสดงผลเท่านั้น */
+function zpos(s,v){
+  const bank=+s.bank, warn=warnOf(s), band=Math.max(.05, bank-warn);
+  if(v>=bank) return Math.min(100, Z_WARN + (v-bank)/band*(100-Z_WARN));
+  if(v>=warn) return Z_OK + (v-warn)/band*(Z_WARN-Z_OK);
+  const floor=bank-VSPAN;
+  if(v<=floor) return 0;
+  return (v-floor)/Math.max(.05,(warn-floor))*Z_OK;
 }
-function bedOf(s){ return +s.bank-depthOf(s); }
-function fillOf(s,v){ const bed=bedOf(s); return (v-bed)/Math.max(.001,(+s.bank-bed))*100; }
-function pctNow(s){   return (s.bank!=null&&s.cur!=null&&!isNaN(s.cur))?fillOf(s,s.cur):0; }
-function pctBarOf(s){ return Math.max(0,Math.min(100,pctNow(s))); }
-function warnPct(s){  return Math.max(0,Math.min(100,fillOf(s,(s.warn!=null?+s.warn:+s.bank-0.5)))); }
-function critPct(s){  return Math.max(0,Math.min(100,fillOf(s,(s.crit!=null?+s.crit:+s.bank)))); }
-function pctBankBar(s){ return pctBarOf(s); }
-function posOf(s,v){    return Math.max(0,Math.min(100,fillOf(s,v))); }
-/* ── แถบความจุแนวนอน — ใช้ร่วมทุกทูลทิป (กินพื้นที่น้อยกว่าหลอดตั้งมาก) ── */
-function capBar(pc,wp,cp,color){
-  const P=tp(pc),W=tp(wp),C=tp(cp),over=pc>cp;
+function zNow(s){  return Math.max(0,Math.min(100, zpos(s,+s.cur))); }
+function zWarn(s){ return Z_OK; }
+function zCrit(s){ return Z_WARN; }
+
+/* ── แถบแนวนอนในทูลทิป ── */
+function capBar(s,color){
+  const P=zNow(s), over=gapOf(s)<=0;
   return `<div class="cbar">
     <span class="ctrack">
-      <span class="cz" style="left:0;width:${W}%;background:#dcfce7"></span>
-      <span class="cz" style="left:${W}%;width:${Math.max(0,C-W)}%;background:#fef3c7"></span>
-      <span class="cz" style="left:${C}%;width:${Math.max(0,100-C)}%;background:#fee2e2"></span>
+      <span class="cz" style="left:0;width:${Z_OK}%;background:#dcfce7"></span>
+      <span class="cz" style="left:${Z_OK}%;width:${Z_WARN-Z_OK}%;background:#fef3c7"></span>
+      <span class="cz" style="left:${Z_WARN}%;width:${100-Z_WARN}%;background:#fee2e2"></span>
       <i class="cfill" style="width:${P}%;background:linear-gradient(90deg,${color}99,${color})"></i>
     </span>
-    <span class="ctick" style="left:${W}%;background:#f59e0b"></span>
-    <span class="ctick" style="left:${C}%;background:#dc2626"></span>
+    <span class="ctick" style="left:${Z_OK}%;background:#f59e0b"></span>
+    <span class="ctick" style="left:${Z_WARN}%;background:#dc2626"></span>
     <span class="cdot${over?' ov':''}" style="left:${P}%;border-color:${color}"></span>
   </div>
-  <div class="cleg"><span>0%</span><span style="color:#b45309">เฝ้าระวัง ${wp.toFixed(0)}%</span><span style="color:#dc2626">ล้นตลิ่ง 100%</span></div>`;
+  <div class="cleg"><span>ปกติ</span><span style="color:#b45309">เฝ้าระวัง ${nf(warnOf(s),2)}</span><span style="color:#dc2626">ตลิ่ง ${nf(s.bank,2)}</span></div>`;
 }
-/* ── เกจวงแหวนบนการ์ดสถานี ── */
+/* ── เกจวงแหวนบนการ์ด — ตรงกลางบอก "ต่ำกว่าตลิ่ง" ตามที่หน่วยงานเสนอ ── */
 function arcPt(cx,cy,r,deg){const a=(deg-90)*Math.PI/180;return [(cx+r*Math.cos(a)).toFixed(2),(cy+r*Math.sin(a)).toFixed(2)];}
 function arcPath(cx,cy,r,a0,a1){
   if(a1-a0<0.4) a1=a0+0.4;
@@ -385,22 +391,23 @@ function arcPath(cx,cy,r,a0,a1){
   return `M ${p0[0]} ${p0[1]} A ${r} ${r} 0 ${(a1-a0)>180?1:0} 1 ${p1[0]} ${p1[1]}`;
 }
 function arcGauge(s,color){
-  const pc=pctNow(s),wp=warnPct(s),cp=critPct(s),over=pc>cp;
   const A0=-135,SW=270,R=21,CX=27,CY=27;
-  const ang=v=>A0+tp(v)/100*SW;
+  const ang=p=>A0+Math.max(0,Math.min(100,p))/100*SW;
+  const g=gapOf(s), over=g<=0;
   return `<svg class="stc-arc" viewBox="0 0 54 54" aria-hidden="true">
     <path d="${arcPath(CX,CY,R,A0,A0+SW)}" fill="none" stroke="#e9eff7" stroke-width="6" stroke-linecap="round"/>
-    <path d="${arcPath(CX,CY,R,ang(wp),ang(cp))}" fill="none" stroke="#fde68a" stroke-width="6"/>
-    <path d="${arcPath(CX,CY,R,ang(cp),A0+SW)}" fill="none" stroke="#fecaca" stroke-width="6"/>
-    <path d="${arcPath(CX,CY,R,A0,ang(pc))}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round"${over?' class="rise-up"':''}/>
-    <text x="27" y="27" text-anchor="middle" font-size="13.5" font-weight="800" font-family="Kanit" fill="${color}">${pc.toFixed(0)}<tspan font-size="8">%</tspan></text>
-    <text x="27" y="36" text-anchor="middle" font-size="6.5" font-family="Sarabun" fill="#94a3b8">ความจุ</text>
+    <path d="${arcPath(CX,CY,R,ang(Z_OK),ang(Z_WARN))}" fill="none" stroke="#fde68a" stroke-width="6"/>
+    <path d="${arcPath(CX,CY,R,ang(Z_WARN),A0+SW)}" fill="none" stroke="#fecaca" stroke-width="6"/>
+    <path d="${arcPath(CX,CY,R,A0,ang(zNow(s)))}" fill="none" stroke="${color}" stroke-width="6" stroke-linecap="round"${over?' class="rise-up"':''}/>
+    <text x="27" y="26" text-anchor="middle" font-size="12" font-weight="800" font-family="Kanit" fill="${color}">${over?'+'+nf(-g,2):nf(g,2)}</text>
+    <text x="27" y="35" text-anchor="middle" font-size="6" font-family="Sarabun" fill="#94a3b8">${over?'เกินตลิ่ง (ม.)':'ต่ำกว่าตลิ่ง (ม.)'}</text>
   </svg>`;
 }
-/* ── ปตร. ใช้ตรรกะเดียวกัน (g.normal = เฝ้าระวัง · g.warn = วิกฤติ/ล้นตลิ่ง) ── */
-function fgCrit(g){ return +g.warn; }
-function fgFill(g,v){ const crit=fgCrit(g), bed=crit-SCALE; return (v-bed)/Math.max(.001,(crit-bed))*100; }
-function fgPct(g){ return fgFill(g,g.level); }
+/* ── ปตร. ใช้ตรรกะเดียวกัน (g.normal = เฝ้าระวัง · g.warn = ตลิ่ง/วิกฤติ) ── */
+function fgAsSt(g){ return {bank:+g.warn, warn:+g.normal, cur:+g.level}; }
+function fgGap(g){ return (+g.warn)-(+g.level); }
+function fgPctBank(g){ return g.warn ? ((+g.level)/(+g.warn)*100) : 0; }
+function fgZ(g){ return Math.max(0,Math.min(100, zpos(fgAsSt(g), +g.level))); }
 
 /* ความลึกภาพตัดตามยาว — ลึกพอครอบคลุมทุกสถานีเสมอ */
 function profDepth(){ recalcScale(); return SCALE; }
@@ -440,7 +447,7 @@ function row(l,v){return `<div class="row"><span>${l}</span><b>${v}</b></div>`;}
 function sepRow(t){return `<div class="seprow">${t}</div>`;}
 function tipSt(s){
  const k=stOf(s),b=SB[k];
- const pc=pctNow(s), wp=warnPct(s), cp=critPct(s);
+ const gp=gapOf(s), pb=pctBank(s);
  const tr=trendOf(s);
  const trTxt = tr==null?'—':(tr>0?'▲ +'+tr.toFixed(2):(tr<0?'▼ '+Math.abs(tr).toFixed(2):'– คงที่'));
  const trCol = tr==null?'#94a3b8':(tr>0?'#dc2626':(tr<0?'#16a34a':'#64748b'));
@@ -450,25 +457,22 @@ function tipSt(s){
  <div class="ttb">
    <div class="hero">
      <div class="lv"><b style="color:${b.c}">${nf(s.cur,2)}</b><i>ม.รทก.</i>
-       <em>${s.gap<=0
-         ?'<span style="color:#dc2626;font-weight:700">ล้นตลิ่งแล้ว '+nf(-s.gap,2)+' ม.</span>'
-         :'เหลือถึงตลิ่ง <span style="color:#0f172a;font-weight:700">'+nf(s.gap,2)+' ม.</span>'}</em></div>
-     <div class="pc"><u style="color:${b.c}">${pc.toFixed(1)}<s>%</s></u><em>ความจุลำน้ำ</em></div>
+       <em>${gp<=0?'สถานะน้ำ':'ต่ำกว่าตลิ่ง'}</em></div>
+     <div class="pc"><u style="color:${b.c}">${gp<=0?'+'+nf(-gp,2):nf(gp,2)}</u><em>${gp<=0?'เกินตลิ่ง (ม.)':'ต่ำกว่าตลิ่ง (ม.)'}</em></div>
    </div>
-   ${capBar(pc,wp,cp,b.c)}
+   ${capBar(s,b.c)}
    <div class="tgrid">
-     <div><em>สันตลิ่ง · ล้น 100%</em><b>${nf(s.bank,2)}</b></div>
-     <div><em>เฝ้าระวัง · ${wp.toFixed(0)}%</em><b style="color:#b45309">${nf(s.warn,2)}</b></div>
+     <div><em>สันตลิ่ง (ม.รทก.)</em><b>${nf(s.bank,2)}</b></div>
+     <div><em>เฝ้าระวัง (ม.รทก.)</em><b style="color:#b45309">${nf(s.warn,2)}</b></div>
      <div><em>ฝนคาด 7 วัน</em><b style="color:#0891b2">${RAIN[s.id]!=null?nf(RAIN[s.id],0)+' มม.':'—'}</b></div>
      <div><em>แนวโน้ม (ม./วัน)</em><b style="color:${trCol}">${trTxt}</b></div>
    </div>
-   <div class="tnote">ตัวเลขใหญ่คือระดับน้ำจริง · แถบสีคือ % ความจุลำน้ำ (100% = เต็มถึงสันตลิ่ง)</div>
+   <div class="tnote">% เทียบระดับตลิ่ง ${pb.toFixed(1)}% · แถบสีแสดงตำแหน่งเทียบเกณฑ์เท่านั้น</div>
  </div>`;}
 function buildTips(){
   recalcScale();ST.forEach(s=>TIPS[s.id]=tipSt(s));
  FG.forEach(g=>{const k=g.level>g.warn?'crit':(g.level>=g.normal?'warn':'normal'),b=SB[k];
-  const pc=fgPct(g), wp=Math.max(0,Math.min(100,fgFill(g,g.normal))), cp=100;
-  const gap=fgCrit(g)-g.level;
+  const gap=fgGap(g), pb=fgPctBank(g);
   const st=ST.find(x=>x.name===g.name);
   TIPS[g.id]=`<div class="tth2" style="background:linear-gradient(135deg,${b.c},${b.c}cc)">
     <div class="nm">${g.name}<small>ประตูระบายน้ำ · ${g.id} · อ.${g.amphoe}${st?' · สถานีที่ '+st.no:''}</small></div>
@@ -476,19 +480,17 @@ function buildTips(){
   <div class="ttb">
     <div class="hero">
       <div class="lv"><b style="color:${b.c}">${nf(g.level,2)}</b><i>ม.รทก.</i>
-        <em>${gap<=0
-          ?'<span style="color:#dc2626;font-weight:700">ล้นตลิ่งแล้ว '+nf(-gap,2)+' ม.</span>'
-          :'เหลือถึงล้นตลิ่ง <span style="color:#0f172a;font-weight:700">'+nf(gap,2)+' ม.</span>'}</em></div>
-      <div class="pc"><u style="color:${b.c}">${pc.toFixed(1)}<s>%</s></u><em>ความจุลำน้ำ</em></div>
+        <em>${gap<=0?'สถานะน้ำ':'ต่ำกว่าวิกฤติ'}</em></div>
+      <div class="pc"><u style="color:${b.c}">${gap<=0?'+'+nf(-gap,2):nf(gap,2)}</u><em>${gap<=0?'เกินวิกฤติ (ม.)':'ต่ำกว่าวิกฤติ (ม.)'}</em></div>
     </div>
-    ${capBar(pc,wp,cp,b.c)}
+    ${capBar(fgAsSt(g),b.c)}
     <div class="tgrid">
-      <div><em>ระดับวิกฤติ · 100%</em><b>${nf(fgCrit(g),2)}</b></div>
-      <div><em>เฝ้าระวัง · ${wp.toFixed(0)}%</em><b style="color:#b45309">${nf(g.normal,2)}</b></div>
+      <div><em>ระดับวิกฤติ (ม.รทก.)</em><b>${nf(g.warn,2)}</b></div>
+      <div><em>เฝ้าระวัง (ม.รทก.)</em><b style="color:#b45309">${nf(g.normal,2)}</b></div>
       <div><em>บานประตูที่เปิด</em><b>${g.open} / ${g.gates} บาน</b></div>
       <div><em>อัตราระบาย</em><b style="color:#0891b2">${nf(g.q,1)} ลบ.ม./วิ</b></div>
     </div>
-    <div class="tnote">${g.open>0?'กำลังเปิดระบายน้ำ':'ปิดบานประตู'} · ระดับน้ำจริง ${nf(g.level,2)} ม.รทก. · 100% = ถึงระดับวิกฤติ/ล้นตลิ่ง</div>
+    <div class="tnote">${g.open>0?'กำลังเปิดระบายน้ำ':'ปิดบานประตู'} · % เทียบระดับวิกฤติ ${pb.toFixed(1)}%</div>
   </div>`;});}
 
 /* ===== ฉากลำน้ำ (longitudinal profile) ===== */
@@ -571,9 +573,8 @@ function setProf(p){PROF=p;document.querySelectorAll('[data-p]').forEach(b=>b.cl
 /* ═══════ การ์ดสถานี — ภาพตัดลำน้ำ ระดับน้ำขยับตามข้อมูลจริง ═══════ */
 function stationCardSvg(s,b){
   const W=200,H=64,TOP=7,BED=50;                  /* ภาพตัดลำน้ำแบบกระชับ */
-  const pct=pctNow(s), wPct=warnPct(s), cPct=critPct(s);
   const yOf=v=>BED-(Math.max(0,Math.min(100,v))/100)*(BED-TOP);
-  const yCrit=yOf(tp(cPct)), yWarn=yOf(tp(wPct)), yCur=yOf(tp(pct));
+  const yCrit=yOf(Z_WARN), yWarn=yOf(Z_OK), yCur=yOf(zNow(s));
   const over=s.gap<=0;
   const wave=(y,amp)=>{let d=`M -60 ${y}`;
     for(let x=-60;x<=W+60;x+=36) d+=` q 9 ${-amp} 18 0 t 18 0`;
@@ -597,8 +598,8 @@ function stationCardSvg(s,b){
     </g>
     <line x1="0" y1="${yCrit}" x2="${W}" y2="${yCrit}" stroke="#dc2626" stroke-width="1.6" stroke-dasharray="5 3"/>
     <line x1="0" y1="${yWarn}" x2="${W}" y2="${yWarn}" stroke="#f59e0b" stroke-width="1.4" stroke-dasharray="4 3"/>
-    <text x="3" y="${Math.max(yCrit-2.5,7)}" font-size="6.5" font-weight="700" fill="#dc2626" font-family="Kanit">ล้นตลิ่ง 100%</text>
-    <text x="${W-3}" y="${yWarn-2.5}" font-size="6.5" font-weight="700" fill="#b45309" font-family="Kanit" text-anchor="end">เฝ้าระวัง ${wPct.toFixed(0)}%</text>
+    <text x="3" y="${Math.max(yCrit-2.5,7)}" font-size="6.5" font-weight="700" fill="#dc2626" font-family="Kanit">ตลิ่ง ${nf(s.bank,2)}</text>
+    <text x="${W-3}" y="${yWarn-2.5}" font-size="6.5" font-weight="700" fill="#b45309" font-family="Kanit" text-anchor="end">เฝ้าระวัง ${nf(s.warn,2)}</text>
     <path d="M 0 ${BED} L 20 ${TOP-2}" stroke="#a98b5d" stroke-width="2.2" fill="none" stroke-linecap="round"/>
     <path d="M ${W} ${BED} L ${W-20} ${TOP-2}" stroke="#a98b5d" stroke-width="2.2" fill="none" stroke-linecap="round"/>
     <rect x="0" y="${BED}" width="${W}" height="${H-BED}" fill="#e9dfcd"/>
@@ -718,8 +719,8 @@ function renderList(){
      <div class="rp" style="color:${b.c}">
        <span style="display:inline-flex;align-items:center;justify-content:flex-end">${nf(s.cur,2)}
          <span class="mini-i" onclick="event.stopPropagation();openTable('${s.id}')" title="ดูรายละเอียดในตารางสรุป">i</span></span>
-       <small>${s.gap<=0?'ล้น '+nf(-s.gap,2):'เหลือ '+nf(s.gap,2)} ม. · ${pctNow(s).toFixed(0)}%${HIST[s.id]&&HIST[s.id].length>1?' · '+sparkSvg(HIST[s.id],b.c,40,13):''}</small></div></div>
-     <div class="rb"><i style="width:${tp(pctNow(s))}%;background:${b.c}"></i><span class="mk" style="left:${tp(warnPct(s))}%"></span><span class="mk crit" style="left:${tp(critPct(s))}%"></span></div></div>`;}).join('');
+       <small>${s.gap<=0?'เกินตลิ่ง '+nf(-s.gap,2):'ต่ำกว่าตลิ่ง '+nf(s.gap,2)} ม.${HIST[s.id]&&HIST[s.id].length>1?' · '+sparkSvg(HIST[s.id],b.c,40,13):''}</small></div></div>
+     <div class="rb"><i style="width:${zNow(s)}%;background:${b.c}"></i><span class="mk" style="left:${Z_OK}%"></span><span class="mk crit" style="left:${Z_WARN}%"></span></div></div>`;}).join('');
 }
 function focusFg(id){const g=FG.find(x=>x.id===id);if(!g||!map)return;map.flyTo([g.lat,g.lon],12,{duration:.6});}
 /* ===== kpi / acts / floodgate ===== */
@@ -732,7 +733,7 @@ function renderKPI(){
    ['b2','✅','สถานีปกติ',c.normal,'/'+ST.length,'ระดับน้ำต่ำกว่าเกณฑ์เฝ้าระวัง','สถานีที่ระดับน้ำยังต่ำกว่าเกณฑ์เฝ้าระวัง ถือว่าปลอดภัย'],
    [c.warn?'b4':'b3','⚠️','เฝ้าระวัง',c.warn,' สถานี',c.warn?'ถึงเกณฑ์เฝ้าระวัง':'ไม่มีสถานีเข้าเกณฑ์','สถานีที่ระดับน้ำถึงเกณฑ์เฝ้าระวังแล้ว แต่ยังไม่ล้นตลิ่ง — ต้องติดตามถี่ขึ้น'],
    [c.crit?'b5':'b3','🚨','เกินตลิ่ง',c.crit,' สถานี',c.crit?'น้ำล้นตลิ่ง เร่งดำเนินการ':'ไม่มีสถานีน้ำล้นตลิ่ง','สถานีที่ระดับน้ำสูงกว่าสันตลิ่ง — น้ำเริ่มไหลออกนอกลำน้ำ'],
-   ['b3','📏','ใกล้ล้นตลิ่งที่สุด',nf(near.gap,2),' ม.',near.name+' · '+pctNow(near).toFixed(0)+'% ของความจุลำน้ำ','สถานีที่เหลือระยะถึงสันตลิ่งน้อยที่สุด — 100% คือล้นตลิ่ง จุดที่ควรจับตาก่อนใคร'],
+   ['b3','📏','ใกล้ตลิ่งที่สุด',nf(near.gap,2),' ม.',near.name+' · อ.'+near.amphoe,'สถานีที่ระดับน้ำต่ำกว่าสันตลิ่งน้อยที่สุด — จุดที่ควรจับตาก่อนใคร'],
   ];
   document.getElementById('kpis').innerHTML=cards.map(c2=>`<div class="k ${c2[0]}" data-tip="${c2[6]}"><div class="kh"><div class="ki">${c2[1]}</div><div class="kt">${c2[2]}</div></div><div class="kv">${c2[3]}<small>${c2[4]}</small></div><div class="kd">${c2[5]}</div></div>`).join('');
   const cs=document.getElementById('cSt'); if(cs)cs.textContent=ST.length;
@@ -796,21 +797,21 @@ function renderLadder(){
   const LS=[...ST].filter(s=>!AMPF||s.amphoe===AMPF);
   if(sub)sub.textContent=LS.length+' สถานี · หน่วย ม.รทก.';
   box.innerHTML=LS.sort((a,b)=>a.no-b.no).map(s=>{
-    const w=tp(warnPct(s)),c=tp(critPct(s)),p=tp(pctNow(s)),b=SB[stOf(s)];
+    const w=Z_OK,c=Z_WARN,p=zNow(s),b=SB[stOf(s)];
     return `<div class="ld ${SEL===s.id?'sel':''}" data-tipid="${s.id}" onclick="select('${s.id}')">
       <div class="ldn"><span class="no">${s.no}</span>${s.name}</div>
       <div class="ldb"><span class="z" style="left:0;width:${w}%;background:#bbf7d0"></span>
         <span class="z" style="left:${w}%;width:${c-w}%;background:#fde68a"></span>
         <span class="z" style="left:${c}%;width:${100-c}%;background:#fecaca"></span>
         <span class="pin" style="left:${p}%"></span></div>
-      <div class="ldv" style="color:${b.c}">${nf(s.cur,2)}<small>${pctNow(s).toFixed(0)}% · ${s.gap<=0?'ล้น '+nf(-s.gap,2):'เหลือ '+nf(s.gap,2)} ม.</small></div></div>`;}).join('');
+      <div class="ldv" style="color:${b.c}">${nf(s.cur,2)}<small>${s.gap<=0?'เกินตลิ่ง '+nf(-s.gap,2):'ต่ำกว่าตลิ่ง '+nf(s.gap,2)} ม.</small></div></div>`;}).join('');
 }
 
 /* ═══════ ตารางสรุป + ตัวกรองอำเภอ + สปาร์คไลน์ ═══════ */
 let SORT_K='no', SORT_D=1, AMPF='';
 function ampList(){return [...new Set(ST.map(s=>s.amphoe))].filter(Boolean).sort();}
 function setAmpF(v){AMPF=v;renderList();try{renderLadder();}catch(e){}try{VIEW==='card'?renderCards():drawProfile();}catch(e){}}
-function pctBank(s){return pctNow(s);}   /* % ความจุลำน้ำ — สเกลเดียวกับหลอด/วงแหวน */
+
 function sparkSvg(arr,color,w=54,h=18){
   if(!arr||arr.length<2)return '<span class="sm">—</span>';
   const mn=Math.min(...arr),mx=Math.max(...arr),rg=(mx-mn)||1;
@@ -832,8 +833,8 @@ const DTCOLS=[
   {k:'warn', t:'เฝ้าระวัง (ม.)',v:s=>s.warn},
   {k:'crit', t:'วิกฤติ/ตลิ่ง (ม.)',v:s=>s.crit},
   {k:'cur',  t:'ระดับน้ำ (ม.)',v:s=>s.cur},
-  {k:'pct',  t:'% ความจุลำน้ำ', v:s=>pctNow(s)},
-  {k:'gap',  t:'เหลือถึงล้นตลิ่ง', v:s=>s.gap},
+  {k:'pct',  t:'% เทียบตลิ่ง',  v:s=>pctBank(s)},
+  {k:'gap',  t:'ต่ำกว่าตลิ่ง',   v:s=>s.gap},
   {k:'trend',t:'แนวโน้ม',      v:s=>trendOf(s)??-999, sm:1},
   {k:'st',   t:'สถานะ',        v:s=>({normal:1,warn:2,crit:3})[stOf(s)]}
 ];
@@ -866,7 +867,7 @@ function renderTable(){
   document.getElementById('dtSub').textContent=`แสดง ${rows.length} จาก ${ST.length} สถานี · หน่วยระดับน้ำเป็น ม.รทก. · คลิกหัวคอลัมน์เพื่อเรียงลำดับ`;
   const head='<thead><tr>'+DTCOLS.map(c=>`<th class="${c.cls||''} ${c.sm?'hide-sm':''} ${SORT_K===c.k?'act':''}" onclick="sortTable('${c.k}')">${c.t}<span class="ar">${SORT_K===c.k?(SORT_D>0?'▲':'▼'):'⇅'}</span></th>`).join('')+'</tr></thead>';
   const body='<tbody>'+rows.map(s=>{
-    const k=stOf(s),b=SB[k],p=pctBarOf(s),tr=trendOf(s);
+    const k=stOf(s),b=SB[k],p=zNow(s),tr=trendOf(s);
     return `<tr class="${k}" onclick="select('${s.id}');closeTable()" title="แตะเพื่อดูจุดนี้บนแผนที่และกราฟ">
       <td class="l"><span class="code">${s.no}</span></td>
       <td class="l"><span class="nm">${s.name}</span><div class="sm">${s.id}${s.village?' · '+s.village:''}</div></td>
@@ -876,8 +877,8 @@ function renderTable(){
       <td class="num" style="color:var(--warn)">${nf(s.warn,2)}</td>
       <td class="num" style="color:var(--crit)">${nf(s.crit,2)}</td>
       <td class="num" style="color:${b.c}">${nf(s.cur,2)}</td>
-      <td><span class="bar"><i style="width:${tp(pctNow(s))}%;background:${b.c}"></i><span class="mk" style="left:${tp(warnPct(s))}%"></span><span class="mk crit" style="left:${tp(critPct(s))}%"></span></span>
-          <span class="num" style="margin-left:6px;color:${b.c};font-weight:700">${pctNow(s).toFixed(1)}%</span></td>
+      <td><span class="bar"><i style="width:${zNow(s)}%;background:${b.c}"></i><span class="mk" style="left:${Z_OK}%"></span><span class="mk crit" style="left:${Z_WARN}%"></span></span>
+          <span class="num" style="margin-left:6px;color:${b.c};font-weight:700">${pctBank(s).toFixed(1)}%</span></td>
       <td class="num" style="color:${s.gap<=0?'var(--crit)':'var(--ok)'}">${s.gap<=0?'เกิน '+nf(-s.gap,2):nf(s.gap,2)}</td>
       <td class="hide-sm">${sparkSvg(HIST[s.id],b.c)}${tr!=null?`<div class="sm" style="color:${tr>0?'#dc2626':tr<0?'#16a34a':'#64748b'}">${tr>0?'▲ +':tr<0?'▼ ':'– '}${tr!==0?Math.abs(tr).toFixed(2)+' ม.':'คงที่'}</div>`:''}</td>
       <td><span class="pill" style="background:${b.c}">${b.l}</span></td></tr>`;}).join('')+'</tbody>';
@@ -885,12 +886,12 @@ function renderTable(){
   const c={normal:0,warn:0,crit:0}; rows.forEach(s=>c[stOf(s)]++);
   document.getElementById('dtFoot').innerHTML=
     Object.keys(SB).map(k=>`<span class="k"><span class="dot" style="background:${SB[k].c}"></span>${SB[k].l} ${c[k]}</span>`).join('')
-    +`<span class="k">แถบ % ความจุลำน้ำ: 100% = เต็มถึงสันตลิ่ง · ขีดเหลือง = เฝ้าระวัง · ขีดแดง = ล้นตลิ่ง</span>`
+    +`<span class="k">แถบแสดงตำแหน่งเทียบเกณฑ์ · ขีดเหลือง = เฝ้าระวัง · ขีดแดง = สันตลิ่ง · %เทียบตลิ่ง = ระดับน้ำ÷ตลิ่ง</span>`
     +`<span class="r"><span>กด Esc เพื่อปิด</span></span>`;
 }
 function exportCSV(){
   const rows=dtRows();
-  const head=['ลำดับ','รหัส','ชื่อสถานี','หมู่บ้าน','อำเภอ','ลำน้ำ','กม.จากต้นน้ำ','ระดับตลิ่ง(ม.รทก.)','เกณฑ์เฝ้าระวัง(ม.รทก.)','ระดับน้ำ(ม.รทก.)','%ความจุลำน้ำ','เหลือถึงล้นตลิ่ง(ม.)','เปลี่ยนแปลง(ม./วัน)','สถานะ'];
+  const head=['ลำดับ','รหัส','ชื่อสถานี','หมู่บ้าน','อำเภอ','ลำน้ำ','กม.จากต้นน้ำ','ระดับตลิ่ง(ม.รทก.)','เกณฑ์เฝ้าระวัง(ม.รทก.)','ระดับน้ำ(ม.รทก.)','%เทียบตลิ่ง','ต่ำกว่าตลิ่ง(ม.)','เปลี่ยนแปลง(ม./วัน)','สถานะ'];
   const body=rows.map(s=>[s.no,s.id,s.name,s.village||'',s.amphoe,s.river,nf(s.km,1),nf(s.bank,2),nf(s.warn,2),
     nf(s.cur,2),pctBank(s).toFixed(1),nf(s.gap,2),(trendOf(s)??''),SB[stOf(s)].l]);
   const csv='\ufeff'+[head].concat(body).map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\r\n');
@@ -1004,8 +1005,8 @@ function loadSlow(){const w=document.getElementById('lmWarn');if(w)w.style.displ
     var done=false;
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(done) return; done=true;
-      if(!sessionStorage.getItem('wnb_reload_v30')){
-        sessionStorage.setItem('wnb_reload_v30','1');
+      if(!sessionStorage.getItem('wnb_reload_v31')){
+        sessionStorage.setItem('wnb_reload_v31','1');
         location.reload();
       }
     });
