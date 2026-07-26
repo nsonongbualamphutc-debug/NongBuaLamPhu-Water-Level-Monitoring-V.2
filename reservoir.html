@@ -232,6 +232,17 @@ function recalcLvScale(){
   FG.concat(HY).forEach(x=>{ if(x.level!=null&&x.warn!=null&&!isNaN(x.level)) d=Math.max(d,(+x.warn-+x.level)); });
   LVSCALE=Math.min(Math.ceil((d+0.5)*2)/2,20);
 }
+/* CSS แถบซูม ปตร. */
+(function(){try{const st=document.createElement('style');st.textContent=`
+.fgzoom{margin-top:6px;padding:5px 7px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px}
+.fgz-hd{display:block;font-size:8px;color:#94a3b8;margin-bottom:4px}
+.fgz-bar{position:relative;display:block;height:9px;border-radius:99px;background:#dcfce7;overflow:visible}
+.fgz-bar::after{content:'';position:absolute;left:50%;right:0;top:0;bottom:0;background:#fecaca;border-radius:0 99px 99px 0}
+.fgz-fill{position:absolute;left:0;top:0;bottom:0;border-radius:99px;z-index:2;display:block}
+.fgz-t{position:absolute;top:-3px;bottom:-3px;width:3px;margin-left:-1.5px;border-radius:2px;z-index:3;box-shadow:0 0 0 1.5px #fff}
+.fgz-lb{display:flex;justify-content:space-between;margin-top:4px;font-size:8px}
+.fgz-lb em{font-style:normal;font-family:'Kanit',sans-serif;font-weight:700}`;
+document.head.appendChild(st);}catch(e){}})();
 function lvRange(x){ return {lo:+x.warn-LVSCALE, hi:+x.warn+LVSCALE*0.12}; }
 function lvPos(x,v){const r=lvRange(x);return Math.max(0,Math.min(100,(v-r.lo)/(r.hi-r.lo)*100));}
 /* ══ เกณฑ์ ปตร. 3 แห่ง (ยึดตามหน่วยงาน — ตรงกับหน้าลำน้ำพะเนียง) ══
@@ -246,6 +257,13 @@ function applyFgFix(){
 }
 applyFgFix();
 function lvStatus(x){return x.level>x.warn?SBANDS[2]:(x.level>=x.normal?SBANDS[1]:SBANDS[0]);}
+/* ── สเกลแถบเฉพาะ ปตร. — ให้ตรงกับหน้าลำน้ำพะเนียง ──
+   ธงแดง (วิกฤติ) = 100%  ·  น้ำล้นเกินได้  ·  ใช้เฉพาะ TAB==='fg' เท่านั้น
+   ไม่แตะ lvPos/lvRange เดิม ซึ่งอ่างเก็บน้ำและสถานีอุทกวิทยายังใช้อยู่        */
+function isFG(x){ return !!(x && FG_FIX && FG_FIX[x.id]); }
+function fgPct(x){ return x.warn ? ((+x.level)/(+x.warn)*100) : 0; }          /* ธงแดง = 100% */
+function fgPos(x,v){ return x.warn ? Math.max(0,Math.min(100, v/(+x.warn)*100)) : 0; }
+function fgOver(x){ return (+x.level) > (+x.warn); }
 function nf(v,d){return (v==null||isNaN(v))?'—':Number(v).toLocaleString('th-TH',{minimumFractionDigits:d,maximumFractionDigits:d});}
 async function J(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json();}
 let LIVE=false,DATE='',TAB='res',MODE='pct',SORT='pct',SEL=null,map,tamLayer,ptLayer,mixC,cmpC,RAIN={};
@@ -643,11 +661,23 @@ function renderList(){
         <div class="rt"><div><div class="rn">${x.name}</div><div class="ra">อ.${x.amphoe} · จุ ${x.cap.toFixed(2)} ล.ลบ.ม.</div></div>
         <div class="rp" style="color:${b.c}"><span style="display:inline-flex;align-items:center;justify-content:flex-end">${p.toFixed(0)}%<span class="mini-i" onclick="event.stopPropagation();openTable('${x.id}')" title="ดูในตารางสรุป">i</span></span><small>${x.cur.toFixed(2)} ล.ลบ.ม.</small></div></div>
         <div class="rb"><i style="width:${Math.min(100,p)}%;background:${b.c}"></i><span class="mk" style="left:80%"></span></div></div>`;}
-    const s=lvStatus(x),p=lvPos(x,x.level);
+    const fg=isFG(x);
+    const s=lvStatus(x), p=fg?Math.min(100,fgPct(x)):lvPos(x,x.level);
     return `<div class="ri ${SEL===x.id?'sel':''}" data-tipid="${x.id}" onclick="focus('${x.id}')">
       <div class="rt"><div><div class="rn">${x.name}</div><div class="ra">${x.id} · อ.${x.amphoe}${TAB==='fg'?' · '+(x.open>0?'เปิด '+x.open+'/'+x.gates+' บาน':'ปิดบาน'):''}</div></div>
-      <div class="rp" style="color:${s.c}"><span style="display:inline-flex;align-items:center;justify-content:flex-end">${x.level.toFixed(2)}<span class="mini-i" onclick="event.stopPropagation();openTable('${x.id}')" title="ดูในตารางสรุป">i</span></span><small>ม.รทก. · ${s.l}</small></div></div>
-      <div class="rb"><i style="width:${p}%;background:${s.c}"></i><span class="mk" style="left:${lvPos(x,x.warn)}%"></span><span class="mk" style="left:${lvPos(x,x.normal)}%;background:rgba(245,158,11,.65)"></span></div></div>`;}).join('');
+      <div class="rp" style="color:${s.c}"><span style="display:inline-flex;align-items:center;justify-content:flex-end">${x.level.toFixed(2)}<span class="mini-i" onclick="event.stopPropagation();openTable('${x.id}')" title="ดูในตารางสรุป">i</span></span><small>${fg?fgPct(x).toFixed(1)+'% · ':'ม.รทก. · '}${s.l}</small></div></div>
+      <div class="rb"><i style="width:${p}%;background:${s.c}"></i>${fg
+        ? `<span class="mk" style="left:${fgPos(x,x.normal)}%;background:#f59e0b;width:3px"></span><span class="mk" style="left:calc(100% - 3px);background:#dc2626;width:3px"></span>`
+        : `<span class="mk" style="left:${lvPos(x,x.warn)}%"></span><span class="mk" style="left:${lvPos(x,x.normal)}%;background:rgba(245,158,11,.65)"></span>`}</div>
+      ${fg?`<div class="fgzoom">
+        <span class="fgz-hd">🔍 ${nf(x.normal,2)} – ${nf(x.warn+(x.warn-x.normal),2)}</span>
+        <span class="fgz-bar">
+          <i class="fgz-fill" style="width:${Math.max(0,Math.min(100,((+x.level)-(+x.normal))/Math.max(.01,((+x.warn)-(+x.normal))*2)*100))}%;background:${s.c}"></i>
+          <b class="fgz-t" style="left:0;background:#f59e0b"></b>
+          <b class="fgz-t" style="left:50%;background:#dc2626"></b>
+        </span>
+        <span class="fgz-lb"><em style="color:#b45309">🟡 ${nf(x.normal,2)}</em><em style="color:#dc2626">🔴 ${nf(x.warn,2)}</em></span>
+      </div>`:''}</div>`;}).join('');
 }
 /* ================= summary / kpi / acts ================= */
 function renderSummary(){
