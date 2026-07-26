@@ -321,21 +321,31 @@ function tipRes(r){const p=pctOf(r),b=band(p);
  ${row('สถานะปัจจุบัน','<span style="color:'+b.c+'">'+b.l+'</span>')}</div></div>`;
 }
 function tipFg(g){const s=lvStatus(g);
- const P=v=>lvPos(g,v);
- const p=P(g.level),w=P(g.normal),c=P(g.warn);
- const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fef3c7'},{f:c,t:100,c:'#fee2e2'}];
- const tk=[{v:w,c:'#f59e0b',l:'เฝ้าระวัง '+nf(g.normal,2)},{v:c,c:'#dc2626',l:'วิกฤติ '+nf(g.warn,2)},
+ /* ── หลอดวัดใช้ "ช่วงซูมรอบเกณฑ์" เพื่อให้ 3 ธงแยกกันเห็นชัด ──
+    เขียว 0–33% · เหลือง 33–67% · แดง 67–100%  (ตัวเลข % ยังยึดธงแดง = 100%) */
+ const band = Math.max(.05, (+g.warn) - (+g.normal));
+ const Z0 = (+g.normal) - band, Z1 = (+g.warn) + band;
+ const P = v => Math.max(0, Math.min(100, (v - Z0) / (Z1 - Z0) * 100));
+ const p = P(g.level), w = P(g.normal), c = P(g.warn);
+ const pf = fgPct(g), over = fgOver(g);
+ const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fed7aa'},{f:c,t:100,c:'#fecaca'}];
+ const tk=[{v:w,c:'#f59e0b',l:'🟡 เฝ้าระวัง '+nf(g.normal,2)},{v:c,c:'#dc2626',l:'🔴 วิกฤติ '+nf(g.warn,2)},
             {v:p,c:s.c,l:'ปัจจุบัน '+nf(g.level,2)}];
  return `<div class="tth" style="background:${s.c}">${g.name}<small>รหัส ${g.id} · ${s.l}</small></div>
- <div class="body">${gaugeZ(p,s.c,z,tk,'ระดับน้ำ<br>เทียบเกณฑ์')}
+ <div class="body">${gaugeZ(p,s.c,z,tk,pf.toFixed(1)+'%<br>ธงแดง = 100%')}
  <div class="dt">${row('ชื่อโครงการ',g.name)}${row('ที่ตั้ง','อ.'+g.amphoe+' · '+g.river)}${row('ประเภท','ประตูระบายน้ำ (ปตร.)')}
- ${row('ระดับน้ำปัจจุบัน',nf(g.level,2)+' ม.รทก.')}
- ${sepRow('เกณฑ์เฝ้าระวัง (ม.รทก.)')}
- ${row('<span style="color:var(--ok)">● ปกติ</span>','ต่ำกว่า '+nf(g.normal,2))}
- ${row('<span style="color:var(--warn)">● เฝ้าระวัง</span>',nf(g.normal,2)+' – '+nf(g.warn,2))}
- ${row('<span style="color:var(--crit)">● วิกฤติ</span>','สูงกว่า '+nf(g.warn,2))}
+ ${row('ระดับน้ำปัจจุบัน','<span style="color:'+s.c+';font-weight:700">'+nf(g.level,2)+' ม.รทก.</span>')}
+ ${row('% เทียบธงแดง','<span style="color:'+s.c+';font-weight:700">'+pf.toFixed(1)+'%</span>')}
+ ${row(over?'เกินวิกฤติแล้ว':'เหลือถึงวิกฤติ','<span style="color:'+s.c+'">'+nf(Math.abs((+g.warn)-(+g.level)),2)+' ม.</span>')}
+ ${sepRow('เกณฑ์ธงเตือน (ม.รทก.)')}
+ ${row('<span style="color:var(--ok)">🟢 ธงเขียว · ปกติ</span>','ต่ำกว่า '+nf(g.normal,2))}
+ ${row('<span style="color:var(--warn)">🟡 ธงเหลือง · เฝ้าระวัง</span>',nf(g.normal,2)+' – '+nf(g.warn,2))}
+ ${row('<span style="color:var(--crit)">🔴 ธงแดง · วิกฤติ</span>','มากกว่า '+nf(g.warn,2)+' (= 100%)')}
+ ${row('ธงขณะนี้','<span style="color:'+s.c+';font-weight:700">'+(s.k==='crit'?'🔴':s.k==='warn'?'🟡':'🟢')+' '+s.l+'</span>')}
+ ${sepRow('การระบายน้ำ')}
  ${row('บานประตู',g.open+' / '+g.gates+' บาน')}${row('อัตราระบาย',nf(g.q,1)+' ลบ.ม./วินาที')}
- ${row('สถานะ','<span style="color:'+s.c+'">'+(g.open>0?'เปิดระบาย · ':'ปิดบาน · ')+s.l+'</span>')}</div></div>`;
+ ${row('สถานะ','<span style="color:'+s.c+'">'+(g.open>0?'เปิดระบาย · ':'ปิดบาน · ')+s.l+'</span>')}
+ ${over?'<div class="seprow" style="color:#dc2626">🌊 น้ำล้นเกินระดับวิกฤติแล้ว</div>':''}</div></div>`;
 }
 function tipHy(h){const s=lvStatus(h);
  const P=v=>lvPos(h,v);
