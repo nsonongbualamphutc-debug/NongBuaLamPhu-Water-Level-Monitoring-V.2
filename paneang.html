@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ds.css?v=42">
+<link rel="stylesheet" href="ds.css?v=43">
 <style>
 /* ═══════ ตารางสรุป (Data Table Overlay) ═══════ */
 .mini-i{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:0 0 17px;
@@ -243,6 +243,25 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 .cscale .s1{left:0}
 .cscale .s2{transform:translateX(-50%);text-align:center;color:#b45309}
 .cscale .s3{right:0;text-align:right;color:#dc2626}
+.abx{margin-top:10px;border:1.5px solid #fcd34d;border-radius:12px;background:linear-gradient(160deg,#fffbeb,#fff);overflow:hidden}
+.abx.hot{border-color:#f87171;background:linear-gradient(160deg,#fef2f2,#fff)}
+.abx-h{background:#fef3c7;color:#92400e;font-family:'Kanit',sans-serif;font-weight:700;font-size:9.5px;padding:5px 10px}
+.abx.hot .abx-h{background:#fee2e2;color:#991b1b}
+.abx-b{padding:9px 10px 8px}
+.abx-n{display:flex;gap:8px;margin-bottom:9px}
+.abx-n div{flex:1;text-align:center;background:#fff;border:1px solid #f1e4c3;border-radius:9px;padding:5px 4px}
+.abx-n em{display:block;font-style:normal;font-size:8px;color:#92400e;line-height:1.2}
+.abx-n b{display:block;font-family:'Kanit',sans-serif;font-weight:800;font-size:15px;line-height:1.15;font-variant-numeric:tabular-nums}
+.abx-n s{text-decoration:none;font-size:8.5px;font-weight:400;color:#94a3b8}
+.abr{position:relative;height:15px;border-radius:99px;background:linear-gradient(90deg,#fde68a,#fca5a5);overflow:visible}
+.abr .abdot{position:absolute;top:50%;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;
+ background:#fff;border:3.5px solid;box-shadow:0 2px 7px rgba(15,40,80,.4);z-index:3}
+.abr .abend{position:absolute;top:-3px;bottom:-3px;width:3px;border-radius:2px;box-shadow:0 0 0 1.5px #fff}
+.abr-lb{display:flex;justify-content:space-between;margin-top:5px;font-size:8px}
+.abr-lb span{font-family:'Kanit',sans-serif;font-weight:700}
+.abx-msg{margin-top:8px;font-size:9.5px;line-height:1.5;padding:6px 9px;border-radius:8px;background:#fff;border:1px solid #f1e4c3}
+.abx.hot .abx-msg{border-color:#fecaca}
+
 
 .cbar .covcap{position:absolute;right:0;top:0;bottom:0;width:5px;background:#dc2626;animation:ovp 1s ease-in-out infinite}
 .ovnote{margin-top:7px;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d;border-radius:9px;
@@ -271,7 +290,7 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 <aside class="side">
   <div class="brand"><a href="index.html" title="กลับหน้าปกนำเสนอ" style="display:contents"><img src="logo-nbp.png" alt="ตราจังหวัด"><div class="bt"><div class="kick">Water Command</div><div class="ttl">สถานการณ์น้ำจังหวัด</div><div class="en">NONG BUA LAM PHU</div></div></a></div>
   <nav class="menu"><a href="dashboard.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span><span class="lbl"><b>ภาพรวมสถานการณ์</b><i>Executive Summary</i></span></a><a href="daily_briefing.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span><span class="lbl"><b>รายงานประจำวัน</b><i>Daily Briefing</i></span></a><a href="paneang.html" class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพะเนียง</b><i>Phaneang</i></span></a><a href="mong.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำโมง</b><i>Mong</i></span></a><a href="mo.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำมอ</b><i>Mo</i></span></a><a href="phuay.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพวย</b><i>Phuay</i></span></a><a href="rainfall.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11.6 2A3.5 3.5 0 0 0 6 18z"/><path d="M8 20l1 2M12 20l1 2M16 20l1 2"/></svg></span><span class="lbl"><b>ปริมาณฝน</b><i>Rainfall</i></span></a><a href="reservoir.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v6a8 8 0 0 1-16 0zM4 5c3 2 5 2 8 0s5-2 8 0"/></svg></span><span class="lbl"><b>อ่างเก็บน้ำ</b><i>Reservoir</i></span></a><a href="input.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="lbl"><b>บันทึกข้อมูล</b><i>Data Input</i></span></a></nav>
-  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v42</span></div></div>
+  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v43</span></div></div>
 </aside>
 <div class="main-col">
   <header class="topbar">
@@ -421,6 +440,35 @@ function zGreen(s){ return Math.max(0,Math.min(100, zpos(s, flagOf(s).g))); }
 function zWarn(s){  return Math.max(0,Math.min(100, zpos(s, flagOf(s).y))); }
 function zCrit(s){  return 100; }
 function isOver(s){ return (+s.cur) > flagOf(s).r; }
+/* ══ แผงโฟกัส "ช่วงเตือนภัย" — จุดที่ผู้บริหารต้องดูเพื่อสั่งการ ══
+   ตอบคำถามเดียว: เหลืออีกกี่เมตรถึงเฝ้าระวัง และถึงวิกฤติ
+   ช่วงนี้แคบมากในสเกลจริง จึงแยกออกมาขยายให้เห็นชัด             */
+function alertBand(F, cur, color){
+  const toWarn = F.y - cur, toCrit = F.r - cur, w = Math.max(.01, F.r - F.y);
+  const inBand = cur >= F.y && cur <= F.r;
+  const over = cur > F.r;
+  const pos = inBand ? (cur - F.y) / w * 100 : (over ? 100 : 0);
+  let msg, hot = inBand || over;
+  if(over)          msg = '🔴 <b>ล้นเกินวิกฤติแล้ว '+nf(cur-F.r,2)+' ม.</b> — ต้องลงพื้นที่ทันที';
+  else if(inBand)   msg = '🟡 <b>อยู่ในช่วงเตือนภัยแล้ว</b> — เหลืออีก <b>'+nf(toCrit,2)+' ม.</b> จะถึงวิกฤติ เตรียมแจ้งเตือนและลงพื้นที่';
+  else if(toWarn<=1)msg = '⚠️ ใกล้เข้าช่วงเตือนภัย — อีก <b>'+nf(toWarn,2)+' ม.</b> จะถึงเกณฑ์เฝ้าระวัง ควรติดตามถี่ขึ้น';
+  else              msg = '✅ ยังห่างจากช่วงเตือนภัย <b>'+nf(toWarn,2)+' ม.</b> — สถานการณ์ปกติ';
+  return `<div class="abx${hot?' hot':''}">
+    <div class="abx-h">⚠ ช่วงเตือนภัย — เฝ้าระวัง ${nf(F.y,2)} ถึง วิกฤติ ${nf(F.r,2)} (กว้าง ${nf(w,2)} ม.)</div>
+    <div class="abx-b">
+      <div class="abx-n">
+        <div><em>เหลือถึงเฝ้าระวัง</em><b style="color:${toWarn>0?'#b45309':'#94a3b8'}">${toWarn>0?nf(toWarn,2):'ถึงแล้ว'}</b><s>${toWarn>0?'เมตร':''}</s></div>
+        <div><em>เหลือถึงวิกฤติ</em><b style="color:${toCrit>0?'#dc2626':'#94a3b8'}">${toCrit>0?nf(toCrit,2):'ล้นแล้ว'}</b><s>${toCrit>0?'เมตร':''}</s></div>
+      </div>
+      <div class="abr">
+        <span class="abend" style="left:0;background:#f59e0b"></span>
+        <span class="abend" style="right:0;background:#dc2626"></span>
+        ${(inBand||over)?`<span class="abdot" style="left:${pos}%;border-color:${color}"></span>`:''}
+      </div>
+      <div class="abr-lb"><span style="color:#b45309">🟡 ${nf(F.y,2)}</span><span style="color:#dc2626">🔴 ${nf(F.r,2)}</span></div>
+      <div class="abx-msg">${msg}</div>
+    </div></div>`;
+}
 function capBar(s,color){
   const F=flagOf(s), P=zNow(s), pf=pctFlag(s), over=isOver(s), b=SB[stOf(s)];
   const G=zGreen(s), W=zWarn(s);
@@ -440,6 +488,7 @@ function capBar(s,color){
   </div>
   <div class="cscale"><span class="s1">0%</span><span class="s3">🔴 วิกฤติ = 100%</span></div>
 
+  ${alertBand(F, +s.cur, color)}
   ${over?`<div class="ovnote">🌊 <b>น้ำล้นเกินวิกฤติแล้ว</b> — ${pf.toFixed(1)}% (เกิน ${nf(F.r,2)} ม.รทก. ไป ${nf((+s.cur)-F.r,2)} ม.)</div>`:''}`;
 }
 
@@ -1132,8 +1181,8 @@ function loadSlow(){const w=document.getElementById('lmWarn');if(w)w.style.displ
     var done=false;
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(done) return; done=true;
-      if(!sessionStorage.getItem('wnb_reload_v42')){
-        sessionStorage.setItem('wnb_reload_v42','1');
+      if(!sessionStorage.getItem('wnb_reload_v43')){
+        sessionStorage.setItem('wnb_reload_v43','1');
         location.reload();
       }
     });
