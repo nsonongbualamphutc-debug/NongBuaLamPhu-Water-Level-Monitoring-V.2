@@ -242,6 +242,85 @@ function recalcLvScale(){
 .fgz-t{position:absolute;top:-3px;bottom:-3px;width:3px;margin-left:-1.5px;border-radius:2px;z-index:3;box-shadow:0 0 0 1.5px #fff}
 .fgz-lb{display:flex;justify-content:space-between;margin-top:4px;font-size:8px}
 .fgz-lb em{font-style:normal;font-family:'Kanit',sans-serif;font-weight:700}
+/* ══ ทูลทิปกะทัดรัด — ใช้ร่วมกันทั้งกล่องลอยและบนแผนที่ ══ */
+.tth2{padding:9px 12px 8px;color:#fff;display:flex;align-items:center;gap:8px}
+.tth2 .nm{font-family:'Kanit',sans-serif;font-weight:600;font-size:13px;line-height:1.2;flex:1;min-width:0}
+.tth2 .nm small{display:block;font-size:9px;opacity:.92;font-weight:400;margin-top:2px}
+.tth2 .pl{font-family:'Kanit',sans-serif;font-size:9px;font-weight:700;background:rgba(255,255,255,.24);
+ border:1px solid rgba(255,255,255,.42);padding:2px 8px;border-radius:99px;white-space:nowrap}
+.ttb{padding:10px 12px 11px}
+.hero{display:flex;align-items:flex-end;gap:10px;margin-bottom:9px}
+.hero .lv{flex:1;min-width:0;line-height:1}
+.hero .lv b{font-family:'Kanit',sans-serif;font-weight:800;font-size:24px;letter-spacing:-.5px;font-variant-numeric:tabular-nums}
+.hero .lv i{font-style:normal;font-size:9px;color:#64748b;margin-left:3px}
+.hero .lv em{display:block;font-style:normal;font-size:9.5px;color:#64748b;margin-top:5px}
+.hero .pc{text-align:right;line-height:1;white-space:nowrap}
+.hero .pc u{text-decoration:none;font-family:'Kanit',sans-serif;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums}
+.hero .pc u s{text-decoration:none;font-size:11px}
+.hero .pc em{display:block;font-style:normal;font-size:8.5px;color:#94a3b8;margin-top:4px}
+.cbar{position:relative;height:11px}
+.cbar .ctrack{position:absolute;inset:0;border-radius:99px;overflow:hidden;background:#eef2f7;display:block}
+.cbar .cz{position:absolute;top:0;bottom:0}
+.cbar .cfill{position:absolute;left:0;top:0;bottom:0;display:block;opacity:.95}
+.cbar .ctick{position:absolute;top:-2px;bottom:-2px;width:2px;margin-left:-1px;border-radius:1px}
+.cbar .cdot{position:absolute;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;
+ background:#fff;border:2.5px solid;box-shadow:0 1px 5px rgba(15,40,80,.32)}
+.cbar .cdot.ov{animation:ovp 1.1s ease-in-out infinite}
+@keyframes ovp{0%,100%{opacity:1}50%{opacity:.35}}
+.cleg{display:flex;justify-content:space-between;font-size:8.5px;color:#94a3b8;margin-top:5px}
+.cleg3{display:flex;justify-content:space-between;gap:6px;margin-top:7px;font-size:9px;color:#64748b}
+.cleg3 span{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.cleg3 i{width:8px;height:8px;border-radius:2px;flex:0 0 8px}
+.cleg3 b{font-family:'Kanit',sans-serif;font-weight:700;font-variant-numeric:tabular-nums;color:#0f172a}
+.cbar{height:16px}
+.cbar .ctick{top:-4px;bottom:-4px;width:3px;margin-left:-1.5px;border-radius:2px;z-index:3;
+ box-shadow:0 0 0 1.5px #fff}
+.cbar .ctick.warn{background:#f59e0b}
+.cbar .ctick.crit{background:#dc2626;margin-left:-3px;width:3px}
+.cbar .covcap{position:absolute;right:0;top:0;bottom:0;width:6px;background:#dc2626;
+ animation:ovp 1s ease-in-out infinite}
+.flagrow{display:flex;align-items:center;gap:9px;margin:2px 0 9px}
+.bigflag{flex:1;min-width:0;color:#fff;font-family:'Kanit',sans-serif;font-weight:700;font-size:12.5px;
+ padding:6px 12px;border-radius:99px;text-align:center;letter-spacing:.2px}
+.flagpct{font-family:'Kanit',sans-serif;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;
+ line-height:1;white-space:nowrap}
+.flagpct s{text-decoration:none;font-size:11px}
+.cscale{position:relative;height:24px;margin-top:6px;font-size:8.5px;color:#64748b}
+.cscale span{position:absolute;white-space:nowrap;line-height:1.3}
+.cscale b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:9.5px;color:#0f172a}
+.cscale .s1{left:0}
+.cscale .s2{transform:translateX(-50%);text-align:center;color:#b45309}
+.cscale .s3{right:0;text-align:right;color:#dc2626}
+.abx{margin-top:10px;border:1.5px solid #fcd34d;border-radius:12px;background:linear-gradient(160deg,#fffbeb,#fff);overflow:hidden}
+.abx.hot{border-color:#f87171;background:linear-gradient(160deg,#fef2f2,#fff)}
+.abx-h{background:#fef3c7;color:#92400e;font-family:'Kanit',sans-serif;font-weight:700;font-size:9.5px;padding:5px 10px}
+.abx.hot .abx-h{background:#fee2e2;color:#991b1b}
+.abx-b{padding:9px 10px 8px}
+.abx-n{display:flex;gap:8px;margin-bottom:9px}
+.abx-n div{flex:1;text-align:center;background:#fff;border:1px solid #f1e4c3;border-radius:9px;padding:5px 4px}
+.abx-n em{display:block;font-style:normal;font-size:8px;color:#92400e;line-height:1.2}
+.abx-n b{display:block;font-family:'Kanit',sans-serif;font-weight:800;font-size:15px;line-height:1.15;font-variant-numeric:tabular-nums}
+.abx-n s{text-decoration:none;font-size:8.5px;font-weight:400;color:#94a3b8}
+.abr{position:relative;height:15px;border-radius:99px;background:linear-gradient(90deg,#fde68a,#fca5a5);overflow:visible}
+.abr .abdot{position:absolute;top:50%;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;
+ background:#fff;border:3.5px solid;box-shadow:0 2px 7px rgba(15,40,80,.4);z-index:3}
+.abr .abend{position:absolute;top:-3px;bottom:-3px;width:3px;border-radius:2px;box-shadow:0 0 0 1.5px #fff}
+.abr-lb{display:flex;justify-content:space-between;margin-top:5px;font-size:8px}
+.abr-lb span{font-family:'Kanit',sans-serif;font-weight:700}
+.abx-msg{margin-top:8px;font-size:9.5px;line-height:1.5;padding:6px 9px;border-radius:8px;background:#fff;border:1px solid #f1e4c3}
+.abx.hot .abx-msg{border-color:#fecaca}
+
+
+.cbar .covcap{position:absolute;right:0;top:0;bottom:0;width:5px;background:#dc2626;animation:ovp 1s ease-in-out infinite}
+.ovnote{margin-top:7px;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d;border-radius:9px;
+ padding:6px 9px;font-size:9.5px;line-height:1.45}
+.ovnote b{font-family:'Kanit',sans-serif;font-weight:700}
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#eaf0f7;border-radius:10px;overflow:hidden;margin-top:10px}
+.tgrid div{background:#fff;padding:6px 9px}
+.tgrid em{display:block;font-style:normal;font-size:8.5px;color:#94a3b8;line-height:1.25}
+.tgrid b{font-family:'Kanit',sans-serif;font-weight:700;font-size:11.5px;font-variant-numeric:tabular-nums}
+.tnote{font-size:8.5px;color:#94a3b8;margin-top:8px;line-height:1.5;text-align:center}
+
 .abx{margin-top:10px;border:1.5px solid #fcd34d;border-radius:12px;background:linear-gradient(160deg,#fffbeb,#fff);overflow:hidden}
 .abx.hot{border-color:#f87171;background:linear-gradient(160deg,#fef2f2,#fff)}
 .abx-h{background:#fef3c7;color:#92400e;font-family:'Kanit',sans-serif;font-weight:700;font-size:9.5px;padding:5px 10px}
@@ -379,51 +458,79 @@ function tipRes(r){const p=pctOf(r),b=band(p);
  ${row('<span style="color:#dc2626">● วิกฤติ</span>','ต่ำกว่า 20% · '+nf(r.cap*0.2,2))}
  ${row('สถานะปัจจุบัน','<span style="color:'+b.c+'">'+b.l+'</span>')}</div></div>`;
 }
-function tipFg(g){const s=lvStatus(g);
- /* ── หลอดวัดใช้ "ช่วงซูมรอบเกณฑ์" เพื่อให้ 3 ธงแยกกันเห็นชัด ──
-    เขียว 0–33% · เหลือง 33–67% · แดง 67–100%  (ตัวเลข % ยังยึดธงแดง = 100%) */
- const P = v => tubePos(g, v);
- const p = P(g.level), w = P(g.normal), c = P(g.warn);
- const pf = fgPct(g), over = fgOver(g);
- const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fed7aa'},{f:c,t:100,c:'#fecaca'}];
- const tk=[{v:w,c:'#f59e0b',l:'🟡 เฝ้าระวัง '+nf(g.normal,2)},{v:c,c:'#dc2626',l:'🔴 วิกฤติ '+nf(g.warn,2)},
-            {v:p,c:s.c,l:'ปัจจุบัน '+nf(g.level,2)}];
- return `<div class="tth" style="background:${s.c}">${g.name}<small>รหัส ${g.id} · ${s.l}</small></div>
- <div class="body">${gaugeZ(p,s.c,z,tk,'ระดับน้ำเทียบเกณฑ์<br>ธงแดง = 100%',pf)}
- <div class="dt">${row('ชื่อโครงการ',g.name)}${row('ที่ตั้ง','อ.'+g.amphoe+' · '+g.river)}${row('ประเภท','ประตูระบายน้ำ (ปตร.)')}
- ${row('ระดับน้ำปัจจุบัน','<span style="color:'+s.c+';font-weight:700">'+nf(g.level,2)+' ม.รทก.</span>')}
- ${row('% เทียบธงแดง','<span style="color:'+s.c+';font-weight:700">'+pf.toFixed(1)+'%</span>')}
- ${row(over?'เกินวิกฤติแล้ว':'เหลือถึงวิกฤติ','<span style="color:'+s.c+'">'+nf(Math.abs((+g.warn)-(+g.level)),2)+' ม.</span>')}
- ${sepRow('เกณฑ์ธงเตือน (ม.รทก.)')}
- ${row('<span style="color:var(--ok)">🟢 ธงเขียว · ปกติ</span>','ต่ำกว่า '+nf(g.normal,2))}
- ${row('<span style="color:var(--warn)">🟡 ธงเหลือง · เฝ้าระวัง</span>',nf(g.normal,2)+' – '+nf(g.warn,2))}
- ${row('<span style="color:var(--crit)">🔴 ธงแดง · วิกฤติ</span>','มากกว่า '+nf(g.warn,2)+' (= 100%)')}
- ${row('ธงขณะนี้','<span style="color:'+s.c+';font-weight:700">'+(s.k==='crit'?'🔴':s.k==='warn'?'🟡':'🟢')+' '+s.l+'</span>')}
- ${alertBand({y:+g.normal,r:+g.warn}, +g.level, s.c)}
- ${sepRow('การระบายน้ำ')}
- ${row('บานประตู',g.open+' / '+g.gates+' บาน')}${row('อัตราระบาย',nf(g.q,1)+' ลบ.ม./วินาที')}
- ${row('สถานะ','<span style="color:'+s.c+'">'+(g.open>0?'เปิดระบาย · ':'ปิดบาน · ')+s.l+'</span>')}
- ${over?'<div class="seprow" style="color:#dc2626">🌊 น้ำล้นเกินระดับวิกฤติแล้ว</div>':''}</div></div>`;
+
+/* ── แถบ + ธง รูปแบบเดียวกับหน้าลำน้ำพะเนียง ── */
+function fbBar(F, cur, color){
+  const P = F.r ? Math.max(0,Math.min(100, cur/F.r*100)) : 0;
+  const pf = F.r ? cur/F.r*100 : 0;
+  const W = F.r ? Math.max(0,Math.min(100, F.y/F.r*100)) : 0;
+  const over = cur > F.r;
+  return `<div class="cbar">
+    <span class="ctrack">
+      <span class="cz" style="left:0;width:${W}%;background:#dcfce7"></span>
+      <span class="cz" style="left:${W}%;width:${Math.max(0,100-W)}%;background:#fed7aa"></span>
+      <i class="cfill" style="width:${P}%;background:linear-gradient(90deg,${color}aa,${color})"></i>
+      ${over?'<span class="covcap"></span>':''}
+    </span>
+    <span class="ctick warn" style="left:${W}%"></span>
+    <span class="ctick crit" style="left:100%"></span>
+  </div>
+  <div class="cscale"><span class="s1">0%</span><span class="s3">🔴 วิกฤติ = 100%</span></div>`;
 }
-function tipHy(h){const s=lvStatus(h);
- /* หลอดวัดใช้ช่วงซูมรอบเกณฑ์ — ขีดเหลือง 33% ขีดแดง 67% เห็นชัดทุกสถานี
-    ตัวเลข % ยึดธงแดง = 100% (แบบเดียวกับ ปตร. และหน้าลำน้ำ) */
- const P = v => tubePos(h, v);
- const p = P(h.level), w = P(h.normal), c = P(h.warn);
- const pf = fgPct(h), over = fgOver(h);
- const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fed7aa'},{f:c,t:100,c:'#fecaca'}];
- const tk=[{v:w,c:'#f59e0b',l:'🟡 เฝ้าระวัง '+nf(h.normal,2)},{v:c,c:'#dc2626',l:'🔴 วิกฤติ '+nf(h.warn,2)},
-            {v:p,c:s.c,l:'ปัจจุบัน '+nf(h.level,2)}];
- return `<div class="tth" style="background:${s.c}">สถานี ${h.name}<small>รหัส ${h.id} · ${s.l}</small></div>
- <div class="body">${gaugeZ(p,s.c,z,tk,'ระดับน้ำเทียบเกณฑ์<br>ธงแดง = 100%',pf)}
- <div class="dt">${row('ชื่อสถานี',h.name+' ('+h.id+')')}${row('ที่ตั้ง','อ.'+h.amphoe+' · '+h.river)}${row('ประเภท','สถานีอุทกวิทยา')}
- ${row('ระดับน้ำปัจจุบัน',nf(h.level,2)+' ม.รทก.')}${row('ระดับตลิ่ง',nf(h.bank,2)+' ม.')}
- ${sepRow('เกณฑ์เฝ้าระวัง (ม.รทก.)')}
- ${row('<span style="color:var(--ok)">● ปกติ</span>','ต่ำกว่า '+nf(h.normal,2))}
- ${row('<span style="color:var(--warn)">● เฝ้าระวัง</span>',nf(h.normal,2)+' – '+nf(h.warn,2))}
- ${row('<span style="color:var(--crit)">● วิกฤติ</span>','สูงกว่า '+nf(h.warn,2))}
- ${row('ห่างเกณฑ์วิกฤติ',nf(h.warn-h.level,2)+' ม.')}${row('สถานะ','<span style="color:'+s.c+'">'+s.l+'</span>')}${alertBand({y:+h.normal,r:+h.warn}, +h.level, s.c)}</div></div>`;
+/* ── โครงทูลทิปกลาง — ใช้ทั้ง ปตร. และสถานีอุทกวิทยา ── */
+function tipFlag(o){
+  const F=o.F, cur=o.cur, c=o.color, pf=F.r?cur/F.r*100:0, over=cur>F.r;
+  const gap=F.r-cur;
+  return `<div class="tth2" style="background:linear-gradient(135deg,${c},${c}cc)">
+   <div class="nm">${o.name}<small>${o.sub}</small></div>
+   <span class="pl">${o.flag} ${o.status}</span></div>
+ <div class="ttb">
+   <div class="hero">
+     <div class="lv"><b style="color:${c}">${nf(cur,2)}</b><i>ม.รทก.</i>
+       <em>${over?'สถานะน้ำ':'ต่ำกว่าวิกฤติ'}</em></div>
+     <div class="pc"><u style="color:${c}">${over?'+'+nf(-gap,2):nf(gap,2)}</u><em>${over?'เกินวิกฤติ (ม.)':'ต่ำกว่าวิกฤติ (ม.)'}</em></div>
+   </div>
+   <div class="flagrow">
+     <span class="bigflag" style="background:${c}">${o.flag} ${o.status}</span>
+     <span class="flagpct" style="color:${c}">${pf.toFixed(1)}<s>%</s></span>
+   </div>
+   ${fbBar(F,cur,c)}
+   ${alertBand(F,cur,c)}
+   <div class="tgrid">
+     <div><em>🔴 ธงแดง · วิกฤติ</em><b style="color:#dc2626">มากกว่า ${nf(F.r,2)}</b></div>
+     <div><em>🟡 ธงเหลือง · เฝ้าระวัง</em><b style="color:#b45309">${nf(F.y,2)} – ${nf(F.r,2)}</b></div>
+     <div><em>🟢 ธงเขียว · ปกติ</em><b style="color:#15803d">น้อยกว่า ${nf(F.g,2)}</b></div>
+     <div><em>ธงขณะนี้</em><b style="color:${c}">${o.flag} ${o.status}</b></div>
+     ${o.rows||''}
+   </div>
+   <div class="tnote">${o.note||''}</div>
+ </div>`;
 }
+function tipFg(g){
+  const s=lvStatus(g);
+  const fl = s.k==='crit'?'🔴':s.k==='warn'?'🟡':'🟢';
+  return tipFlag({
+    name:g.name, sub:'ประตูระบายน้ำ · '+g.id+' · อ.'+g.amphoe+' · '+g.river,
+    cur:+g.level, color:s.c, status:s.l, flag:fl,
+    F:{g:+g.normal, y:+g.normal, r:+g.warn},
+    rows:`<div><em>บานประตูที่เปิด</em><b>${g.open} / ${g.gates} บาน</b></div>
+          <div><em>อัตราระบาย</em><b style="color:#0891b2">${nf(g.q,1)} ลบ.ม./วิ</b></div>`,
+    note:(g.open>0?'กำลังเปิดระบายน้ำ':'ปิดบานประตู')+' · ตัวเลขใหญ่คือระดับน้ำจริง · % เทียบระดับวิกฤติ'
+  });
+}
+function tipHy(h){
+  const s=lvStatus(h);
+  const fl = s.k==='crit'?'🔴':s.k==='warn'?'🟡':'🟢';
+  return tipFlag({
+    name:h.name, sub:'สถานีอุทกวิทยา · '+h.id+' · อ.'+h.amphoe,
+    cur:+h.level, color:s.c, status:s.l, flag:fl,
+    F:{g:+h.normal, y:+h.normal, r:+h.warn},
+    rows:(h.height!=null?`<div><em>ความสูงน้ำ</em><b>${nf(h.height,2)} ม.</b></div>`:'')+
+         (h.q!=null?`<div><em>อัตราการไหล</em><b style="color:#0891b2">${nf(h.q,1)} ลบ.ม./วิ</b></div>`:''),
+    note:'ตัวเลขใหญ่คือระดับน้ำจริง · % เทียบระดับวิกฤติ'
+  });
+}
+
 function buildTips(){
   recalcLvScale();
  RES.forEach(r=>TIPS[r.id]=tipRes(r));FG.forEach(g=>TIPS[g.id]=tipFg(g));HY.forEach(h=>TIPS[h.id]=tipHy(h));
