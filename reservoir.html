@@ -348,13 +348,18 @@ function tipFg(g){const s=lvStatus(g);
  ${over?'<div class="seprow" style="color:#dc2626">🌊 น้ำล้นเกินระดับวิกฤติแล้ว</div>':''}</div></div>`;
 }
 function tipHy(h){const s=lvStatus(h);
- const P=v=>lvPos(h,v);
- const p=P(h.level),w=P(h.normal),c=P(h.warn);
- const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fef3c7'},{f:c,t:100,c:'#fee2e2'}];
- const tk=[{v:w,c:'#f59e0b',l:'เฝ้าระวัง '+nf(h.normal,2)},{v:c,c:'#dc2626',l:'วิกฤติ '+nf(h.warn,2)},
+ /* หลอดวัดใช้ช่วงซูมรอบเกณฑ์ — ขีดเหลือง 33% ขีดแดง 67% เห็นชัดทุกสถานี
+    ตัวเลข % ยึดธงแดง = 100% (แบบเดียวกับ ปตร. และหน้าลำน้ำ) */
+ const band = Math.max(.05, (+h.warn) - (+h.normal));
+ const Z0 = (+h.normal) - band, Z1 = (+h.warn) + band;
+ const P = v => Math.max(0, Math.min(100, (v - Z0) / (Z1 - Z0) * 100));
+ const p = P(h.level), w = P(h.normal), c = P(h.warn);
+ const pf = fgPct(h), over = fgOver(h);
+ const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fed7aa'},{f:c,t:100,c:'#fecaca'}];
+ const tk=[{v:w,c:'#f59e0b',l:'🟡 เฝ้าระวัง '+nf(h.normal,2)},{v:c,c:'#dc2626',l:'🔴 วิกฤติ '+nf(h.warn,2)},
             {v:p,c:s.c,l:'ปัจจุบัน '+nf(h.level,2)}];
  return `<div class="tth" style="background:${s.c}">สถานี ${h.name}<small>รหัส ${h.id} · ${s.l}</small></div>
- <div class="body">${gaugeZ(p,s.c,z,tk,'ระดับน้ำ<br>เทียบเกณฑ์')}
+ <div class="body">${gaugeZ(p,s.c,z,tk,pf.toFixed(1)+'%<br>ธงแดง = 100%')}
  <div class="dt">${row('ชื่อสถานี',h.name+' ('+h.id+')')}${row('ที่ตั้ง','อ.'+h.amphoe+' · '+h.river)}${row('ประเภท','สถานีอุทกวิทยา')}
  ${row('ระดับน้ำปัจจุบัน',nf(h.level,2)+' ม.รทก.')}${row('ระดับตลิ่ง',nf(h.bank,2)+' ม.')}
  ${sepRow('เกณฑ์เฝ้าระวัง (ม.รทก.)')}
@@ -535,11 +540,17 @@ async function loadLive(){
         if(!nm||lv===null)return;
         const g=FG.find(x=>x.name===nm);
         if(g){ g.level=lv;
-          const bk=_f(it,['crit','crit_level','bank','bank_level']); if(bk!==null)g.warn=bk;
-          const wn=_f(it,['warn','warn_level']);                      if(wn!==null)g.normal=wn; }
+          /* ดึงมาเฉพาะ "ระดับน้ำ" — เกณฑ์ของ ปตร. ล็อกไว้ที่ FG_FIX ไม่ให้สถานี PN มาทับ
+             (เดิมทับด้วย bank/warn ของ PN06 = 216.00/215.50 ทำให้ทูลทิปแสดงผิด) */
+          if(!FG_FIX[g.id]){
+            const bk=_f(it,['crit','crit_level','bank','bank_level']); if(bk!==null)g.warn=bk;
+            const wn=_f(it,['warn','warn_level']);                      if(wn!==null)g.normal=wn;
+          } }
       });
     }
   }catch(e){}
+  applyFgFix();   /* ล็อกเกณฑ์ ปตร. อีกครั้งหลังดึงข้อมูลจากสถานี PN */
+
   /* สถานีอุทกวิทยา — field: station_code / water_level / water_height / threshold_* / bank_height */
   if(hy.ok&&Array.isArray(hy.v)&&hy.v.length){
     hy.v.forEach(it=>{
@@ -671,7 +682,7 @@ function renderList(){
         <div class="rt"><div><div class="rn">${x.name}</div><div class="ra">อ.${x.amphoe} · จุ ${x.cap.toFixed(2)} ล.ลบ.ม.</div></div>
         <div class="rp" style="color:${b.c}"><span style="display:inline-flex;align-items:center;justify-content:flex-end">${p.toFixed(0)}%<span class="mini-i" onclick="event.stopPropagation();openTable('${x.id}')" title="ดูในตารางสรุป">i</span></span><small>${x.cur.toFixed(2)} ล.ลบ.ม.</small></div></div>
         <div class="rb"><i style="width:${Math.min(100,p)}%;background:${b.c}"></i><span class="mk" style="left:80%"></span></div></div>`;}
-    const fg=isFG(x);
+    const fg=(TAB==='fg'||TAB==='hy');   /* ทั้ง ปตร. และสถานีอุทกวิทยาใช้สเกลธงแดง = 100% */
     const s=lvStatus(x), p=fg?Math.min(100,fgPct(x)):lvPos(x,x.level);
     return `<div class="ri ${SEL===x.id?'sel':''}" data-tipid="${x.id}" onclick="focus('${x.id}')">
       <div class="rt"><div><div class="rn">${x.name}</div><div class="ra">${x.id} · อ.${x.amphoe}${TAB==='fg'?' · '+(x.open>0?'เปิด '+x.open+'/'+x.gates+' บาน':'ปิดบาน'):''}</div></div>
