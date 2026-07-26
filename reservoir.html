@@ -234,6 +234,17 @@ function recalcLvScale(){
 }
 function lvRange(x){ return {lo:+x.warn-LVSCALE, hi:+x.warn+LVSCALE*0.12}; }
 function lvPos(x,v){const r=lvRange(x);return Math.max(0,Math.min(100,(v-r.lo)/(r.hi-r.lo)*100));}
+/* ══ เกณฑ์ ปตร. 3 แห่ง (ยึดตามหน่วยงาน — ตรงกับหน้าลำน้ำพะเนียง) ══
+   ปกติ  < normal   ·   เฝ้าระวัง  normal – warn   ·   วิกฤติ  มากกว่า warn        */
+const FG_FIX={
+  FG01:{n:214.0, w:214.5},   /* ปตร.หนองหว้าใหญ่ : <214    · 214–214.5   · >214.5  */
+  FG02:{n:202.9, w:203.4},   /* ปตร.ปู่หลอด      : <202.9  · 202.9–203.4 · >203.4  */
+  FG03:{n:191.2, w:192.2}    /* ปตร.หัวนา        : <191.2  · 191.2–192.2 · >192.2  */
+};
+function applyFgFix(){
+  try{ FG.forEach(g=>{ const f=FG_FIX[g.id]; if(f){ g.normal=f.n; g.warn=f.w; } }); }catch(e){}
+}
+applyFgFix();
 function lvStatus(x){return x.level>x.warn?SBANDS[2]:(x.level>=x.normal?SBANDS[1]:SBANDS[0]);}
 function nf(v,d){return (v==null||isNaN(v))?'—':Number(v).toLocaleString('th-TH',{minimumFractionDigits:d,maximumFractionDigits:d});}
 async function J(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json();}
@@ -471,8 +482,11 @@ async function loadLive(){
       const id=_s(it,['gate_id','id']).toUpperCase();
       const x=FG.find(v=>v.id===id); if(!x)return;
       const lv=_f(it,['water_level','level']); if(lv!==null)x.level=lv;
-      const nm=_f(it,['threshold_normal']);    if(nm!==null)x.normal=nm;
-      const wn=_f(it,['threshold_warn']);      if(wn!==null)x.warn=wn;
+      /* เกณฑ์ ปตร. ล็อกตามที่หน่วยงานกำหนด — ไม่รับค่าจากข้อมูลสดมาทับ (ดู FG_FIX) */
+      if(!FG_FIX[x.id]){
+        const nm=_f(it,['threshold_normal']);  if(nm!==null)x.normal=nm;
+        const wn=_f(it,['threshold_warn']);    if(wn!==null)x.warn=wn;
+      }
       const op=_f(it,['gate_opening']);        if(op!==null)x.open=op;
       const fr=_f(it,['flow_rate']);           if(fr!==null)x.q=fr;
       const nmS=_s(it,['name']);               if(nmS)x.name=nmS;
@@ -480,6 +494,8 @@ async function loadLive(){
       const d=_s(it,['date']); if(d&&d>DATE)DATE=d;
     });
   }
+
+  applyFgFix();   /* บังคับเกณฑ์ ปตร. อีกครั้งหลังรวมข้อมูลสด */
 
   /* ปตร. เป็นจุดเดียวกับสถานีตรวจวัดในลำน้ำพะเนียง — ดึงมาให้ตรงกัน */
   try{
