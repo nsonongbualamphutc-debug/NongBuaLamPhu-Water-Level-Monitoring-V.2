@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ds.css?v=46">
+<link rel="stylesheet" href="ds.css?v=47">
 <style>
 /* ═══════ ตารางสรุป (Data Table Overlay) ═══════ */
 .mini-i{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:0 0 17px;
@@ -308,6 +308,51 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.14) 45%,transparent 60%);
  background-size:280% 100%;animation:hdrShine 7s linear infinite}
 @keyframes hdrShine{0%{background-position:280% 0}100%{background-position:-80% 0}}
+
+/* ══ แผงช่วงเตือนภัยในทูลทิป (กู้คืน) ══ */
+.abx{margin-top:10px;border:1.5px solid #fcd34d;border-radius:12px;background:linear-gradient(160deg,#fffbeb,#fff);overflow:hidden}
+.abx.hot{border-color:#f87171;background:linear-gradient(160deg,#fef2f2,#fff)}
+.abx-h{background:#fef3c7;color:#92400e;font-family:'Kanit',sans-serif;font-weight:700;font-size:9.5px;padding:5px 10px}
+.abx.hot .abx-h{background:#fee2e2;color:#991b1b}
+.abx-b{padding:9px 10px 8px}
+.abx-n{display:flex;gap:8px;margin-bottom:9px}
+.abx-n div{flex:1;text-align:center;background:#fff;border:1px solid #f1e4c3;border-radius:9px;padding:5px 4px}
+.abx-n em{display:block;font-style:normal;font-size:8px;color:#92400e;line-height:1.2}
+.abx-n b{display:block;font-family:'Kanit',sans-serif;font-weight:800;font-size:15px;line-height:1.15;font-variant-numeric:tabular-nums}
+.abx-n s{text-decoration:none;font-size:8.5px;font-weight:400;color:#94a3b8}
+.abr{position:relative;height:15px;border-radius:99px;background:linear-gradient(90deg,#fde68a,#fca5a5);overflow:visible}
+.abr .abdot{position:absolute;top:50%;width:15px;height:15px;margin:-7.5px 0 0 -7.5px;border-radius:50%;
+ background:#fff;border:3.5px solid;box-shadow:0 2px 7px rgba(15,40,80,.4);z-index:3}
+.abr .abend{position:absolute;top:-3px;bottom:-3px;width:3px;border-radius:2px;box-shadow:0 0 0 1.5px #fff}
+.abr-lb{display:flex;justify-content:space-between;margin-top:5px;font-size:8px}
+.abr-lb span{font-family:'Kanit',sans-serif;font-weight:700}
+.abx-msg{margin-top:8px;font-size:9.5px;line-height:1.5;padding:6px 9px;border-radius:8px;background:#fff;border:1px solid #f1e4c3}
+.abx.hot .abx-msg{border-color:#fecaca}
+
+/* ══ แผงเวลาที่เหลือ — กล่องแยกรายจุด เรียงเป็นกริด (กู้คืน+ปรับ) ══ */
+.ldl{padding:10px 12px;display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));
+ gap:10px;align-content:start;overflow-y:auto}
+.eta{border:1px solid var(--line);border-left-width:4px;border-radius:14px;padding:10px 11px;cursor:pointer;
+ background:#fff;transition:transform .2s cubic-bezier(.2,.8,.3,1),box-shadow .2s}
+.eta:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(15,40,80,.14)}
+.eta.sel{box-shadow:0 0 0 2px rgba(10,30,60,.16)}
+.eta.u0{border-left-color:#86efac}
+.eta.u1{border-left-color:#7dd3fc;background:linear-gradient(150deg,#f0f9ff,#fff 62%)}
+.eta.u2{border-left-color:#fbbf24;background:linear-gradient(150deg,#fffbeb,#fff 62%)}
+.eta.u3{border-left-color:#ef4444;background:linear-gradient(150deg,#fef2f2,#fff 62%)}
+.eta-h{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.eta-h .no{flex:0 0 20px;height:20px;border-radius:6px;color:#fff;font-family:var(--disp);font-size:9.5px;
+ font-weight:700;display:flex;align-items:center;justify-content:center}
+.eta-h b{flex:1;min-width:0;font-family:var(--disp);font-weight:600;font-size:12.5px;color:var(--navy);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eta-h .eta-lv{font-family:var(--disp);font-weight:800;font-size:15px;font-variant-numeric:tabular-nums}
+.eta-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.eta-g span{background:var(--bg);border-radius:8px;padding:5px 6px;text-align:center}
+.eta-g em{display:block;font-style:normal;font-size:8px;color:var(--muted);line-height:1.2}
+.eta-g b{display:block;font-family:var(--disp);font-weight:700;font-size:11px;font-variant-numeric:tabular-nums;margin-top:2px}
+.eta-a{font-size:10.5px;line-height:1.5;color:var(--ink);border-top:1px dashed var(--line);padding-top:7px}
+.eta-a b{font-family:var(--disp);font-weight:700}
+@media(max-width:520px){.ldl{grid-template-columns:1fr}}
 .leaflet-tooltip.lft{background:#fff;border:1px solid #e4eaf2;border-radius:12px;padding:0;max-width:306px;
  font-family:'Sarabun',system-ui,sans-serif;font-size:11.5px;overflow:hidden;box-shadow:0 12px 30px rgba(10,30,60,.22)}
 .leaflet-tooltip.lft::before{display:none}
@@ -326,7 +371,7 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 <aside class="side">
   <div class="brand"><a href="index.html" title="กลับหน้าปกนำเสนอ" style="display:contents"><img src="logo-nbp.png" alt="ตราจังหวัด"><div class="bt"><div class="kick">Water Command</div><div class="ttl">สถานการณ์น้ำจังหวัด</div><div class="en">NONG BUA LAM PHU</div></div></a></div>
   <nav class="menu"><a href="dashboard.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span><span class="lbl"><b>ภาพรวมสถานการณ์</b><i>Executive Summary</i></span></a><a href="daily_briefing.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span><span class="lbl"><b>รายงานประจำวัน</b><i>Daily Briefing</i></span></a><a href="paneang.html" class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพะเนียง</b><i>Phaneang</i></span></a><a href="mong.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำโมง</b><i>Mong</i></span></a><a href="mo.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำมอ</b><i>Mo</i></span></a><a href="phuay.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพวย</b><i>Phuay</i></span></a><a href="rainfall.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11.6 2A3.5 3.5 0 0 0 6 18z"/><path d="M8 20l1 2M12 20l1 2M16 20l1 2"/></svg></span><span class="lbl"><b>ปริมาณฝน</b><i>Rainfall</i></span></a><a href="reservoir.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v6a8 8 0 0 1-16 0zM4 5c3 2 5 2 8 0s5-2 8 0"/></svg></span><span class="lbl"><b>อ่างเก็บน้ำ</b><i>Reservoir</i></span></a><a href="input.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="lbl"><b>บันทึกข้อมูล</b><i>Data Input</i></span></a></nav>
-  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v46</span></div></div>
+  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v47</span></div></div>
 </aside>
 <div class="main-col">
   <header class="topbar">
@@ -998,21 +1043,30 @@ function refreshMarkers(){ if(!ptLayer||!map)return;
   buildMarkers();
 }
 /* ===== แถบเกณฑ์ทุกสถานี ===== */
-/* ══ อัตราน้ำขึ้น (ม./วัน) จากประวัติล่าสุด ══ */
+/* ══ อัตราน้ำขึ้น (ม./วัน) — เข้มงวด ไม่เดาถ้าข้อมูลไม่พอ ══
+   เงื่อนไขจึงจะประเมิน:  มีประวัติ >= 4 วัน · น้ำขึ้นต่อเนื่องจริง
+   ถ้าข้อมูลสั้นหรือแกว่ง จะไม่แสดงเวลา — บอกตรง ๆ ว่าประเมินไม่ได้     */
 function riseRate(s){
-  const a=HIST[s.id];
-  if(!a||a.length<2) return null;
-  const n=Math.min(a.length,4), seg=a.slice(-n);
-  const r=(seg[seg.length-1]-seg[0])/(n-1);
-  return isFinite(r)?r:null;
+  const a=(HIST[s.id]||[]).filter(v=>v!=null&&!isNaN(v));
+  if(a.length<4) return null;                       /* ข้อมูลน้อยเกิน */
+  const seg=a.slice(-4);
+  const steps=[];
+  for(let i=1;i<seg.length;i++) steps.push(seg[i]-seg[i-1]);
+  const up=steps.filter(d=>d>0.005).length;
+  if(up<steps.length-0) {                           /* ต้องขึ้นทุกช่วง */
+    if(up<steps.length) return {r:(seg[seg.length-1]-seg[0])/(seg.length-1), steady:true};
+  }
+  return {r:(seg[seg.length-1]-seg[0])/(seg.length-1), steady:false};
 }
-/* เวลาถึงระดับเป้าหมาย (ชั่วโมง) — null = ประเมินไม่ได้ / น้ำไม่ขึ้น */
+function rateVal(s){ const o=riseRate(s); return o?o.r:null; }
+/* ประเมินเวลา — เฉพาะกรณีน้ำขึ้นต่อเนื่องเท่านั้น */
 function etaHours(s,target){
-  const r=riseRate(s);
-  if(r==null||r<=0.005) return null;
+  const o=riseRate(s);
+  if(!o||o.steady||o.r<=0.01) return null;          /* ไม่ขึ้น หรือแกว่ง */
   const d=target-(+s.cur);
   if(d<=0) return 0;
-  return d/r*24;
+  const h=d/o.r*24;
+  return h>720 ? null : h;                          /* เกิน 30 วัน = ไม่มีความหมาย */
 }
 function fmtEta(h){
   if(h==null) return '—';
@@ -1021,14 +1075,47 @@ function fmtEta(h){
   if(h<48) return h.toFixed(h<10?1:0)+' ชม.';
   return (h/24).toFixed(1)+' วัน';
 }
-/* คะแนนความเร่งด่วน — ยิ่งน้อยยิ่งด่วน */
 function urgency(s){
   const F=flagOf(s), k=stOf(s);
   if(k==='crit') return -100;
   const eW=etaHours(s,F.y), eC=etaHours(s,F.r);
-  if(k==='warn') return (eC==null?50:eC) - 60;
+  if(k==='warn') return (eC==null?50:eC)-60;
   if(eW!=null)   return eW;
-  return 9999 + (F.y-(+s.cur));   /* น้ำไม่ขึ้น — เรียงตามระยะห่าง */
+  return 9999+(F.y-(+s.cur));
+}
+function renderLadder(){
+  const box=document.getElementById('ladder'); if(!box) return;
+  const LS=[...ST].filter(s=>!AMPF||s.amphoe===AMPF).sort((a,b)=>urgency(a)-urgency(b));
+  const sub=document.getElementById('ldSub');
+  const nAct=LS.filter(s=>stOf(s)!=='normal').length;
+  const nSoon=LS.filter(s=>{const e=etaHours(s,flagOf(s).y);return stOf(s)==='normal'&&e!=null&&e<=48;}).length;
+  if(sub) sub.textContent = nAct? nAct+' จุดต้องดำเนินการ' : (nSoon? nSoon+' จุดควรจับตาใน 48 ชม.' : 'ทุกจุดปกติ · ไม่มีแนวโน้มเร่งด่วน');
+  box.innerHTML = LS.map(s=>{
+    const F=flagOf(s), k=stOf(s), b=SB[k], o=riseRate(s), r=o?o.r:null;
+    const eW=etaHours(s,F.y), eC=etaHours(s,F.r);
+    const dW=F.y-(+s.cur), dC=F.r-(+s.cur);
+    let act,cls;
+    if(k==='crit'){ cls='u3'; act='🚨 <b>ลงพื้นที่ทันที</b> — น้ำถึง/เกินระดับวิกฤติแล้ว'; }
+    else if(k==='warn'){ cls='u3'; act='🟡 <b>แจ้งเตือน + เตรียมกำลัง</b> — เหลือ <b>'+nf(dC,2)+' ม.</b> ถึงวิกฤติ'+(eC!=null?' · คาดถึงใน <b>'+fmtEta(eC)+'</b>':''); }
+    else if(eW!=null&&eW<=24){ cls='u2'; act='⚠️ <b>เตรียมพร้อม</b> — น้ำขึ้นต่อเนื่อง คาดถึงเฝ้าระวังใน <b>'+fmtEta(eW)+'</b>'; }
+    else if(eW!=null&&eW<=72){ cls='u1'; act='👁 ติดตามถี่ขึ้น — คาดถึงเฝ้าระวังใน <b>'+fmtEta(eW)+'</b>'; }
+    else if(r!=null&&r<-0.01){ cls='u0'; act='✅ น้ำลดลง '+nf(Math.abs(r),2)+' ม./วัน · ห่างเฝ้าระวัง '+nf(dW,2)+' ม.'; }
+    else if(o&&o.steady){ cls='u0'; act='✅ ระดับน้ำแกว่งเล็กน้อย ยังไม่มีแนวโน้มชัด · ห่างเฝ้าระวัง '+nf(dW,2)+' ม.'; }
+    else if(r==null){ cls='u0'; act='• ข้อมูลย้อนหลังไม่พอประเมินแนวโน้ม (ต้องมีอย่างน้อย 4 วัน) · ห่างเฝ้าระวัง '+nf(dW,2)+' ม.'; }
+    else { cls='u0'; act='✅ ระดับน้ำทรงตัว · ห่างเฝ้าระวัง '+nf(dW,2)+' ม.'; }
+    const trend = r==null?'ไม่พอประเมิน':(r>0.01?'▲ +'+nf(r,2):(r<-0.01?'▼ '+nf(Math.abs(r),2):'– คงที่'));
+    const tc = r==null?'#94a3b8':(r>0.01?'#dc2626':(r<-0.01?'#16a34a':'#64748b'));
+    return `<div class="eta ${cls} ${SEL===s.id?'sel':''}" data-tipid="${s.id}" onclick="select('${s.id}')">
+      <div class="eta-h"><span class="no" style="background:${b.c}">${s.no}</span>
+        <b>${s.name}</b><span class="eta-lv" style="color:${b.c}">${nf(s.cur,2)}</span></div>
+      <div class="eta-g">
+        <span><em>ถึงเฝ้าระวัง</em><b style="color:#b45309">${dW>0?nf(dW,2)+' ม.':'ถึงแล้ว'}</b></span>
+        <span><em>ถึงวิกฤติ</em><b style="color:#dc2626">${dC>0?nf(dC,2)+' ม.':'ล้นแล้ว'}</b></span>
+        <span><em>แนวโน้ม/วัน</em><b style="color:${tc};font-size:${r==null?'8.5px':'10.5px'}">${trend}</b></span>
+        <span><em>คาดถึงเฝ้าระวัง</em><b>${fmtEta(eW)}</b></span>
+      </div>
+      <div class="eta-a">${act}</div></div>`;
+  }).join('');
 }
 function renderLadder(){
   const box=document.getElementById('ladder'); if(!box) return;
@@ -1277,8 +1364,8 @@ function loadSlow(){const w=document.getElementById('lmWarn');if(w)w.style.displ
     var done=false;
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(done) return; done=true;
-      if(!sessionStorage.getItem('wnb_reload_v46')){
-        sessionStorage.setItem('wnb_reload_v46','1');
+      if(!sessionStorage.getItem('wnb_reload_v47')){
+        sessionStorage.setItem('wnb_reload_v47','1');
         location.reload();
       }
     });
