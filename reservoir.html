@@ -293,6 +293,20 @@ function gauge(pct,color,marks,label){
 }
 function row(l,v){return `<div class="row"><span>${l}</span><b>${v}</b></div>`;}
 function sepRow(t){return `<div class="seprow">${t}</div>`;}
+/* ── ตำแหน่งบนหลอดทูลทิป (ปตร. + สถานีอุทกวิทยา) ──
+   ขีดเหลืองอยู่ 33% · ขีดแดงอยู่ 67% คงที่เสมอทุกจุด
+   โซนเขียวยืดหดอัตโนมัติให้ครอบคลุมระดับน้ำจริง — หลอดจึงขยับได้ตลอด
+   (เดิมช่วงแคบเกิน น้ำต่ำกว่าช่วงแล้วตันที่ 0%)                        */
+function tubePos(x, v){
+  const no=+x.normal, wa=+x.warn, lv=+x.level;
+  const band=Math.max(.05, wa-no);
+  if(v>=wa) return Math.min(100, 67 + (v-wa)/band*33);   /* 🔴 โซนวิกฤติ */
+  if(v>=no) return 33 + (v-no)/band*34;                   /* 🟡 โซนเฝ้าระวัง */
+  let lo = no - band*12;
+  if(lv < lo) lo = lv - band;                             /* ยืดลงให้เห็นน้ำเสมอ */
+  if(v<=lo) return 0;
+  return (v-lo)/Math.max(.01,(no-lo))*33;                 /* 🟢 โซนปกติ */
+}
 function gaugeZ(pct,color,zones,ticks,label,showPct){
  const p=Math.max(0,Math.min(100,pct));
  /* showPct = ตัวเลขใหญ่ที่ต้องการโชว์ (ปตร./อุทกฯ ใช้ % เทียบธงแดง)
@@ -326,9 +340,7 @@ function tipRes(r){const p=pctOf(r),b=band(p);
 function tipFg(g){const s=lvStatus(g);
  /* ── หลอดวัดใช้ "ช่วงซูมรอบเกณฑ์" เพื่อให้ 3 ธงแยกกันเห็นชัด ──
     เขียว 0–33% · เหลือง 33–67% · แดง 67–100%  (ตัวเลข % ยังยึดธงแดง = 100%) */
- const band = Math.max(.05, (+g.warn) - (+g.normal));
- const Z0 = (+g.normal) - band, Z1 = (+g.warn) + band;
- const P = v => Math.max(0, Math.min(100, (v - Z0) / (Z1 - Z0) * 100));
+ const P = v => tubePos(g, v);
  const p = P(g.level), w = P(g.normal), c = P(g.warn);
  const pf = fgPct(g), over = fgOver(g);
  const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fed7aa'},{f:c,t:100,c:'#fecaca'}];
@@ -353,9 +365,7 @@ function tipFg(g){const s=lvStatus(g);
 function tipHy(h){const s=lvStatus(h);
  /* หลอดวัดใช้ช่วงซูมรอบเกณฑ์ — ขีดเหลือง 33% ขีดแดง 67% เห็นชัดทุกสถานี
     ตัวเลข % ยึดธงแดง = 100% (แบบเดียวกับ ปตร. และหน้าลำน้ำ) */
- const band = Math.max(.05, (+h.warn) - (+h.normal));
- const Z0 = (+h.normal) - band, Z1 = (+h.warn) + band;
- const P = v => Math.max(0, Math.min(100, (v - Z0) / (Z1 - Z0) * 100));
+ const P = v => tubePos(h, v);
  const p = P(h.level), w = P(h.normal), c = P(h.warn);
  const pf = fgPct(h), over = fgOver(h);
  const z=[{f:0,t:w,c:'#dcfce7'},{f:w,t:c,c:'#fed7aa'},{f:c,t:100,c:'#fecaca'}];
