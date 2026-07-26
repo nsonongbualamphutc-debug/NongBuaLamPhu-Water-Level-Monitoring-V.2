@@ -293,19 +293,13 @@ function gauge(pct,color,marks,label){
 }
 function row(l,v){return `<div class="row"><span>${l}</span><b>${v}</b></div>`;}
 function sepRow(t){return `<div class="seprow">${t}</div>`;}
-/* ── ตำแหน่งบนหลอดทูลทิป (ปตร. + สถานีอุทกวิทยา) ──
-   ขีดเหลืองอยู่ 33% · ขีดแดงอยู่ 67% คงที่เสมอทุกจุด
-   โซนเขียวยืดหดอัตโนมัติให้ครอบคลุมระดับน้ำจริง — หลอดจึงขยับได้ตลอด
-   (เดิมช่วงแคบเกิน น้ำต่ำกว่าช่วงแล้วตันที่ 0%)                        */
+/* ── ตำแหน่งบนหลอด = ระดับน้ำจริง ÷ ระดับวิกฤติ × 100 ──
+   วิกฤติ = 100%  ·  เฝ้าระวังอยู่ใกล้ 100% มาก (ตามความจริง)
+   โซนปกติกินพื้นที่เกือบทั้งหลอด เพราะน้ำปกติอยู่ต่ำกว่าวิกฤติมาก
+   ไม่มีการกำหนดตำแหน่งโซนขึ้นเอง — ใช้อัตราส่วนจริงล้วน            */
 function tubePos(x, v){
-  const no=+x.normal, wa=+x.warn, lv=+x.level;
-  const band=Math.max(.05, wa-no);
-  if(v>=wa) return Math.min(100, 67 + (v-wa)/band*33);   /* 🔴 โซนวิกฤติ */
-  if(v>=no) return 33 + (v-no)/band*34;                   /* 🟡 โซนเฝ้าระวัง */
-  let lo = no - band*12;
-  if(lv < lo) lo = lv - band;                             /* ยืดลงให้เห็นน้ำเสมอ */
-  if(v<=lo) return 0;
-  return (v-lo)/Math.max(.01,(no-lo))*33;                 /* 🟢 โซนปกติ */
+  const wa = +x.warn;
+  return wa ? Math.max(0, Math.min(100, v / wa * 100)) : 0;
 }
 function gaugeZ(pct,color,zones,ticks,label,showPct){
  const p=Math.max(0,Math.min(100,pct));

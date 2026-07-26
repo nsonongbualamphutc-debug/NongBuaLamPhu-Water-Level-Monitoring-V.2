@@ -243,20 +243,7 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 .cscale .s1{left:0}
 .cscale .s2{transform:translateX(-50%);text-align:center;color:#b45309}
 .cscale .s3{right:0;text-align:right;color:#dc2626}
-.zoomwrap{margin-top:11px;background:#f8fafc;border:1px solid var(--line,#e2e8f0);border-radius:10px;padding:8px 10px 6px}
-.zoomhd{font-size:8.5px;color:#64748b;margin-bottom:6px}
-.zbar{position:relative;height:14px}
-.ztrack{position:absolute;inset:0;border-radius:99px;overflow:hidden;background:#eef2f7;display:block}
-.zz{position:absolute;top:0;bottom:0}
-.ztick{position:absolute;top:-3px;bottom:-3px;width:3px;margin-left:-1.5px;border-radius:2px;
- box-shadow:0 0 0 1.5px #fff;z-index:3}
-.zmark{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;
- border:3px solid #fff;box-shadow:0 2px 6px rgba(15,40,80,.4);z-index:4}
-.zout{position:absolute;left:0;top:50%;transform:translateY(-50%);font-size:9px;color:#15803d;
- background:#dcfce7;border-radius:99px;padding:2px 8px;font-weight:700;z-index:4}
-.zlab{position:relative;height:22px;margin-top:4px;font-size:8px}
-.zlab span{position:absolute;transform:translateX(-50%);white-space:nowrap;text-align:center;line-height:1.25}
-.zlab b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:9px}
+
 .cbar .covcap{position:absolute;right:0;top:0;bottom:0;width:5px;background:#dc2626;animation:ovp 1s ease-in-out infinite}
 .ovnote{margin-top:7px;background:#fef2f2;border:1px solid #fecaca;color:#7f1d1d;border-radius:9px;
  padding:6px 9px;font-size:9.5px;line-height:1.45}
@@ -434,16 +421,9 @@ function zGreen(s){ return Math.max(0,Math.min(100, zpos(s, flagOf(s).g))); }
 function zWarn(s){  return Math.max(0,Math.min(100, zpos(s, flagOf(s).y))); }
 function zCrit(s){  return 100; }
 function isOver(s){ return (+s.cur) > flagOf(s).r; }
-/* ── แถบซูม: ขยายเฉพาะช่วงใกล้เกณฑ์ ให้เห็นธงทั้ง 3 แยกกันชัด ── */
-function zoomRange(s){ const F=flagOf(s), band=Math.max(.05,F.r-F.y); return {lo:F.g, hi:F.r+band}; }
-function zoomPos(s,v){ const z=zoomRange(s); return (v-z.lo)/Math.max(.01,(z.hi-z.lo))*100; }
-
-/* ── แถบแนวนอนในทูลทิป ── */
 function capBar(s,color){
   const F=flagOf(s), P=zNow(s), pf=pctFlag(s), over=isOver(s), b=SB[stOf(s)];
   const G=zGreen(s), W=zWarn(s);
-  const zp=zoomPos(s,+s.cur), zg=zoomPos(s,F.g), zy=zoomPos(s,F.y), zr=zoomPos(s,F.r);
-  const inZoom = zp>=-2 && zp<=102;
   return `<div class="flagrow">
     <span class="bigflag" style="background:${b.c}">${b.f} ${esc0(b.fl)}</span>
     <span class="flagpct" style="color:${b.c}">${pf.toFixed(1)}<s>%</s></span>
@@ -460,27 +440,6 @@ function capBar(s,color){
   </div>
   <div class="cscale"><span class="s1">0%</span><span class="s3">🔴 วิกฤติ = 100%</span></div>
 
-  <div class="zoomwrap">
-    <div class="zoomhd">🔍 ขยายช่วงเกณฑ์เตือน — ${nf(F.g,2)} ถึง ${nf(zoomRange(s).hi,2)} ม.รทก.</div>
-    <div class="zbar">
-      <span class="ztrack">
-        <span class="zz" style="left:0;width:${Math.max(0,zy)}%;background:#dcfce7"></span>
-        <span class="zz" style="left:${Math.max(0,zy)}%;width:${Math.max(0,zr-zy)}%;background:#fed7aa"></span>
-        <span class="zz" style="left:${Math.max(0,zr)}%;width:${Math.max(0,100-zr)}%;background:#fecaca"></span>
-      </span>
-      <span class="ztick" style="left:${zg}%;background:#16a34a"></span>
-      <span class="ztick" style="left:${zy}%;background:#f59e0b"></span>
-      <span class="ztick" style="left:${zr}%;background:#dc2626"></span>
-      ${inZoom
-        ? `<span class="zmark" style="left:${Math.max(0,Math.min(100,zp))}%;background:${b.c}"></span>`
-        : `<span class="zout">◀ น้ำต่ำกว่าธงเขียว ${nf(F.g-(+s.cur),2)} ม.</span>`}
-    </div>
-    <div class="zlab">
-      <span style="left:${zg}%;color:#15803d">🟢<b>${nf(F.g,2)}</b></span>
-      <span style="left:${zy}%;color:#b45309">🟡<b>${nf(F.y,2)}</b></span>
-      <span style="left:${zr}%;color:#dc2626">🔴<b>${nf(F.r,2)}</b></span>
-    </div>
-  </div>
   ${over?`<div class="ovnote">🌊 <b>น้ำล้นเกินวิกฤติแล้ว</b> — ${pf.toFixed(1)}% (เกิน ${nf(F.r,2)} ม.รทก. ไป ${nf((+s.cur)-F.r,2)} ม.)</div>`:''}`;
 }
 
