@@ -12,7 +12,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="ds.css?v=47">
+<link rel="stylesheet" href="ds.css?v=49">
 <style>
 /* ═══════ ตารางสรุป (Data Table Overlay) ═══════ */
 .mini-i{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:0 0 17px;
@@ -353,6 +353,17 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 .eta-a{font-size:10.5px;line-height:1.5;color:var(--ink);border-top:1px dashed var(--line);padding-top:7px}
 .eta-a b{font-family:var(--disp);font-weight:700}
 @media(max-width:520px){.ldl{grid-template-columns:1fr}}
+
+/* ══ ตารางเกณฑ์ในทูลทิป — จัดระเบียบ ป้ายอยู่บน ค่าอยู่ล่าง ══ */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}
+.tgrid div{background:linear-gradient(160deg,#f8fafc,#fff);border:1px solid #e9eef5;border-radius:10px;
+ padding:7px 9px;min-width:0}
+.tgrid em{display:block;font-style:normal;font-size:8.5px;color:#8798ad;line-height:1.3;margin-bottom:3px;
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.1px}
+.tgrid b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:12px;line-height:1.3;
+ font-variant-numeric:tabular-nums;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tnote{margin-top:9px;font-size:8.5px;color:#94a3b8;line-height:1.55;text-align:center;
+ padding:6px 10px;background:#f8fafc;border:1px solid #eef2f7;border-radius:9px}
 .leaflet-tooltip.lft{background:#fff;border:1px solid #e4eaf2;border-radius:12px;padding:0;max-width:306px;
  font-family:'Sarabun',system-ui,sans-serif;font-size:11.5px;overflow:hidden;box-shadow:0 12px 30px rgba(10,30,60,.22)}
 .leaflet-tooltip.lft::before{display:none}
@@ -371,7 +382,7 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 <aside class="side">
   <div class="brand"><a href="index.html" title="กลับหน้าปกนำเสนอ" style="display:contents"><img src="logo-nbp.png" alt="ตราจังหวัด"><div class="bt"><div class="kick">Water Command</div><div class="ttl">สถานการณ์น้ำจังหวัด</div><div class="en">NONG BUA LAM PHU</div></div></a></div>
   <nav class="menu"><a href="dashboard.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span><span class="lbl"><b>ภาพรวมสถานการณ์</b><i>Executive Summary</i></span></a><a href="daily_briefing.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span><span class="lbl"><b>รายงานประจำวัน</b><i>Daily Briefing</i></span></a><a href="paneang.html" class="active"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพะเนียง</b><i>Phaneang</i></span></a><a href="mong.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำโมง</b><i>Mong</i></span></a><a href="mo.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำมอ</b><i>Mo</i></span></a><a href="phuay.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพวย</b><i>Phuay</i></span></a><a href="rainfall.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11.6 2A3.5 3.5 0 0 0 6 18z"/><path d="M8 20l1 2M12 20l1 2M16 20l1 2"/></svg></span><span class="lbl"><b>ปริมาณฝน</b><i>Rainfall</i></span></a><a href="reservoir.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v6a8 8 0 0 1-16 0zM4 5c3 2 5 2 8 0s5-2 8 0"/></svg></span><span class="lbl"><b>อ่างเก็บน้ำ</b><i>Reservoir</i></span></a><a href="input.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="lbl"><b>บันทึกข้อมูล</b><i>Data Input</i></span></a></nav>
-  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v47</span></div></div>
+  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v49</span></div></div>
 </aside>
 <div class="main-col">
   <header class="topbar">
@@ -702,9 +713,9 @@ function tipSt(s){
      <div><em>🔴 ธงแดง · วิกฤติ</em><b style="color:#dc2626">${flagOf(s).x?'มากกว่า ':''}${nf(flagOf(s).r,2)}</b></div>
      <div><em>🟡 ธงเหลือง · แจ้งเตือน</em><b style="color:#b45309">${nf(flagOf(s).y,2)} – ${nf(flagOf(s).r,2)}</b></div>
      <div><em>🟢 ธงเขียว · ปกติ</em><b style="color:#15803d">น้อยกว่า ${nf(flagOf(s).g,2)}</b></div>
-     <div><em>ธงขณะนี้</em><b style="color:${b.c}">${b.f} ${esc0(b.l)}</b></div>
-     <div><em>ฝนคาด 7 วัน</em><b style="color:#0891b2">${RAIN[s.id]!=null?nf(RAIN[s.id],0)+' มม.':'—'}</b></div>
-     <div><em>แนวโน้ม (ม./วัน)</em><b style="color:${trCol}">${trTxt}</b></div>
+     <div><em>🚩 ธงขณะนี้</em><b style="color:${b.c}">${b.f} ${esc0(b.l)}</b></div>
+     <div><em>🌧️ ฝนคาด 7 วัน</em><b style="color:#0891b2">${RAIN[s.id]!=null?nf(RAIN[s.id],0)+' มม.':'—'}</b></div>
+     <div><em>📈 แนวโน้ม (ม./วัน)</em><b style="color:${trCol}">${trTxt}</b></div>
    </div>
    <div class="tnote">% เทียบระดับตลิ่ง ${pb.toFixed(1)}% · แถบสีแสดงตำแหน่งเทียบเกณฑ์เท่านั้น</div>
  </div>`;}
@@ -941,7 +952,7 @@ function renderList(){
       return `<div class="ri" data-tipid="${g.id}" onclick="focusFg('${g.id}')">
        <div class="rt"><div><div class="rn"><span class="no">${g.id}</span>${g.name}</div><div class="ra">อ.${g.amphoe} · ${open?'เปิด '+g.open+'/'+g.gates+' บาน · '+nf(g.q,1)+' ลบ.ม./วิ':'ปิดบาน'}</div></div>
        <div class="rp" style="color:${b.c}">${nf(g.level,2)}<small>${fgGap(g)<=0?'เกินวิกฤติ '+nf(-fgGap(g),2):'ต่ำกว่าวิกฤติ '+nf(fgGap(g),2)} ม.</small></div></div>
-       <div class="rb"><i style="width:${Math.min(100,p)}%;background:${b.c}"></i><span class="mk" style="left:72%"></span><span class="mk crit" style="left:calc(100% - 3px)"></span></div></div>`;}).join('')
+       <div class="rb"><i style="width:${Math.min(100,p)}%;background:${b.c}"></i><span class="mk" style="left:${fgZWarn(g)}%"></span><span class="mk crit" style="left:calc(100% - 3px)"></span></div></div>`;}).join('')
       :'<div class="act o" style="margin:6px"><span class="ai">ℹ️</span><div><b>ไม่มีประตูระบายน้ำ</b><span class="an">'+RIVER+'ไม่มีอาคารควบคุมการระบายน้ำในเขตจังหวัด</span></div></div>';
     return;}
   const sel=document.getElementById('ampF');
@@ -1364,8 +1375,8 @@ function loadSlow(){const w=document.getElementById('lmWarn');if(w)w.style.displ
     var done=false;
     navigator.serviceWorker.addEventListener('controllerchange',function(){
       if(done) return; done=true;
-      if(!sessionStorage.getItem('wnb_reload_v47')){
-        sessionStorage.setItem('wnb_reload_v47','1');
+      if(!sessionStorage.getItem('wnb_reload_v49')){
+        sessionStorage.setItem('wnb_reload_v49','1');
         location.reload();
       }
     });
