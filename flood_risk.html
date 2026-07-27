@@ -74,6 +74,54 @@
 .leaflet-container{font-family:inherit}
 .frpop b{font-family:var(--disp);font-size:13px}
 .frpop .cl{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:99px;color:#fff;font-size:10.5px;font-family:var(--disp);font-weight:700}
+
+/* ═══ แก้เนื้อหาล้นกรอบ ═══ */
+.content{overflow-x:hidden}
+.fr-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:14px;align-items:start}
+.fr-grid>*{min-width:0}
+.panel{max-width:100%;overflow:hidden}
+.fr-kpis{grid-template-columns:repeat(auto-fit,minmax(180px,1fr))}
+.fk{min-width:0}
+.fk .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fk .d{overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.trow .nm b,.trow .nm span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.donut .lg div{min-width:0}
+.donut .lg div span,.donut .lg div{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frbar{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-wrap:nowrap}
+.frbar::-webkit-scrollbar{display:none}
+.frbar>*{flex:0 0 auto}
+@media(max-width:1080px){.fr-grid{grid-template-columns:1fr}}
+
+/* ═══ แผนที่ให้ดูดีขึ้น ═══ */
+.mapwrap{position:relative}
+#frmap{height:560px;border-radius:0}
+@media(max-width:900px){#frmap{height:400px}}
+.mapov{position:absolute;left:13px;top:13px;z-index:500;background:rgba(255,255,255,.94);
+ backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.9);border-radius:14px;
+ box-shadow:0 6px 22px rgba(15,40,80,.18);padding:11px 13px;min-width:150px;pointer-events:none}
+.mapov b{display:block;font-family:var(--disp);font-weight:800;font-size:25px;line-height:1.2;
+ color:#0369a1;font-variant-numeric:tabular-nums}
+.mapov b small{font-size:11px;font-weight:600;color:#7c8ba1;margin-left:3px}
+.mapov em{display:block;font-style:normal;font-size:9.5px;color:#64748b;margin-top:3px;line-height:1.4}
+.mapov .sp{display:flex;gap:9px;margin-top:8px;padding-top:8px;border-top:1px solid #e6edf5}
+.mapov .sp div{text-align:center}
+.mapov .sp u{text-decoration:none;display:block;font-family:var(--disp);font-weight:700;font-size:14px;color:#0f172a}
+.mapov .sp i{font-style:normal;font-size:8.5px;color:#94a3b8}
+.basesw{position:absolute;right:13px;top:13px;z-index:500;display:flex;gap:5px;
+ background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-radius:11px;padding:4px;
+ box-shadow:0 4px 16px rgba(15,40,80,.16)}
+.basesw button{height:29px;padding:0 11px;border:0;border-radius:8px;background:transparent;cursor:pointer;
+ font-family:var(--disp);font-weight:600;font-size:11px;color:#64748b}
+.basesw button.on{background:var(--navy);color:#fff}
+.lgd{background:linear-gradient(180deg,#fbfdff,#f4f8fc)}
+.lgd i{box-shadow:0 1px 3px rgba(0,0,0,.15)}
+.leaflet-popup-content-wrapper{border-radius:14px;box-shadow:0 10px 32px rgba(15,40,80,.24)}
+.leaflet-popup-content{margin:12px 14px}
+.leaflet-control-zoom a{border-radius:9px !important;color:var(--navy) !important}
+html[data-theme="dark"] .mapov,html[data-theme="dark"] .basesw{background:rgba(22,31,49,.94);border-color:#2b3a52}
+html[data-theme="dark"] .mapov em,html[data-theme="dark"] .mapov .sp i{color:#8fa0b6}
+html[data-theme="dark"] .mapov .sp u{color:#e8eef7}
+
 </style>
 <style id="UX-PACK">
 /* ══════════════════════════════════════════════════════════════════════
@@ -256,7 +304,14 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
             <button class="frchip" onclick="setCls(3)"><i style="background:#38bdf8"></i>ครั้งคราว</button>
             <button class="frchip" id="cSta" onclick="toggleSta()">📍 ซ้อนสถานีวัดน้ำ</button>
           </div>
-          <div id="frmap"></div>
+          <div class="mapwrap">
+            <div id="frmap"></div>
+            <div class="mapov" id="mapov"><b>—</b><em>กำลังโหลด…</em></div>
+            <div class="basesw">
+              <button class="on" id="bA" onclick="setBase('a')">แผนที่</button>
+              <button id="bB" onclick="setBase('b')">ดาวเทียม</button>
+            </div>
+          </div>
           <div class="lgd">
             <span><i style="background:#dc2626"></i>ท่วมซ้ำซากมาก · 7–10 ครั้ง/10 ปี</span>
             <span><i style="background:#f59e0b"></i>ปานกลาง · 4–6 ครั้ง/10 ปี</span>
@@ -361,13 +416,35 @@ function renderTable(){
 /* ── แผนที่ ── */
 function styleFor(f){
   const c=CLS[f.properties.cls]||CLS[3];
-  return {color:c.c,weight:1,fillColor:c.c,fillOpacity:.45};
+  return {color:'#fff',weight:1.4,opacity:.9,fillColor:c.c,fillOpacity:.62,
+          dashArray:null,lineJoin:'round'};
+}
+let baseA,baseB,BASE='a';
+function setBase(k){
+  BASE=k;
+  document.getElementById('bA').classList.toggle('on',k==='a');
+  document.getElementById('bB').classList.toggle('on',k==='b');
+  if(k==='a'){ if(baseB)map.removeLayer(baseB); baseA.addTo(map); }
+  else { if(baseA)map.removeLayer(baseA); baseB.addTo(map); }
+  if(layer) layer.bringToFront();
+}
+function updOverlay(){
+  const rows=TAMB.filter(r=>!FAMP||r.amphoe===FAMP);
+  const rai=rows.reduce((a,r)=>a+r.rai,0);
+  const n=GJ?GJ.features.filter(visible).length:0;
+  const el=document.getElementById('mapov');
+  if(el) el.innerHTML=`<b>${nf(rai,0)}<small>ไร่</small></b>
+    <em>${FAMP||'ทั้งจังหวัด'} · พื้นที่น้ำท่วมซ้ำซาก</em>
+    <div class="sp"><div><u>${n}</u><i>แปลง</i></div>
+      <div><u>${rows.length}</u><i>ตำบล</i></div>
+      <div><u>${nf(rai*1600/1e6,2)}</u><i>ตร.กม.</i></div></div>`;
 }
 function visible(f){
   const p=f.properties;
   return (!FAMP||p.amphoe===FAMP) && (!FCLS||p.cls==FCLS);
 }
 function drawLayer(){
+  if(!GJ||!GJ.features){ updOverlay(); return; }
   if(layer) layer.remove();
   const feats=GJ.features.filter(visible);
   layer=L.geoJSON({type:'FeatureCollection',features:feats},{
@@ -381,6 +458,7 @@ function drawLayer(){
       l.on('mouseout',()=>l.setStyle(styleFor(f)));
     }}).addTo(map);
   document.getElementById('mapSub').textContent=feats.length+' แปลง'+(FAMP?' · '+FAMP:'');
+  updOverlay();
   try{ if(feats.length) map.fitBounds(layer.getBounds().pad(.08)); }catch(e){}
 }
 function setCls(c){
@@ -420,6 +498,7 @@ function pip(pt,ring){
   return c;
 }
 function checkStations(){
+  if(!GJ||!GJ.features) return;
   const inRisk=STA.filter(s=>GJ.features.some(f=>pip([s.lon,s.lat],f.geometry.coordinates[0])));
   const el=document.getElementById('kSta'), ed=document.getElementById('kStaD');
   if(el){ el.innerHTML=inRisk.length+'<small>สถานี</small>'; }
@@ -444,8 +523,10 @@ function checkStations(){
 /* ── โหลดข้อมูล ── */
 async function boot(){
   map=L.map('frmap',{scrollWheelZoom:false}).setView([17.2,102.38],9);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
-    {attribution:'© OpenStreetMap © CARTO',maxZoom:18}).addTo(map);
+  baseA=L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png',
+    {attribution:'© OpenStreetMap © CARTO',maxZoom:19}).addTo(map);
+  baseB=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    {attribution:'© Esri',maxZoom:19});
   map.on('click',()=>map.scrollWheelZoom.enable());
 
   renderKPI(); renderDonut(); renderTable();
