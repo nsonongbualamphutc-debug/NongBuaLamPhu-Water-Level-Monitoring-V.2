@@ -299,7 +299,11 @@ function normalize(d,live){
     if(s.cur===null||s.bank===null||s.lat==null||s.lon==null) return Object.assign({},base);
     s.gap =+(s.bank-s.cur).toFixed(2);
     s.fill=+(s.cur/s.bank*100).toFixed(1);
-    s.st  = s.cur>=s.bank?'crit':(s.warnLv!=null&&s.cur>=s.warnLv?'warn':'normal');
+    /* ปตร. กำหนดว่า "วิกฤติ = มากกว่า" ส่วนสถานีทั่วไป "ถึงตลิ่งพอดี = วิกฤติ"
+       — ให้ตรงกับหน้าลำน้ำและหลังบ้าน (Code.gs computeStatus_) */
+    const isGate = /^ปตร\./.test(String(s.name||''));
+    s.st  = (isGate ? s.cur>s.bank : s.cur>=s.bank) ? 'crit'
+          : (s.warnLv!=null && s.cur>=s.warnLv ? 'warn' : 'normal');
     const prev=num(s.prev);
     s.rise = prev!=null?+(s.cur-prev).toFixed(2):(num(base.rise)||0);
     return s;
