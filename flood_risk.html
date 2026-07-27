@@ -159,6 +159,20 @@ html[data-theme="dark"] .gdbox a:hover{background:#1a2437}
 .infpop .kk{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:99px;color:#fff;
  font-size:10px;font-family:var(--disp);font-weight:700}
 .infpop .dt{margin-top:6px;font-size:11px;color:#475569;line-height:1.6}
+
+/* ═══ จัดสัดส่วนให้พอดีจอ ไม่ล้น ไม่เลื่อนเกิน ═══ */
+.content{padding:14px;box-sizing:border-box;overflow-x:hidden}
+.fr-grid{align-items:stretch}
+.fr-grid>div:last-child{display:flex;flex-direction:column;gap:14px}
+#tlist{max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.fr-grid .panel{box-sizing:border-box}
+#frmap{height:520px}
+@media(max-width:1080px){#frmap{height:420px}#tlist{max-height:320px}}
+@media(max-width:640px){#frmap{height:340px}}
+/* กันแถบเลื่อนแนวนอนทุกระดับ */
+html,body,.app,.main-col,.content,.panel{max-width:100%;overflow-x:hidden}
+.lgd{flex-wrap:wrap;row-gap:6px}
+.srcnote{word-break:break-word}
 </style>
 <style id="UX-PACK">
 /* ══════════════════════════════════════════════════════════════════════
@@ -340,7 +354,6 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
             <button class="frchip" onclick="setCls(2)"><i style="background:#f59e0b"></i>ปานกลาง</button>
             <button class="frchip" onclick="setCls(3)"><i style="background:#38bdf8"></i>ครั้งคราว</button>
             <button class="frchip" id="cSta" onclick="toggleSta()">📍 ซ้อนสถานีวัดน้ำ</button>
-            <button class="frchip" id="cInf" onclick="toggleInf()">🏗️ โครงสร้างพื้นฐานน้ำ</button>
           </div>
           <div class="mapwrap">
             <div id="frmap"></div>
@@ -354,8 +367,6 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
             <span><i style="background:#dc2626"></i>ท่วมซ้ำซากมาก · 7–10 ครั้ง/10 ปี</span>
             <span><i style="background:#f59e0b"></i>ปานกลาง · 4–6 ครั้ง/10 ปี</span>
             <span><i style="background:#38bdf8"></i>เป็นครั้งคราว · ไม่เกิน 3 ครั้ง/10 ปี</span>
-            <span><i class="inf" style="background:#7c3aed"></i>⚡ สถานีสูบน้ำด้วยไฟฟ้า</span>
-            <span><i class="inf" style="background:#0d9488"></i>💧 ชลประทานขนาดเล็ก</span>
           </div>
           <div class="srcnote">แหล่งข้อมูล: ชั้นข้อมูลพื้นที่น้ำท่วมซ้ำซาก จ.หนองบัวลำภู (Shapefile · WGS 1984 UTM Zone 47N)
             แปลงพิกัดเป็น WGS84 เพื่อแสดงบนเว็บ · เนื้อที่คำนวณจากขอบเขตแปลงจริง</div>
@@ -376,38 +387,6 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
           </div>
 
 
-          <div class="panel" style="margin-top:14px">
-            <div class="ph"><div><h3><span class="hi">🗄️</span>ชุดข้อมูลอ้างอิงที่เกี่ยวข้อง
-              <span class="sub">ระบบบัญชีข้อมูลจังหวัดหนองบัวลำภู · GD Catalog</span></h3></div></div>
-            <div class="gdbox">
-              <a href="https://nongbualamphu.gdcatalog.go.th/dataset/?groups=disaster" target="_blank" rel="noopener">
-                <span class="ic" style="background:#fee2e2">🚨</span>
-                <span class="tx"><b>สาธารณภัยจังหวัดหนองบัวลำภู</b><span>ชุดข้อมูลกลุ่มสาธารณภัยทั้งหมด</span></span>
-                <span class="n">57 ชุด</span></a>
-              <a href="https://nongbualamphu.gdcatalog.go.th/dataset/?organization=nbp_disaster" target="_blank" rel="noopener">
-                <span class="ic" style="background:#fef3c7">🏛️</span>
-                <span class="tx"><b>สำนักงาน ปภ.จังหวัดหนองบัวลำภู</b><span>ข้อมูลจากหน่วยงานเจ้าของภารกิจ</span></span>
-                <span class="n">24 ชุด</span></a>
-              <a href="https://nongbualamphu.gdcatalog.go.th/dataset/?data_type=%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%A1%E0%B8%B9%E0%B8%A5%E0%B8%A0%E0%B8%B9%E0%B8%A1%E0%B8%B4%E0%B8%AA%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%99%E0%B9%80%E0%B8%97%E0%B8%A8%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B8%87%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99%E0%B8%97%E0%B8%B5%E0%B9%88" target="_blank" rel="noopener">
-                <span class="ic" style="background:#e0f2fe">🗺️</span>
-                <span class="tx"><b>ข้อมูลภูมิสารสนเทศเชิงพื้นที่</b><span>ขอบเขตตำบล · ชั้นข้อมูลแผนที่</span></span>
-                <span class="n">7 ชุด</span></a>
-              <a href="https://nongbualamphu.gdcatalog.go.th/dataset/?tags=%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B2%E0%B8%81%E0%B8%A3" target="_blank" rel="noopener">
-                <span class="ic" style="background:#dcfce7">👥</span>
-                <span class="tx"><b>ประชากร</b><span>ใช้ประเมินประชากรในพื้นที่เสี่ยง</span></span>
-                <span class="n">8 ชุด</span></a>
-              <a href="https://nongbualamphu.gdcatalog.go.th/dataset/?tags=%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B8%A7%E0%B9%80%E0%B8%A3%E0%B8%B7%E0%B8%AD%E0%B8%99" target="_blank" rel="noopener">
-                <span class="ic" style="background:#ede9fe">🏠</span>
-                <span class="tx"><b>ครัวเรือน</b><span>ประเมินหมู่บ้าน/ครัวเรือนที่ได้รับผลกระทบ</span></span>
-                <span class="n">9 ชุด</span></a>
-              <a href="https://nongbualamphu.gdcatalog.go.th/dataset/?groups=nb39_drought" target="_blank" rel="noopener">
-                <span class="ic" style="background:#fef3c7">☀️</span>
-                <span class="tx"><b>ภัยแล้ง</b><span>ข้อมูลคู่ตรงข้ามสำหรับวางแผนน้ำทั้งปี</span></span>
-                <span class="n">46 ชุด</span></a>
-            </div>
-            <div class="srcnote">คลิกเพื่อเปิดชุดข้อมูลบนระบบบัญชีข้อมูลจังหวัด · ดูแลโดยสำนักงานสถิติจังหวัดหนองบัวลำภู
-              — ดาวน์โหลด CSV แล้วนำมาต่อยอดในแดชบอร์ดนี้ได้</div>
-          </div>
           <div id="xbox"></div>
         </div>
       </div>
@@ -423,7 +402,7 @@ const CLS={1:{l:'ท่วมซ้ำซากมาก',d:'ประสบน�
            2:{l:'ท่วมซ้ำซากปานกลาง',d:'ประสบน้ำท่วม 4–6 ครั้ง ในรอบ 10 ปี',c:'#f59e0b'},
            3:{l:'ท่วมซ้ำซากเป็นครั้งคราว',d:'ประสบน้ำท่วมไม่เกิน 3 ครั้ง ในรอบ 10 ปี',c:'#38bdf8'}};
 const nf=(v,d)=>(v==null||isNaN(v))?'—':Number(v).toLocaleString('th-TH',{minimumFractionDigits:d,maximumFractionDigits:d});
-let GJ=null, map, layer, staLayer, infLayer, FAMP='', FCLS='', showSta=false, showInf=false, STA=[], INF=[];
+let GJ=null, map, layer, staLayer, FAMP='', FCLS='', showSta=false, STA=[];
 
 /* ── KPI ── */
 function renderKPI(){
@@ -447,20 +426,10 @@ function renderKPI(){
      <div class="d">${topT?nf(topT.rai,0)+' ไร่ · '+topT.amphoe:'—'}</div></div>
    <div class="fk c5"><div class="h"><span class="ic">🛰️</span><span class="t">สถานีวัดน้ำในพื้นที่เสี่ยง</span></div>
      <div class="v" id="kSta">—<small>สถานี</small></div>
-     <div class="d" id="kStaD">กำลังตรวจสอบจากข้อมูลสด</div></div>
-   <div class="fk c3"><div class="h"><span class="ic">🏗️</span><span class="t">โครงสร้างพื้นฐานน้ำในพื้นที่</span></div>
-     <div class="v" id="kInf">—<small>จุด</small></div>
-     <div class="d" id="kInfD">สถานีสูบน้ำ + ชลประทานขนาดเล็ก</div></div>`;
+     <div class="d" id="kStaD">กำลังตรวจสอบจากข้อมูลสด</div></div>`;
 }
 
 /* ── โดนัทรายอำเภอ ── */
-function updInfKpi(){
-  const pts=INF.filter(infVisible);
-  const a=pts.filter(p=>p.k===1).length, b=pts.filter(p=>p.k===2).length;
-  const el=document.getElementById('kInf'), ed=document.getElementById('kInfD');
-  if(el) el.innerHTML=pts.length+'<small>จุด</small>';
-  if(ed) ed.textContent='⚡ สถานีสูบน้ำ '+a+' · 💧 ชลประทานเล็ก '+b;
-}
 function renderDonut(){
   const byA={}; TAMB.forEach(r=>byA[r.amphoe]=(byA[r.amphoe]||0)+r.rai);
   const ks=Object.keys(byA).sort((a,b)=>byA[b]-byA[a]);
@@ -550,35 +519,12 @@ function setCls(c){
   (c===''?document.getElementById('cAll'):event.target.closest('.frchip')).classList.add('on');
   drawLayer();
 }
-function applyFilter(){ FAMP=document.getElementById('fAmp').value; renderKPI(); renderTable(); drawLayer(); drawInf(); checkStations(); updInfKpi(); }
+function applyFilter(){ FAMP=document.getElementById('fAmp').value; renderKPI(); renderTable(); drawLayer(); checkStations(); }
 function zoomTambon(t){
   const fs=GJ.features.filter(f=>f.properties.tambon.indexOf(t)>=0);
   if(!fs.length) return;
   const g=L.geoJSON({type:'FeatureCollection',features:fs});
   map.fitBounds(g.getBounds().pad(.25));
-}
-const IK={1:{l:'สถานีสูบน้ำด้วยไฟฟ้า',c:'#7c3aed',i:'⚡'},2:{l:'ชลประทานขนาดเล็ก',c:'#0d9488',i:'💧'}};
-function infVisible(p){ return !FAMP || FAMP.replace('อ.','')===String(p.a||'').replace('อ.',''); }
-function toggleInf(){
-  showInf=!showInf;
-  document.getElementById('cInf').classList.toggle('on',showInf);
-  drawInf();
-}
-function drawInf(){
-  if(infLayer){ infLayer.remove(); infLayer=null; }
-  if(!showInf||!INF.length) return;
-  const pts=INF.filter(infVisible);
-  infLayer=L.layerGroup(pts.map(p=>{
-    const k=IK[p.k]||IK[2];
-    return L.circleMarker([p.la,p.lo],{radius:5,color:'#fff',weight:1.6,fillColor:k.c,fillOpacity:.95})
-      .bindPopup(`<div class="infpop"><b>${p.n||'—'}</b>
-        <span class="kk" style="background:${k.c}">${k.i} ${k.l}</span>
-        <div class="dt">${p.t?'ต.'+p.t+' · ':''}อ.${p.a||'-'}
-        ${p.v?'<br>ขนาด: '+nf(p.v,0)+' '+(p.u||''):''}
-        ${p.y?'<br>สร้างเสร็จ พ.ศ. '+p.y:''}</div></div>`);
-  })).addTo(map);
-  const el=document.getElementById('kInf');
-  if(el) el.innerHTML=pts.length+'<small>จุด</small>';
 }
 function toggleSta(){
   showSta=!showSta;
@@ -652,11 +598,6 @@ async function boot(){
     document.getElementById('mapSub').textContent='โหลดขอบเขตไม่สำเร็จ';
     console.warn('geojson',e);
   }
-
-  try{
-    INF=await (await fetch('water_infra_nbl.json')).json();
-    updInfKpi();
-  }catch(e){ const ed=document.getElementById('kInfD'); if(ed) ed.textContent='โหลดข้อมูลโครงสร้างพื้นฐานไม่ได้'; }
 
   /* ดึงสถานะน้ำสด — ถ้าไม่ได้ก็ข้าม ไม่กระทบหน้า */
   try{
