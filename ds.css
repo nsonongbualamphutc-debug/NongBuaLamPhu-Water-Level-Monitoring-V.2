@@ -1,3 +1,9 @@
+/* ══════════════════════════════════════════════════════════════════════
+   แก้ปัญหา "น้ำ" แสดงเป็น "นำ" บน iPad / แท็บเล็ต
+   สาเหตุ: line-height:1.1 ที่แคบเกิน + overflow:hidden (หรือ background-clip:text)
+           ทำให้ไม้โท/สระบนของภาษาไทยล้นออกนอกกล่องบรรทัดแล้วถูกตัดทิ้ง
+   แก้ 4 จุด: .brand .ttl · .menu .lbl · .gtk · .ldn
+   ══════════════════════════════════════════════════════════════════════ */
 /* ===================================================================
  *  ds.css — Design System กลาง · ศูนย์บัญชาการข้อมูลน้ำ จ.หนองบัวลำภู
  *  สำนักงานสถิติจังหวัดหนองบัวลำภู
@@ -18,7 +24,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .brand img{width:44px;height:44px;flex:0 0 44px;object-fit:contain;filter:drop-shadow(0 2px 5px rgba(0,0,0,.4))}
 .brand .bt{overflow:hidden}
 .brand .kick{font-family:var(--disp);font-size:8.5px;font-weight:600;letter-spacing:2px;color:var(--gold);white-space:nowrap}
-.brand .ttl{font-family:var(--disp);font-weight:700;font-size:15px;line-height:1.5;white-space:nowrap;color:#fff}  /* เลิกใช้ background-clip:text — ตัดวรรณยุกต์ไทยบน iOS */
+.brand .ttl{font-family:var(--disp);font-weight:700;font-size:15px;line-height:1.55;white-space:nowrap;color:#fff}
 .brand .en{font-size:8.5px;opacity:.55;letter-spacing:1.5px;white-space:nowrap;margin-top:2px}
 .menu{flex:1;overflow-y:auto;padding:7px 9px}
 .menu::-webkit-scrollbar{width:0}
@@ -27,7 +33,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .menu a.active{background:linear-gradient(100deg,rgba(56,189,248,.22),rgba(56,189,248,.05));color:#fff}
 .menu a.active::before{content:"";position:absolute;left:-9px;top:50%;transform:translateY(-50%);width:4px;height:20px;border-radius:0 4px 4px 0;background:var(--gold)}
 .menu .ic{width:20px;height:20px;flex:0 0 20px}
-.menu .lbl{white-space:nowrap;overflow:hidden;line-height:1.1}
+.menu .lbl{white-space:nowrap;overflow:hidden;line-height:1.6;padding:1px 0}
 .menu .lbl b{font-family:var(--disp);font-weight:500;font-size:13px;display:block}
 .menu .lbl i{font-style:normal;font-size:9px;opacity:.5}
 .side-foot{padding:10px 14px;border-top:1px solid rgba(255,255,255,.08);font-size:9.5px;color:#8fa2bd;line-height:1.45}
@@ -138,7 +144,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .gline{position:absolute;left:-2px;right:-2px;height:2px;opacity:.95}
 .gnow{position:absolute;left:-4px;right:-4px;height:0;border-top:2px dashed rgba(15,23,42,.55)}
 .gticks{position:relative;width:104px;height:112px}
-.gtk{position:absolute;left:0;transform:translateY(50%);display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:8.5px;color:var(--muted);line-height:1.1}
+.gtk{position:absolute;left:0;transform:translateY(50%);display:flex;align-items:center;gap:4px;white-space:nowrap;font-size:8.5px;color:var(--muted);line-height:1.45}
 .gtk i{width:8px;height:2px;border-radius:1px;flex:0 0 8px}
 .gtk em{font-style:normal;font-family:var(--disp);font-weight:600}
 .seprow{font-family:var(--disp);font-size:9px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.5px;padding:6px 0 2px;border-top:1px solid var(--line);margin-top:4px}
@@ -149,7 +155,7 @@ body{font-family:var(--font);background:var(--bg);color:var(--ink);-webkit-font-
 .ld{display:grid;grid-template-columns:104px 1fr 66px;gap:8px;align-items:center;padding:4px 5px;border-radius:8px;cursor:pointer}
 .ld:hover{background:#f8fafc}
 .ld.sel{background:#eff8ff}
-.ldn{font-size:10.5px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ldn{font-size:10.5px;line-height:1.5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ldn .no{display:inline-block;background:var(--bg);color:var(--muted);font-size:8px;padding:0 4px;border-radius:99px;margin-right:3px;font-family:var(--disp)}
 .ldb{position:relative;height:13px;border-radius:7px;overflow:hidden;background:#eef2f7}
 .ldb .z{position:absolute;top:0;bottom:0}
