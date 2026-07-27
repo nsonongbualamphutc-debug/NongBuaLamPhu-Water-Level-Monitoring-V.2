@@ -253,6 +253,28 @@ html[data-theme="dark"] .leaflet-tile{filter:brightness(.72) contrast(1.05) satu
 html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220;
  border-color:rgba(0,0,0,.2)}
 
+/* ══════════ แก้แท็บเล็ตย่น/ขาด (≤1024px) ══════════
+   ต้นเหตุ: แผงวางเรียงข้างกันบนจอกว้าง พอจอแคบลงถูกบีบจนเนื้อหาล้น
+   วิธีแก้: ให้แผงกินเต็มความกว้างแล้วเรียงลงมาแทนการบีบ            */
+@media (max-width:1024px){
+  .panel,.pnl{flex:1 1 100% !important;min-width:0 !important;max-width:100% !important}
+  *:has(> .panel),*:has(> .pnl){grid-template-columns:1fr !important;flex-wrap:wrap !important}
+  .panel .pb,.pnl .pb{min-height:290px}
+  /* กันเนื้อหาล้นออกนอกกล่อง */
+  .panel *,.pnl *{min-width:0}
+  table{max-width:100%}
+  .tbl,.tblwrap,.tblbox{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  /* แผนที่สูงพอใช้งาน */
+  .leaflet-container{min-height:330px}
+  /* การ์ด/กล่องไม่แน่นเกิน */
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
+  .ldl{grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
+}
+@media (max-width:1024px) and (min-width:641px){
+  .kpis{gap:11px}
+  .k .kv{font-size:30px}
+}
+
 </style>
 </head>
 <body>
@@ -481,7 +503,7 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
            b.title = t==='dark'?'สลับเป็นโหมดสว่าง':'สลับเป็นโหมดมืด';
            b.setAttribute('aria-label',b.title); }
   }
-  themeApply(themeGet() || (sysDark()?'dark':'light'));
+  themeApply(themeGet() || 'light');   /* เปิดมาเป็นโหมดสว่างเสมอ ผู้ใช้เลือกมืดเองได้ */
 
   function sheetHTML(){
     var mapQ = encodeURIComponent('ศาลากลางจังหวัดหนองบัวลำภู');
