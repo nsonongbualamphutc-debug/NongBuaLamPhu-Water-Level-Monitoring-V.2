@@ -253,23 +253,7 @@ html[data-theme="dark"] .leaflet-tile{filter:brightness(.72) contrast(1.05) satu
 html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220;
  border-color:rgba(0,0,0,.2)}
 
-/* ══════════ แก้แท็บเล็ตย่น/ขาด (≤1024px) ══════════
-   ต้นเหตุ: แผงวางเรียงข้างกันบนจอกว้าง พอจอแคบลงถูกบีบจนเนื้อหาล้น
-   วิธีแก้: ให้แผงกินเต็มความกว้างแล้วเรียงลงมาแทนการบีบ            */
-@media (max-width:1024px){
-  .panel,.pnl{flex:1 1 100% !important;min-width:0 !important;max-width:100% !important}
-  *:has(> .panel),*:has(> .pnl){grid-template-columns:1fr !important;flex-wrap:wrap !important}
-  .panel .pb,.pnl .pb{min-height:290px}
-  /* กันเนื้อหาล้นออกนอกกล่อง */
-  .panel *,.pnl *{min-width:0}
-  table{max-width:100%}
-  .tbl,.tblwrap,.tblbox{overflow-x:auto;-webkit-overflow-scrolling:touch}
-  /* แผนที่สูงพอใช้งาน */
-  .leaflet-container{min-height:330px}
-  /* การ์ด/กล่องไม่แน่นเกิน */
-  .stcards{grid-template-columns:repeat(auto-fill,minmax(168px,1fr))}
-  .ldl{grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
-}
+
 @media (max-width:1024px) and (min-width:641px){
   .kpis{gap:11px}
   .k .kv{font-size:30px}
@@ -278,57 +262,6 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
 </style>
 
 
-<style id="THAI-FIX">
-/* ══════════════════════════════════════════════════════════════════════
-   แก้ "น้ำ" แสดงเป็น "นำ" บน iPad/แท็บเล็ต  ★ ต้นตอจริง ★
-   ─────────────────────────────────────────────────────────────────────
-   ds.css บรรทัด 21 ใช้เทคนิคตัวอักษรไล่สี:
-       .brand .ttl{ line-height:1.1;
-                    -webkit-background-clip:text;
-                    -webkit-text-fill-color:transparent; }
-   background-clip:text จะตัดสีตามรูปทรงตัวอักษร "ภายในกล่องบรรทัด"
-   พอ line-height แค่ 1.1 → ไม้โท/สระบน ของภาษาไทยล้นออกนอกกล่อง
-   → ถูกตัดทิ้ง เห็นเป็น "นำ" แทน "น้ำ"  (Safari/iOS ชัดที่สุด)
-   วิธีแก้: เลิกใช้ไล่สีกับข้อความไทย ใช้สีทึบ + เพิ่มความสูงบรรทัด
-   ══════════════════════════════════════════════════════════════════════ */
-.brand .ttl{
-  background:none !important;
-  -webkit-background-clip:border-box !important;
-  background-clip:border-box !important;
-  -webkit-text-fill-color:#ffffff !important;
-  color:#ffffff !important;
-  line-height:1.5 !important;
-  padding-top:.06em;
-}
-/* เมนูข้าง — เผื่อที่ให้วรรณยุกต์ ไม่ให้ถูกตัดขอบบน */
-.menu a,.menu a *,.brand,.brand *,.side,.side *{
-  line-height:1.5 !important;
-  letter-spacing:normal !important;
-}
-.brand .kick,.brand .en{letter-spacing:1.4px !important}   /* บรรทัดอังกฤษล้วน คงเดิมได้ */
-
-/* ══ กันเคสเดียวกันทั่วทั้งระบบ ══
-   ที่ไหนใช้ตัวอักษรไล่สีแล้วมีข้อความไทย ให้กลับเป็นสีทึบ            */
-.ph h3,.stc-n,.eta-h b,.bigflag,.tth2 .nm,.hero .lv em,h1,h2,h3,h4{
-  -webkit-text-fill-color:currentColor !important;
-  line-height:1.45 !important;
-}
-/* ตัวเลขล้วน ยังใช้ไล่สีได้ ไม่มีวรรณยุกต์ให้เสีย */
-.k .kv{line-height:1.25 !important;padding-top:.04em}
-body,body *{letter-spacing:normal !important}
-.k .kv,.flagpct,.stc-lv b,.eta-h .eta-lv,.hero .lv b{letter-spacing:-.4px !important}
-
-/* ══════════════════════════════════════════════════════════════════════
-   แก้การ์ดถูกตัดขาดบนแท็บเล็ต — ปล่อยแผงยืดตามเนื้อหา
-   ══════════════════════════════════════════════════════════════════════ */
-@media (max-width:1024px){
-  .pnl .pb,.panel .pb{position:static !important;height:auto !important;min-height:0 !important;
-   overflow:visible !important}
-  .pb .stcards,.pb .ldl,.pb .prof{position:static !important;inset:auto !important;
-   max-height:none !important;overflow:visible !important}
-  #rlist{max-height:420px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-}
-</style>
 </head>
 <body>
 <div class="app" id="app">
