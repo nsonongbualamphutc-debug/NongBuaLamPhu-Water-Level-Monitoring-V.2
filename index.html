@@ -276,6 +276,34 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
 }
 
 </style>
+
+<style id="THAI-FIX">
+/* ══════════════════════════════════════════════════════════════════════
+   แก้ "น้ำ" แสดงเป็น "นำ" — วรรณยุกต์/สระบนหายไป
+   สาเหตุ: letter-spacing ติดลบไปเบียดจนวรรณยุกต์ซ้อนหาย
+   วิธีแก้: ยกเลิก letter-spacing กับข้อความไทยทั้งหมด
+           คงไว้เฉพาะตัวเลขล้วน (ไม่มีวรรณยุกต์ให้เสีย)
+   ══════════════════════════════════════════════════════════════════════ */
+body,body *{letter-spacing:normal !important;font-feature-settings:"kern" 1,"liga" 1}
+/* ตัวเลขล้วน คงการบีบตัวอักษรไว้ได้ */
+.k .kv,.flagpct,.stc-lv b,.eta-h .eta-lv,.hero .lv b,.abx-n b{letter-spacing:-.5px !important}
+/* กันวรรณยุกต์ถูกตัดบนด้วยความสูงบรรทัดที่แน่นเกิน */
+h1,h2,h3,h4,.brand,.brand *,.menu *,.nav *,.side *,
+.ph h3,.k .kt,.stc-n,.eta-h b,.bigflag,.tth2 .nm{line-height:1.45 !important}
+
+/* ══════════════════════════════════════════════════════════════════════
+   แก้การ์ดถูกตัดขาดบนแท็บเล็ต — ปล่อยให้แผงยืดตามเนื้อหาแทนบังคับความสูง
+   ══════════════════════════════════════════════════════════════════════ */
+@media (max-width:1024px){
+  .pnl .pb,.panel .pb{position:static !important;height:auto !important;min-height:0 !important;
+   overflow:visible !important}
+  .pb .stcards,.pb .ldl,.pb .prof{position:static !important;inset:auto !important;
+   max-height:none !important;overflow:visible !important}
+  .stcards{grid-auto-rows:auto}
+  /* รายการด้านขวาให้เลื่อนในตัวเองได้ ไม่ยาวเกินจอ */
+  #rlist{max-height:420px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+}
+</style>
 </head>
 <body>
 <div class="cover">
