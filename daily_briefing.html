@@ -114,6 +114,146 @@
 .tipbox .row span{color:#64748b;white-space:nowrap}
 .tipbox .row b{font-family:'Kanit',sans-serif;font-weight:600;text-align:right}
 </style>
+
+<style id="UX-PACK">
+/* ══════════════════════════════════════════════════════════════════════
+   ชุดที่ 1 — รองรับมือถือ/แท็บเล็ต (ฉบับปลอดภัย)
+   บทเรียนจากรอบก่อน: ห้ามใช้ display/grid-template กับคลาสที่ไม่รู้จัก
+   รอบนี้แตะเฉพาะคลาสที่มีจริงในหน้านี้เท่านั้น และไม่บังคับ display
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── แท็บเล็ตแนวนอน (≤1180px) ── */
+@media (max-width:1180px){
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(172px,1fr))}
+  .ldl{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .k .kv{font-size:31px}
+}
+
+/* ── แท็บเล็ตแนวตั้ง (≤900px) ── */
+@media (max-width:900px){
+  .k{padding:14px 14px 13px}
+  .k .kv{font-size:28px;letter-spacing:-.9px}
+  .k .ki{width:34px;height:34px;flex:0 0 34px;font-size:16px}
+  .k .kt{font-size:11.5px}
+  .ph h3{font-size:13.5px}
+  .pnl .pb{min-height:300px}
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
+  .ldl{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+}
+
+/* ── มือถือ (≤640px) ── */
+@media (max-width:640px){
+  .k{padding:12px 13px 11px;border-radius:16px}
+  .k .kv{font-size:26px}
+  .k .kh{gap:8px;margin-bottom:8px}
+  .k .kd{font-size:10.5px;line-height:1.5}
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;padding:9px 10px}
+  .stc-lv b{font-size:19px}
+  .stc-n{font-size:12px}
+  .ldl{grid-template-columns:1fr}
+  .tgrid{grid-template-columns:1fr}
+  .hero .lv b{font-size:21px}
+  .flagpct{font-size:18px}
+  .abx-n b{font-size:14px}
+  .tipbox,.leaflet-tooltip.lft{max-width:calc(100vw - 22px)}
+  /* ตัวหนังสือขั้นต่ำ อ่านออกแน่นอน */
+  .kd,.stc-a,.eta-a,.tnote,.abr-lb{font-size:10.5px;line-height:1.5}
+  .eta-g em,.tgrid em,.abx-n em,.cleg3{font-size:9.5px}
+  /* ปุ่มกดด้วยนิ้ว */
+  .tab,.chip,.pill{min-height:40px}
+  /* แถบแท็บเลื่อนนิ้วได้ */
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  /* ลดแอนิเมชันหนัก */
+  .k::after,.k::before{animation:none}
+}
+
+/* ── จอแคบมาก (≤380px) ── */
+@media (max-width:380px){
+  .stcards{grid-template-columns:1fr}
+  .k .kv{font-size:27px}
+}
+
+/* ── จอสัมผัส: ไม่ค้าง hover ── */
+@media (hover:none){
+  .k:hover,.stc:hover,.eta:hover{transform:none}
+}
+
+/* ── เคารพการตั้งค่าลดแอนิเมชัน ── */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+   transition-duration:.001ms !important}
+}
+
+/* ── สั่งพิมพ์ / PDF ── */
+@media print{
+  #themeBtn,.tabs{display:none !important}
+  .k::before,.k::after{display:none}
+  .panel,.pnl,.k{break-inside:avoid;box-shadow:none !important}
+  body{background:#fff}
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   ชุดที่ 2 — โหมดสว่าง / มืด
+   สลับด้วยปุ่มลอยมุมขวาล่าง · จำค่าไว้ในเครื่อง · ตามระบบเป็นค่าเริ่มต้น
+   ══════════════════════════════════════════════════════════════════════ */
+#themeBtn{position:fixed;right:16px;bottom:16px;z-index:9998;width:46px;height:46px;border-radius:50%;
+ border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:19px;line-height:1;
+ background:linear-gradient(145deg,#0a1e3c,#1e3a5f);color:#fff;
+ box-shadow:0 6px 20px rgba(10,30,60,.36);transition:transform .2s,box-shadow .2s}
+#themeBtn:hover{transform:translateY(-3px) rotate(-12deg);box-shadow:0 10px 26px rgba(10,30,60,.45)}
+#themeBtn:active{transform:scale(.93)}
+@media (max-width:640px){#themeBtn{right:12px;bottom:12px;width:42px;height:42px;font-size:17px}}
+
+html[data-theme="dark"]{color-scheme:dark}
+html[data-theme="dark"] body{background:#0b1220;color:#dbe4f0}
+html[data-theme="dark"]{
+  --navy:#dbe4f0; --ink:#e8eef7; --muted:#93a3b8; --faint:#6b7c93;
+  --line:#243247; --bg:#131c2c; --card:#161f31; --gold:#e3c375;
+}
+html[data-theme="dark"] .panel,html[data-theme="dark"] .pnl,
+html[data-theme="dark"] .card{background:#161f31;border-color:#243247;color:#dbe4f0}
+html[data-theme="dark"] .ph{background:linear-gradient(180deg,#18233a,#141d2e);border-bottom-color:#243247}
+html[data-theme="dark"] .ph h3{color:#e8eef7}
+html[data-theme="dark"] .k{background:linear-gradient(150deg,rgba(26,36,56,.94),rgba(19,28,44,.86));
+ border-color:rgba(255,255,255,.09);box-shadow:0 4px 18px rgba(0,0,0,.4)}
+html[data-theme="dark"] .k .kt{color:#93a3b8}
+html[data-theme="dark"] .k .kd{color:#8fa0b6}
+html[data-theme="dark"] .k .ki{background:linear-gradient(145deg,#22304a,#1a2437)}
+html[data-theme="dark"] .stc{background:linear-gradient(168deg,#182236,#141d2e);border-color:#243247}
+html[data-theme="dark"] .stc-n{color:#e8eef7}
+html[data-theme="dark"] .stc-a,html[data-theme="dark"] .stc-f .k{color:#8fa0b6}
+html[data-theme="dark"] .stc-f{background:rgba(20,29,46,.7);border-top-color:#243247}
+html[data-theme="dark"] .eta{background:#182236;border-color:#243247}
+html[data-theme="dark"] .eta-g span{background:#131c2c}
+html[data-theme="dark"] .eta-h b,html[data-theme="dark"] .eta-a{color:#dbe4f0}
+html[data-theme="dark"] .ri,html[data-theme="dark"] .ldi{border-color:#243247}
+html[data-theme="dark"] table{color:#dbe4f0}
+html[data-theme="dark"] th{background:#1a2437 !important;color:#c8d5e6 !important;border-color:#243247 !important}
+html[data-theme="dark"] td{border-color:#1f2b3e !important}
+html[data-theme="dark"] tr:hover td{background:#1a2437 !important}
+html[data-theme="dark"] .tipbox,html[data-theme="dark"] .leaflet-tooltip.lft{
+ background:#161f31 !important;border-color:#2b3a52 !important;color:#dbe4f0}
+html[data-theme="dark"] .tgrid{background:#243247}
+html[data-theme="dark"] .tgrid div{background:linear-gradient(160deg,#1a2437,#161f31);border-color:#2b3a52}
+html[data-theme="dark"] .tgrid b{color:#e8eef7}
+html[data-theme="dark"] .tnote{background:#1a2437;border-color:#2b3a52;color:#8fa0b6}
+html[data-theme="dark"] .cbar .ctrack{background:#243247}
+html[data-theme="dark"] .abx{background:linear-gradient(160deg,#2a2313,#1a2437);border-color:#6b5518}
+html[data-theme="dark"] .abx.hot{background:linear-gradient(160deg,#2e1717,#1a2437);border-color:#7f2323}
+html[data-theme="dark"] .abx-n div{background:#161f31;border-color:#3a3520}
+html[data-theme="dark"] .abx-msg{background:#161f31;border-color:#3a3520;color:#d8c9a0}
+html[data-theme="dark"] .abx-h{background:#3a3018;color:#f0d99a}
+html[data-theme="dark"] .abx.hot .abx-h{background:#3d1d1d;color:#fca5a5}
+html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{
+ background:#1a2437;color:#dbe4f0;border-color:#2b3a52}
+html[data-theme="dark"] .leaflet-container{background:#0f1725}
+html[data-theme="dark"] .leaflet-tile{filter:brightness(.72) contrast(1.05) saturate(.85)}
+html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220;
+ border-color:rgba(0,0,0,.2)}
+
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -386,4 +526,184 @@ window.addEventListener('load',function(){
   }catch(e){}
 })();
 </script>
+
+<style id="SOS-CSS">
+/* ══════ ปุ่มลอย: แจ้งเหตุ · แชร์ · สลับโหมด ══════ */
+#fabWrap{position:fixed;right:16px;bottom:16px;z-index:9998;display:flex;flex-direction:column;gap:10px;align-items:center}
+#fabWrap button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+ cursor:pointer;font-size:19px;line-height:1;box-shadow:0 6px 20px rgba(10,30,60,.36);
+ transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
+#fabWrap button:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,30,60,.45)}
+#fabWrap button:active{transform:scale(.93)}
+#sosBtn{background:linear-gradient(145deg,#dc2626,#ef4444);color:#fff;
+ animation:sosPulse 2.6s ease-in-out infinite}
+@keyframes sosPulse{0%,100%{box-shadow:0 6px 20px rgba(220,38,38,.4)}
+ 50%{box-shadow:0 6px 26px rgba(220,38,38,.7),0 0 0 6px rgba(239,68,68,.16)}}
+#shareBtn{background:linear-gradient(145deg,#0f766e,#14b8a6);color:#fff}
+#themeBtn{background:linear-gradient(145deg,#0a1e3c,#1e3a5f);color:#fff}
+html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220}
+@media (max-width:640px){
+  #fabWrap{right:12px;bottom:12px;gap:8px}
+  #fabWrap button{width:44px;height:44px;font-size:18px}
+}
+@media print{#fabWrap{display:none !important}}
+
+/* ══════ แผ่นข้อมูลติดต่อ ══════ */
+#sosSheet{position:fixed;inset:0;z-index:9999;background:rgba(8,20,38,.55);
+ backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+ display:none;align-items:flex-end;justify-content:center;padding:0}
+#sosSheet.on{display:flex;animation:sosFade .2s ease}
+@keyframes sosFade{from{opacity:0}to{opacity:1}}
+#sosCard{width:100%;max-width:520px;background:#fff;border-radius:22px 22px 0 0;
+ max-height:88vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(10,30,60,.3);
+ animation:sosUp .32s cubic-bezier(.2,.8,.25,1);padding-bottom:env(safe-area-inset-bottom)}
+@keyframes sosUp{from{transform:translateY(100%)}to{transform:none}}
+@media (min-width:640px){
+  #sosSheet{align-items:center}
+  #sosCard{border-radius:22px;max-height:84vh}
+}
+#sosCard .sh{background:linear-gradient(135deg,#b91c1c,#dc2626);color:#fff;padding:16px 18px;
+ position:sticky;top:0;z-index:2}
+#sosCard .sh b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:17px;line-height:1.3}
+#sosCard .sh span{display:block;font-size:11.5px;opacity:.9;margin-top:3px}
+#sosCard .sh .x{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;
+ background:rgba(255,255,255,.2);border:0;color:#fff;font-size:17px;cursor:pointer}
+#sosCard .sb{padding:16px 18px 20px}
+.sosline{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:14px;
+ border:1px solid #e6edf5;background:#fff;margin-bottom:10px;text-decoration:none;color:inherit;
+ transition:transform .16s,box-shadow .16s}
+.sosline:active{transform:scale(.985)}
+.sosline:hover{box-shadow:0 6px 18px rgba(15,40,80,.12)}
+.sosline .ic{flex:0 0 42px;height:42px;border-radius:13px;display:flex;align-items:center;
+ justify-content:center;font-size:19px}
+.sosline .tx{flex:1;min-width:0}
+.sosline .tx em{display:block;font-style:normal;font-size:10.5px;color:#7c8ba1;line-height:1.3}
+.sosline .tx b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:15px;
+ line-height:1.35;color:#0f172a;margin-top:2px}
+.sosline .tx small{display:block;font-size:11px;color:#8798ad;line-height:1.5;margin-top:3px;font-weight:400}
+.sosline .go{flex:0 0 auto;color:#94a3b8;font-size:15px}
+.sosline.hot{border-color:#fca5a5;background:linear-gradient(150deg,#fef2f2,#fff)}
+.sosline.hot .ic{background:#fee2e2}
+.sosline.hot .tx b{color:#b91c1c;font-size:19px;letter-spacing:.5px}
+.sosline.tel .ic{background:#e0f2fe}
+.sosline.map .ic{background:#dcfce7}
+.sosline.web .ic{background:#ede9fe}
+.soshead{font-family:'Kanit',sans-serif;font-weight:700;font-size:11px;color:#8798ad;
+ letter-spacing:.6px;margin:16px 0 8px}
+.sosnote{font-size:11px;color:#8798ad;line-height:1.6;background:#f8fafc;border:1px solid #eef2f7;
+ border-radius:12px;padding:11px 13px;margin-top:6px}
+.sosshare{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.sosshare button{height:46px;border-radius:13px;border:1px solid #e6edf5;background:#fff;cursor:pointer;
+ font-family:'Kanit',sans-serif;font-weight:600;font-size:13px;color:#0f172a;
+ display:flex;align-items:center;justify-content:center;gap:7px}
+.sosshare button:active{transform:scale(.97)}
+.sosshare .line{background:#06c755;border-color:#06c755;color:#fff}
+/* โหมดมืด */
+html[data-theme="dark"] #sosCard{background:#161f31;color:#dbe4f0}
+html[data-theme="dark"] .sosline{background:#1a2437;border-color:#2b3a52}
+html[data-theme="dark"] .sosline .tx b{color:#e8eef7}
+html[data-theme="dark"] .sosline.hot{background:linear-gradient(150deg,#2e1717,#1a2437);border-color:#7f2323}
+html[data-theme="dark"] .sosline.hot .tx b{color:#fca5a5}
+html[data-theme="dark"] .sosnote{background:#131c2c;border-color:#243247;color:#8fa0b6}
+html[data-theme="dark"] .sosshare button{background:#1a2437;border-color:#2b3a52;color:#dbe4f0}
+html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
+</style>
+<script id="SOS-JS">
+/* ══════ ปุ่มลอย + แผ่นแจ้งเหตุ/ติดต่อ ══════ */
+(function(){
+  var ORG = {
+    name:'สำนักงานป้องกันและบรรเทาสาธารณภัยจังหวัดหนองบัวลำภู',
+    addr:'ชั้น 3 ศาลากลางจังหวัดหนองบัวลำภู ถนนหนองบัวลำภู-เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000',
+    tel:'042-316710', telFull:'042-316710 ถึง 5',
+    hotline:'1784',
+    web:'https://nbp.disaster.go.th/'
+  };
+  var TK='wnb_theme';
+  function themeGet(){ try{return localStorage.getItem(TK);}catch(e){return null;} }
+  function sysDark(){ try{return matchMedia('(prefers-color-scheme:dark)').matches;}catch(e){return false;} }
+  function themeApply(t){
+    document.documentElement.setAttribute('data-theme',t);
+    var b=document.getElementById('themeBtn');
+    if(b){ b.textContent = t==='dark'?'☀️':'🌙';
+           b.title = t==='dark'?'สลับเป็นโหมดสว่าง':'สลับเป็นโหมดมืด';
+           b.setAttribute('aria-label',b.title); }
+  }
+  themeApply(themeGet() || (sysDark()?'dark':'light'));
+
+  function sheetHTML(){
+    var mapQ = encodeURIComponent('ศาลากลางจังหวัดหนองบัวลำภู');
+    return '<div id="sosCard" onclick="event.stopPropagation()">'
+     + '<div class="sh"><b>🚨 แจ้งเหตุ · ติดต่อหน่วยงาน</b>'
+     + '<span>'+ORG.name+'</span>'
+     + '<button class="x" onclick="wnbSOS(false)" aria-label="ปิด">✕</button></div>'
+     + '<div class="sb">'
+     + '<div class="soshead">แจ้งเหตุด่วน</div>'
+     + '<a class="sosline hot" href="tel:'+ORG.hotline+'"><span class="ic">📞</span>'
+     + '<span class="tx"><em>สายด่วนแจ้งเหตุสาธารณภัย</em><b>'+ORG.hotline+'</b>'
+     + '<small>รับแจ้งตลอด 24 ชั่วโมง · กดเพื่อโทรทันที</small></span><span class="go">›</span></a>'
+     + '<div class="soshead">ติดต่อสำนักงาน</div>'
+     + '<a class="sosline tel" href="tel:'+ORG.tel.replace(/-/g,'')+'"><span class="ic">☎️</span>'
+     + '<span class="tx"><em>โทรศัพท์สำนักงาน</em><b>'+ORG.telFull+'</b>'
+     + '<small>เวลาราชการ จันทร์–ศุกร์ 08:30–16:30 น.</small></span><span class="go">›</span></a>'
+     + '<a class="sosline map" href="https://www.google.com/maps/search/?api=1&query='+mapQ+'" target="_blank" rel="noopener">'
+     + '<span class="ic">📍</span><span class="tx"><em>ที่ตั้งสำนักงาน</em><b>ศาลากลางจังหวัด ชั้น 3</b>'
+     + '<small>'+ORG.addr+'</small></span><span class="go">›</span></a>'
+     + '<a class="sosline web" href="'+ORG.web+'" target="_blank" rel="noopener"><span class="ic">🌐</span>'
+     + '<span class="tx"><em>เว็บไซต์ทางการ</em><b>ปภ.จังหวัดหนองบัวลำภู</b>'
+     + '<small>nbp.disaster.go.th</small></span><span class="go">›</span></a>'
+     + '<div class="soshead">แชร์หน้านี้</div>'
+     + '<div class="sosshare">'
+     + '<button class="line" onclick="wnbShare(\'line\')">💬 ส่งทาง LINE</button>'
+     + '<button onclick="wnbShare(\'copy\')">🔗 คัดลอกลิงก์</button></div>'
+     + '<div class="sosnote">ℹ️ ข้อมูลระดับน้ำในระบบนี้รายงานโดยเจ้าหน้าที่ประจำจุดตรวจวัด '
+     + 'หากพบสถานการณ์ผิดปกติในพื้นที่ กรุณาแจ้งสายด่วน <b>'+ORG.hotline+'</b> ทันที '
+     + 'ไม่ต้องรอให้ระบบขึ้นสถานะวิกฤติ</div>'
+     + '</div></div>';
+  }
+
+  window.wnbSOS=function(open){
+    var el=document.getElementById('sosSheet');
+    if(!el) return;
+    if(open){ el.innerHTML=sheetHTML(); el.classList.add('on'); document.body.style.overflow='hidden'; }
+    else { el.classList.remove('on'); el.innerHTML=''; document.body.style.overflow=''; }
+  };
+  window.wnbShare=function(how){
+    var url=location.href, txt='ระบบติดตามสถานการณ์น้ำ จ.หนองบัวลำภู';
+    if(how==='line'){
+      window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(url)
+        +'&text='+encodeURIComponent(txt),'_blank','noopener');
+    } else {
+      var done=function(){ var b=event&&event.target; if(b){ var o=b.innerHTML; b.innerHTML='✅ คัดลอกแล้ว';
+        setTimeout(function(){ b.innerHTML=o; },1600); } };
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,done); }
+      else { var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t);
+             t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); done(); }
+    }
+  };
+
+  function boot(){
+    if(document.getElementById('fabWrap')) return;
+    var wrap=document.createElement('div'); wrap.id='fabWrap';
+    wrap.innerHTML='<button id="sosBtn" type="button" title="แจ้งเหตุ · ติดต่อหน่วยงาน" aria-label="แจ้งเหตุ">🚨</button>'
+      +'<button id="shareBtn" type="button" title="แชร์หน้านี้" aria-label="แชร์">🔗</button>'
+      +'<button id="themeBtn" type="button">🌙</button>';
+    document.body.appendChild(wrap);
+    var sheet=document.createElement('div'); sheet.id='sosSheet';
+    sheet.onclick=function(e){ if(e.target===sheet) wnbSOS(false); };
+    document.body.appendChild(sheet);
+    document.getElementById('sosBtn').onclick=function(){ wnbSOS(true); };
+    document.getElementById('shareBtn').onclick=function(){ wnbShare('copy'); };
+    document.getElementById('themeBtn').onclick=function(){
+      var t=(document.documentElement.getAttribute('data-theme')==='dark')?'light':'dark';
+      try{ localStorage.setItem(TK,t); }catch(e){}
+      themeApply(t);
+      try{ if(window.map) setTimeout(function(){ map.invalidateSize(); },260); }catch(e){}
+    };
+    themeApply(document.documentElement.getAttribute('data-theme')||'light');
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') wnbSOS(false); });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
+})();
+</script>
+
 </body></html>
