@@ -539,30 +539,55 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
 
 </style>
 
+
 <style id="THAI-FIX">
 /* ══════════════════════════════════════════════════════════════════════
-   แก้ "น้ำ" แสดงเป็น "นำ" — วรรณยุกต์/สระบนหายไป
-   สาเหตุ: letter-spacing ติดลบไปเบียดจนวรรณยุกต์ซ้อนหาย
-   วิธีแก้: ยกเลิก letter-spacing กับข้อความไทยทั้งหมด
-           คงไว้เฉพาะตัวเลขล้วน (ไม่มีวรรณยุกต์ให้เสีย)
+   แก้ "น้ำ" แสดงเป็น "นำ" บน iPad/แท็บเล็ต  ★ ต้นตอจริง ★
+   ─────────────────────────────────────────────────────────────────────
+   ds.css บรรทัด 21 ใช้เทคนิคตัวอักษรไล่สี:
+       .brand .ttl{ line-height:1.1;
+                    -webkit-background-clip:text;
+                    -webkit-text-fill-color:transparent; }
+   background-clip:text จะตัดสีตามรูปทรงตัวอักษร "ภายในกล่องบรรทัด"
+   พอ line-height แค่ 1.1 → ไม้โท/สระบน ของภาษาไทยล้นออกนอกกล่อง
+   → ถูกตัดทิ้ง เห็นเป็น "นำ" แทน "น้ำ"  (Safari/iOS ชัดที่สุด)
+   วิธีแก้: เลิกใช้ไล่สีกับข้อความไทย ใช้สีทึบ + เพิ่มความสูงบรรทัด
    ══════════════════════════════════════════════════════════════════════ */
-body,body *{letter-spacing:normal !important;font-feature-settings:"kern" 1,"liga" 1}
-/* ตัวเลขล้วน คงการบีบตัวอักษรไว้ได้ */
-.k .kv,.flagpct,.stc-lv b,.eta-h .eta-lv,.hero .lv b,.abx-n b{letter-spacing:-.5px !important}
-/* กันวรรณยุกต์ถูกตัดบนด้วยความสูงบรรทัดที่แน่นเกิน */
-h1,h2,h3,h4,.brand,.brand *,.menu *,.nav *,.side *,
-.ph h3,.k .kt,.stc-n,.eta-h b,.bigflag,.tth2 .nm{line-height:1.45 !important}
+.brand .ttl{
+  background:none !important;
+  -webkit-background-clip:border-box !important;
+  background-clip:border-box !important;
+  -webkit-text-fill-color:#ffffff !important;
+  color:#ffffff !important;
+  line-height:1.5 !important;
+  padding-top:.06em;
+}
+/* เมนูข้าง — เผื่อที่ให้วรรณยุกต์ ไม่ให้ถูกตัดขอบบน */
+.menu a,.menu a *,.brand,.brand *,.side,.side *{
+  line-height:1.5 !important;
+  letter-spacing:normal !important;
+}
+.brand .kick,.brand .en{letter-spacing:1.4px !important}   /* บรรทัดอังกฤษล้วน คงเดิมได้ */
+
+/* ══ กันเคสเดียวกันทั่วทั้งระบบ ══
+   ที่ไหนใช้ตัวอักษรไล่สีแล้วมีข้อความไทย ให้กลับเป็นสีทึบ            */
+.ph h3,.stc-n,.eta-h b,.bigflag,.tth2 .nm,.hero .lv em,h1,h2,h3,h4{
+  -webkit-text-fill-color:currentColor !important;
+  line-height:1.45 !important;
+}
+/* ตัวเลขล้วน ยังใช้ไล่สีได้ ไม่มีวรรณยุกต์ให้เสีย */
+.k .kv{line-height:1.25 !important;padding-top:.04em}
+body,body *{letter-spacing:normal !important}
+.k .kv,.flagpct,.stc-lv b,.eta-h .eta-lv,.hero .lv b{letter-spacing:-.4px !important}
 
 /* ══════════════════════════════════════════════════════════════════════
-   แก้การ์ดถูกตัดขาดบนแท็บเล็ต — ปล่อยให้แผงยืดตามเนื้อหาแทนบังคับความสูง
+   แก้การ์ดถูกตัดขาดบนแท็บเล็ต — ปล่อยแผงยืดตามเนื้อหา
    ══════════════════════════════════════════════════════════════════════ */
 @media (max-width:1024px){
   .pnl .pb,.panel .pb{position:static !important;height:auto !important;min-height:0 !important;
    overflow:visible !important}
   .pb .stcards,.pb .ldl,.pb .prof{position:static !important;inset:auto !important;
    max-height:none !important;overflow:visible !important}
-  .stcards{grid-auto-rows:auto}
-  /* รายการด้านขวาให้เลื่อนในตัวเองได้ ไม่ยาวเกินจอ */
   #rlist{max-height:420px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 }
 </style>
