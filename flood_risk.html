@@ -250,45 +250,66 @@ html[data-theme="dark"] .xnote{background:#1a2437;border-color:#7f2323;color:#fc
  font-weight:600;font-size:10px;color:#0f172a;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 html[data-theme="dark"] .tamlbl{color:#e8eef7;text-shadow:0 0 3px #0b1220,0 0 3px #0b1220}
 
+
+
 /* ══════════════════════════════════════════════════════════════════════
-   จัดสัดส่วนหน้านี้ให้พอดี — แก้ต้นเหตุจริง
-   ปัญหา: .main-col เป็น height:100vh + overflow:hidden
-          ส่วน .content เป็น overflow:visible
-          → เนื้อหาที่ยาวเกินจอถูก "ตัดทิ้ง" เลื่อนดูไม่ได้
-   แก้:   ให้ .content เลื่อนในตัวเอง + คุมความสูงแต่ละ visual ให้พอดี
+   โครงเลย์เอาต์ — ใช้กริด 3 แถวแบบเดียวกับหน้าอื่นในระบบ
+     แถว 1  auto            → การ์ด KPI
+     แถว 2  auto            → แถบเฝ้าระวัง (ซ่อนเองถ้าไม่มีเหตุ)
+     แถว 3  minmax(0,1fr)   → แผนที่ + แผงขวา  ยืดเต็มพื้นที่ที่เหลือ
+   ทุกอย่างอยู่ในจอเดียว ไม่ล้น ไม่ตัด เลื่อนเฉพาะในกล่องที่จำเป็น
    ══════════════════════════════════════════════════════════════════════ */
 .main-col>.content{
-  display:block !important;
+  display:grid !important;
+  grid-template-rows:auto auto minmax(0,1fr) !important;
+  gap:13px !important;
   height:calc(100vh - 54px) !important;
-  overflow-y:auto !important; overflow-x:hidden !important;
-  padding:13px 15px 24px !important;
-  box-sizing:border-box; scroll-behavior:smooth;
+  overflow:hidden !important;
+  padding:13px 15px !important;
+  box-sizing:border-box;
 }
-.main-col>.content::-webkit-scrollbar{width:9px}
-.main-col>.content::-webkit-scrollbar-thumb{background:#c7d5e6;border-radius:99px}
+.fr-kpis,#xbox{margin:0 !important}
+#xbox:empty{display:none}
 
-/* ── ระยะห่างระหว่างบล็อกให้สม่ำเสมอ ── */
-.fr-kpis{margin:0 0 13px}
-#xbox{margin:0 0 13px}
-.fr-grid{gap:13px;margin:0}
-.fr-grid>div:last-child>.panel+.panel{margin-top:13px}
+/* แถวที่ 3 — สองคอลัมน์สูงเท่ากัน */
+.fr-grid{height:100%;min-height:0;margin:0 !important;gap:13px}
+.fr-grid>*{min-height:0;min-width:0}
 
-/* ── ความสูงแต่ละ visual ให้พอดีจอ ── */
-#frmap{height:min(50vh,500px) !important;min-height:300px !important;max-height:none !important}
-#tlist{max-height:min(30vh,290px);overflow-y:auto}
-.donut svg{width:100px;height:100px;flex:0 0 100px}
-.donut{padding:12px 13px}
+/* คอลัมน์ซ้าย: แผนที่ยืดเต็มการ์ด */
+.fr-grid>.panel{display:flex;flex-direction:column;overflow:hidden;height:100%}
+.fr-grid>.panel>.ph,.fr-grid>.panel>.frbar,
+.fr-grid>.panel>.lgd,.fr-grid>.panel>.srcnote{flex:0 0 auto}
+.fr-grid>.panel>.mapwrap{flex:1 1 auto;min-height:180px;position:relative}
+#frmap{height:100% !important;min-height:180px !important;max-height:none !important}
 
-@media(max-width:1080px){
+/* คอลัมน์ขวา: แผงสัดส่วน + ตาราง สูงพอดี เลื่อนเฉพาะตาราง */
+.fr-grid>div:last-child{display:flex;flex-direction:column;gap:13px;height:100%;min-height:0}
+.fr-grid>div:last-child>.panel:first-child{flex:0 0 auto}
+.fr-grid>div:last-child>.panel:last-child{flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
+.fr-grid>div:last-child>.panel:last-child>.ph{flex:0 0 auto}
+#tlist{flex:1 1 auto;min-height:0;max-height:none !important;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.donut{padding:11px 13px}
+.donut svg{width:94px;height:94px;flex:0 0 94px}
+.srcnote{font-size:9.5px;padding:8px 13px}
+
+/* จอเล็ก/เตี้ย — กลับเป็นไหลลงตามปกติ เลื่อนได้ ไม่บีบจนอ่านไม่ออก */
+@media (max-width:1080px), (max-height:640px){
+  .main-col>.content{
+    display:block !important; height:calc(100vh - 54px) !important;
+    overflow-y:auto !important; padding:13px 14px 22px !important;
+  }
+  .fr-kpis{margin-bottom:13px !important}
+  #xbox{margin-bottom:13px !important}
+  .fr-grid,.fr-grid>*,.fr-grid>.panel,.fr-grid>div:last-child{height:auto}
+  .fr-grid>.panel>.mapwrap{height:400px;flex:0 0 400px}
   #frmap{height:400px !important}
-  #tlist{max-height:300px}
+  #tlist{max-height:300px !important}
+  .fr-grid>div:last-child>.panel+.panel{margin-top:13px}
 }
-@media(max-width:640px){
-  .main-col>.content{padding:11px 12px 22px !important}
-  #frmap{height:330px !important;min-height:0 !important}
+@media (max-width:640px){
+  .fr-grid>.panel>.mapwrap{height:330px;flex:0 0 330px}
+  #frmap{height:330px !important}
 }
-/* จอเตี้ยมาก — ย่อแผนที่ไม่ให้ดันทุกอย่างตกจอ */
-@media(max-height:700px){ #frmap{height:340px !important} #tlist{max-height:230px} }
 
 </style>
 <style id="UX-PACK">
@@ -760,7 +781,7 @@ async function boot(){
 
   renderKPI(); renderDonut(); renderTable();
   const fix=()=>{ try{ map.invalidateSize(); }catch(e){} };
-  setTimeout(fix,120); setTimeout(fix,600);
+  setTimeout(fix,120); setTimeout(fix,400); setTimeout(fix,900); setTimeout(fix,1600);
   window.addEventListener('resize',fix);
 
   /* ชั้นขอบเขตตำบล — โหลดแยก ถ้าไฟล์ใดพลาดอีกไฟล์ยังทำงานได้ */
