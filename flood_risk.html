@@ -195,6 +195,25 @@ html,body,.app,.main-col,.content,.panel{max-width:100%;overflow-x:hidden}
 .lgd{flex-wrap:wrap;row-gap:6px}
 .srcnote{word-break:break-word}
 
+
+/* ═══ กล่องเฝ้าระวังพิเศษไม่ให้โดนตัด/โดนปุ่มลอยทับ ═══ */
+.content{padding-bottom:92px !important}          /* เว้นที่ให้พ้นปุ่มลอยมุมขวาล่าง */
+#xbox{max-height:none;overflow:visible}
+.xalert{margin-bottom:0}
+.xalert .xb{padding-right:64px}                    /* กันป้ายสถานะโดนปุ่มลอยบัง */
+.xrow{flex-wrap:wrap;row-gap:4px}
+.xrow>span:not(.fg){min-width:0;overflow-wrap:anywhere}
+.xrow .fg{margin-left:auto}
+.xalert .xb>div:last-child{padding-right:0}
+@media(max-width:640px){
+  .content{padding-bottom:96px !important}
+  .xalert .xb{padding-right:56px}
+  .xrow{font-size:11.5px}
+}
+/* ปุ่มลอยยกขึ้นเล็กน้อย ไม่ทับเนื้อหาบรรทัดสุดท้าย */
+#fabWrap{bottom:20px}
+@media(max-width:640px){#fabWrap{bottom:14px}}
+
 </style>
 <style id="UX-PACK">
 /* ══════════════════════════════════════════════════════════════════════
