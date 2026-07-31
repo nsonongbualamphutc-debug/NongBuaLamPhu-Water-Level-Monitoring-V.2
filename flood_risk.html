@@ -248,6 +248,10 @@ html[data-theme="dark"] .xnote{background:#1a2437;border-color:#7f2323;color:#fc
 .xrow{min-width:0}
 #kpis .fk .v{font-size:clamp(22px,2.4vw,33px)}
 @media(max-width:640px){.topbar .chip{display:none}}
+
+.tamlbl{background:transparent;border:0;box-shadow:none;font-family:'Kanit',sans-serif;
+ font-weight:600;font-size:10px;color:#0f172a;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+html[data-theme="dark"] .tamlbl{color:#e8eef7;text-shadow:0 0 3px #0b1220,0 0 3px #0b1220}
 </style>
 <style id="UX-PACK">
 /* ══════════════════════════════════════════════════════════════════════
@@ -431,6 +435,7 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
             <button class="frchip" onclick="setCls(1)"><i style="background:#dc2626"></i>ท่วมมาก</button>
             <button class="frchip" onclick="setCls(2)"><i style="background:#f59e0b"></i>ปานกลาง</button>
             <button class="frchip" onclick="setCls(3)"><i style="background:#38bdf8"></i>ครั้งคราว</button>
+            <button class="frchip on" id="cTam" onclick="toggleTam()">🗺️ ขอบเขตตำบล</button>
             <button class="frchip" id="cSta" onclick="toggleSta()">📍 ซ้อนสถานีวัดน้ำ</button>
           </div>
           <div class="mapwrap">
@@ -445,6 +450,7 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
             <span><i style="background:#dc2626"></i>ท่วมซ้ำซากมาก · 7–10 ครั้ง/10 ปี</span>
             <span><i style="background:#f59e0b"></i>ปานกลาง · 4–6 ครั้ง/10 ปี</span>
             <span><i style="background:#38bdf8"></i>เป็นครั้งคราว · ไม่เกิน 3 ครั้ง/10 ปี</span>
+            <span style="opacity:.75"><i style="background:#7dd3fc"></i>เฉดฟ้า = เนื้อที่เสี่ยงรายตำบล (เข้ม = มาก)</span>
           </div>
           <div class="srcnote">แหล่งข้อมูล: ชั้นข้อมูลพื้นที่น้ำท่วมซ้ำซาก จ.หนองบัวลำภู (Shapefile · WGS 1984 UTM Zone 47N)
             แปลงพิกัดเป็น WGS84 เพื่อแสดงบนเว็บ · เนื้อที่คำนวณจากขอบเขตแปลงจริง</div>
@@ -612,12 +618,49 @@ function setCls(c){
   (c===''?document.getElementById('cAll'):event.target.closest('.frchip')).classList.add('on');
   drawLayer();
 }
-function applyFilter(){ FAMP=document.getElementById('fAmp').value; renderKPI(); renderTable(); drawLayer(); checkStations(); }
+function applyFilter(){ FAMP=document.getElementById('fAmp').value; renderKPI(); renderTable(); drawTam(); drawLayer(); checkStations(); }
 function zoomTambon(t){
   const fs=GJ.features.filter(f=>f.properties.tambon.indexOf(t)>=0);
   if(!fs.length) return;
   const g=L.geoJSON({type:'FeatureCollection',features:fs});
   map.fitBounds(g.getBounds().pad(.25));
+}
+let TGJ=null, tamLayer, showTam=true;
+function riskOf(amp,tam){
+  const a=String(amp).replace('อ.',''), t=String(tam).replace('ต.','');
+  const r=TAMB.find(x=>x.amphoe.replace('อ.','')===a && x.tambon.replace('ต.','')===t);
+  return r? r.rai : 0;
+}
+function tamColor(v){
+  if(v<=0)   return {f:'#f1f5f9',o:.35};
+  if(v<50)   return {f:'#bae6fd',o:.6};
+  if(v<200)  return {f:'#7dd3fc',o:.65};
+  if(v<500)  return {f:'#38bdf8',o:.7};
+  return {f:'#0284c7',o:.78};
+}
+function toggleTam(){
+  showTam=!showTam;
+  document.getElementById('cTam').classList.toggle('on',showTam);
+  drawTam();
+}
+function drawTam(){
+  if(tamLayer){ tamLayer.remove(); tamLayer=null; }
+  if(!showTam||!TGJ) return;
+  const feats=TGJ.features.filter(f=>!FAMP||('อ.'+f.properties.amp)===FAMP);
+  tamLayer=L.geoJSON({type:'FeatureCollection',features:feats},{
+    style:f=>{ const v=riskOf(f.properties.amp,f.properties.tam), c=tamColor(v);
+      return {color:'#64748b',weight:.8,opacity:.55,fillColor:c.f,fillOpacity:c.o}; },
+    onEachFeature:(f,l)=>{
+      const p=f.properties, v=riskOf(p.amp,p.tam);
+      l.bindPopup(`<div class="frpop"><b>ต.${p.tam}</b><br>
+        <span style="font-size:11px;color:#64748b">อ.${p.amp} · พื้นที่ ${nf(p.km2,1)} ตร.กม.</span>
+        <div style="margin-top:6px;font-size:12px">${v>0
+          ? '<b style="color:#0369a1">พื้นที่เสี่ยง '+nf(v,0)+' ไร่</b>'
+          : '<span style="color:#16a34a">ไม่พบพื้นที่เสี่ยงในชุดข้อมูล</span>'}</div></div>`);
+      l.on('mouseover',()=>l.setStyle({weight:2.2,opacity:1}));
+      l.on('mouseout',()=>l.setStyle({weight:.8,opacity:.55}));
+    }}).addTo(map);
+  if(layer) layer.bringToFront();
 }
 function toggleSta(){
   showSta=!showSta;
@@ -681,6 +724,10 @@ async function boot(){
   const fix=()=>{ try{ map.invalidateSize(); }catch(e){} };
   setTimeout(fix,120); setTimeout(fix,600);
   window.addEventListener('resize',fix);
+
+  /* ชั้นขอบเขตตำบล — โหลดแยก ถ้าไฟล์ใดพลาดอีกไฟล์ยังทำงานได้ */
+  try{ TGJ=await (await fetch('tambon_nbl.geojson')).json(); drawTam(); }
+  catch(e){ console.warn('tambon',e); }
 
   try{
     const r=await fetch('flood_risk_nbl.geojson');
