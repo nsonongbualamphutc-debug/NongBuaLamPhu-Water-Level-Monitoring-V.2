@@ -1,0 +1,662 @@
+<!DOCTYPE html><html lang="th"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1e3c">
+<title>ภาพรวมทุกลำน้ำ · สถานการณ์น้ำ จ.หนองบัวลำภู</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ds.css?v=50">
+<script src="config.js"></script>
+<style>
+.rv-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin-bottom:13px}
+.rk{position:relative;overflow:hidden;border-radius:18px;padding:15px 16px 14px;background:linear-gradient(150deg,#fff,#f7fbff);
+ border:1px solid var(--line);box-shadow:0 4px 16px rgba(15,40,80,.07);
+ opacity:0;transform:translateY(11px);animation:rkIn .5s cubic-bezier(.2,.8,.25,1) forwards}
+.rk:nth-child(2){animation-delay:.06s}.rk:nth-child(3){animation-delay:.12s}
+.rk:nth-child(4){animation-delay:.18s}.rk:nth-child(5){animation-delay:.24s}
+@keyframes rkIn{to{opacity:1;transform:none}}
+.rk::before{content:'';position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.rk .h{display:flex;align-items:center;gap:9px;margin-bottom:9px}
+.rk .ic{width:34px;height:34px;flex:0 0 34px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:16px;background:var(--bgc)}
+.rk .t{font-family:var(--disp);font-weight:600;font-size:11.5px;color:#5b6b82;line-height:1.45}
+.rk .v{font-family:var(--disp);font-weight:800;font-size:31px;line-height:1.25;color:var(--c1);font-variant-numeric:tabular-nums}
+.rk .v small{font-size:12px;font-weight:600;color:#7c8ba1;margin-left:4px}
+.rk .d{margin-top:6px;font-size:10.5px;color:#64748b;line-height:1.5}
+.rk.k1{--c1:#334155;--c2:#94a3b8;--bgc:#eef2f7}
+.rk.k2{--c1:#15803d;--c2:#4ade80;--bgc:#dcfce7}
+.rk.k3{--c1:#b45309;--c2:#fbbf24;--bgc:#fef3c7;background:linear-gradient(150deg,#fffbeb,#fff);border-color:#fcd34d}
+.rk.k4{--c1:#b91c1c;--c2:#fb7185;--bgc:#fee2e2;background:linear-gradient(150deg,#fef2f2,#fff);border-color:#fca5a5;
+ animation:rkIn .5s cubic-bezier(.2,.8,.25,1) forwards,rkAl 2.2s ease-in-out .7s infinite}
+@keyframes rkAl{0%,100%{box-shadow:0 4px 16px rgba(185,28,28,.18)}50%{box-shadow:0 7px 30px rgba(185,28,28,.45)}}
+.rk.k5{--c1:#0369a1;--c2:#22d3ee;--bgc:#e0f2fe}
+
+.rvbar{display:flex;flex-wrap:wrap;gap:7px;align-items:center;padding:10px 13px;border-bottom:1px solid var(--line);background:#fbfdff}
+.rvchip{height:34px;padding:0 13px;border-radius:99px;border:1px solid var(--line);background:#fff;cursor:pointer;
+ font-family:var(--disp);font-weight:600;font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.rvchip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.rvchip .n{font-size:10px;background:var(--bg);border-radius:99px;padding:1px 6px;font-weight:700}
+.rvchip.on .n{background:rgba(255,255,255,.2)}
+
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;padding:12px 13px;
+ align-content:start;overflow-y:auto}
+.sc{border:1px solid var(--line);border-left-width:4px;border-radius:14px;background:#fff;padding:11px 12px;cursor:pointer;
+ transition:transform .18s cubic-bezier(.2,.8,.3,1),box-shadow .18s;min-width:0}
+.sc:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(15,40,80,.14)}
+.sc.n0{border-left-color:#86efac}
+.sc.n1{border-left-color:#fbbf24;background:linear-gradient(150deg,#fffbeb,#fff 62%)}
+.sc.n2{border-left-color:#ef4444;background:linear-gradient(150deg,#fef2f2,#fff 62%)}
+.sc .h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sc .no{flex:0 0 21px;height:21px;border-radius:7px;color:#fff;font-family:var(--disp);font-size:10px;font-weight:700;
+ display:flex;align-items:center;justify-content:center}
+.sc .nm{flex:1;min-width:0}
+.sc .nm b{display:block;font-family:var(--disp);font-weight:600;font-size:13px;color:var(--navy);
+ white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sc .nm span{display:block;font-size:10px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.sc .fg{flex:0 0 auto;font-family:var(--disp);font-size:9.5px;font-weight:700;padding:3px 9px;border-radius:99px;color:#fff;white-space:nowrap}
+.sc .mid{display:flex;align-items:baseline;gap:6px;margin-bottom:7px}
+.sc .lv{font-family:var(--disp);font-weight:800;font-size:22px;line-height:1;font-variant-numeric:tabular-nums}
+.sc .un{font-size:9.5px;color:var(--muted)}
+.sc .gp{margin-left:auto;font-family:var(--disp);font-weight:700;font-size:11px;padding:2px 8px;border-radius:99px;background:var(--bg)}
+.sc .bar{position:relative;height:9px;border-radius:99px;background:#eef2f7;overflow:hidden;margin-bottom:6px}
+.sc .bar i{position:absolute;left:0;top:0;bottom:0;border-radius:99px;display:block}
+.sc .bar .mk{position:absolute;top:-2px;bottom:-2px;width:2.5px;margin-left:-1.2px;border-radius:2px;box-shadow:0 0 0 1.2px #fff}
+.sc .ft{display:flex;gap:5px;font-size:9.5px;color:var(--muted);flex-wrap:wrap}
+.sc .ft span{background:var(--bg);border-radius:99px;padding:2px 8px;white-space:nowrap}
+html[data-theme="dark"] .sc{background:#182236;border-color:#243247}
+html[data-theme="dark"] .sc .nm b{color:#e8eef7}
+html[data-theme="dark"] .sc .gp,html[data-theme="dark"] .sc .ft span{background:#131c2c}
+html[data-theme="dark"] .rk{background:linear-gradient(150deg,#1a2437,#141d2e);border-color:#243247}
+html[data-theme="dark"] .rvbar{background:#18233a;border-bottom-color:#243247}
+html[data-theme="dark"] .rvchip{background:#1a2437;border-color:#2b3a52;color:#c8d5e6}
+
+.rvsum{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:12px 13px}
+.rvs{border:1px solid var(--line);border-radius:13px;padding:11px 12px;background:#fff;cursor:pointer;transition:.18s;min-width:0}
+.rvs:hover{box-shadow:0 6px 18px rgba(15,40,80,.12)}
+.rvs b{display:block;font-family:var(--disp);font-weight:700;font-size:13px;color:var(--navy);margin-bottom:7px}
+.rvs .fl{display:flex;gap:5px;margin-bottom:7px}
+.rvs .fl i{flex:1;height:7px;border-radius:99px}
+.rvs .st{display:flex;gap:9px;font-size:10.5px;color:var(--muted)}
+.rvs .st u{text-decoration:none;font-family:var(--disp);font-weight:700;font-size:12px}
+html[data-theme="dark"] .rvs{background:#1a2437;border-color:#2b3a52}
+html[data-theme="dark"] .rvs b{color:#e8eef7}
+
+.main-col>.content{display:grid !important;grid-template-rows:auto auto minmax(0,1fr) !important;
+ gap:13px !important;height:calc(100vh - 54px) !important;overflow:hidden !important;
+ padding:13px 15px !important;box-sizing:border-box}
+.rv-kpis{margin:0 !important}
+.rvpanels{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,320px);gap:13px;min-height:0;height:100%}
+.rvpanels>*{min-height:0;min-width:0}
+.rvpanels>.panel{display:flex;flex-direction:column;overflow:hidden}
+.rvpanels>.panel>.ph,.rvpanels>.panel>.rvbar{flex:0 0 auto}
+.rvpanels>.panel>.slist{flex:1 1 auto;min-height:0}
+.rvpanels>div:last-child{display:flex;flex-direction:column;gap:13px;overflow-y:auto}
+@media(max-width:1080px),(max-height:640px){
+  .main-col>.content{display:block !important;height:calc(100vh - 54px) !important;
+   overflow-y:auto !important;padding:13px 14px 22px !important}
+  .rv-kpis{margin-bottom:13px !important}
+  .rvpanels{grid-template-columns:1fr;height:auto}
+  .rvpanels>.panel{height:auto}
+  .slist{max-height:none}
+  .rvpanels>div:last-child{overflow:visible}
+}
+</style>
+<style id="UX-PACK">
+/* ══════════════════════════════════════════════════════════════════════
+   ชุดที่ 1 — รองรับมือถือ/แท็บเล็ต (ฉบับปลอดภัย)
+   บทเรียนจากรอบก่อน: ห้ามใช้ display/grid-template กับคลาสที่ไม่รู้จัก
+   รอบนี้แตะเฉพาะคลาสที่มีจริงในหน้านี้เท่านั้น และไม่บังคับ display
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── แท็บเล็ตแนวนอน (≤1180px) ── */
+@media (max-width:1180px){
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(172px,1fr))}
+  .ldl{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .k .kv{font-size:31px}
+}
+
+/* ── แท็บเล็ตแนวตั้ง (≤900px) ── */
+@media (max-width:900px){
+  .k{padding:14px 14px 13px}
+  .k .kv{font-size:28px;letter-spacing:-.9px}
+  .k .ki{width:34px;height:34px;flex:0 0 34px;font-size:16px}
+  .k .kt{font-size:11.5px}
+  .ph h3{font-size:13.5px}
+  .pnl .pb{min-height:300px}
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
+  .ldl{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+}
+
+/* ── มือถือ (≤640px) ── */
+@media (max-width:640px){
+  .k{padding:12px 13px 11px;border-radius:16px}
+  .k .kv{font-size:26px}
+  .k .kh{gap:8px;margin-bottom:8px}
+  .k .kd{font-size:10.5px;line-height:1.5}
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;padding:9px 10px}
+  .stc-lv b{font-size:19px}
+  .stc-n{font-size:12px}
+  .ldl{grid-template-columns:1fr}
+  .tgrid{grid-template-columns:1fr}
+  .hero .lv b{font-size:21px}
+  .flagpct{font-size:18px}
+  .abx-n b{font-size:14px}
+  .tipbox,.leaflet-tooltip.lft{max-width:calc(100vw - 22px)}
+  /* ตัวหนังสือขั้นต่ำ อ่านออกแน่นอน */
+  .kd,.stc-a,.eta-a,.tnote,.abr-lb{font-size:10.5px;line-height:1.5}
+  .eta-g em,.tgrid em,.abx-n em,.cleg3{font-size:9.5px}
+  /* ปุ่มกดด้วยนิ้ว */
+  .tab,.chip,.pill{min-height:40px}
+  /* แถบแท็บเลื่อนนิ้วได้ */
+  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  /* ลดแอนิเมชันหนัก */
+  .k::after,.k::before{animation:none}
+}
+
+/* ── จอแคบมาก (≤380px) ── */
+@media (max-width:380px){
+  .stcards{grid-template-columns:1fr}
+  .k .kv{font-size:27px}
+}
+
+/* ── จอสัมผัส: ไม่ค้าง hover ── */
+@media (hover:none){
+  .k:hover,.stc:hover,.eta:hover{transform:none}
+}
+
+/* ── เคารพการตั้งค่าลดแอนิเมชัน ── */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+   transition-duration:.001ms !important}
+}
+
+/* ── สั่งพิมพ์ / PDF ── */
+@media print{
+  #themeBtn,.tabs{display:none !important}
+  .k::before,.k::after{display:none}
+  .panel,.pnl,.k{break-inside:avoid;box-shadow:none !important}
+  body{background:#fff}
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   ชุดที่ 2 — โหมดสว่าง / มืด
+   สลับด้วยปุ่มลอยมุมขวาล่าง · จำค่าไว้ในเครื่อง · ตามระบบเป็นค่าเริ่มต้น
+   ══════════════════════════════════════════════════════════════════════ */
+#themeBtn{position:fixed;right:16px;bottom:16px;z-index:9998;width:46px;height:46px;border-radius:50%;
+ border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:19px;line-height:1;
+ background:linear-gradient(145deg,#0a1e3c,#1e3a5f);color:#fff;
+ box-shadow:0 6px 20px rgba(10,30,60,.36);transition:transform .2s,box-shadow .2s}
+#themeBtn:hover{transform:translateY(-3px) rotate(-12deg);box-shadow:0 10px 26px rgba(10,30,60,.45)}
+#themeBtn:active{transform:scale(.93)}
+@media (max-width:640px){#themeBtn{right:12px;bottom:12px;width:42px;height:42px;font-size:17px}}
+
+html[data-theme="dark"]{color-scheme:dark}
+html[data-theme="dark"] body{background:#0b1220;color:#dbe4f0}
+html[data-theme="dark"]{
+  --navy:#dbe4f0; --ink:#e8eef7; --muted:#93a3b8; --faint:#6b7c93;
+  --line:#243247; --bg:#131c2c; --card:#161f31; --gold:#e3c375;
+}
+html[data-theme="dark"] .panel,html[data-theme="dark"] .pnl,
+html[data-theme="dark"] .card{background:#161f31;border-color:#243247;color:#dbe4f0}
+html[data-theme="dark"] .ph{background:linear-gradient(180deg,#18233a,#141d2e);border-bottom-color:#243247}
+html[data-theme="dark"] .ph h3{color:#e8eef7}
+html[data-theme="dark"] .k{background:linear-gradient(150deg,rgba(26,36,56,.94),rgba(19,28,44,.86));
+ border-color:rgba(255,255,255,.09);box-shadow:0 4px 18px rgba(0,0,0,.4)}
+html[data-theme="dark"] .k .kt{color:#93a3b8}
+html[data-theme="dark"] .k .kd{color:#8fa0b6}
+html[data-theme="dark"] .k .ki{background:linear-gradient(145deg,#22304a,#1a2437)}
+html[data-theme="dark"] .stc{background:linear-gradient(168deg,#182236,#141d2e);border-color:#243247}
+html[data-theme="dark"] .stc-n{color:#e8eef7}
+html[data-theme="dark"] .stc-a,html[data-theme="dark"] .stc-f .k{color:#8fa0b6}
+html[data-theme="dark"] .stc-f{background:rgba(20,29,46,.7);border-top-color:#243247}
+html[data-theme="dark"] .eta{background:#182236;border-color:#243247}
+html[data-theme="dark"] .eta-g span{background:#131c2c}
+html[data-theme="dark"] .eta-h b,html[data-theme="dark"] .eta-a{color:#dbe4f0}
+html[data-theme="dark"] .ri,html[data-theme="dark"] .ldi{border-color:#243247}
+html[data-theme="dark"] table{color:#dbe4f0}
+html[data-theme="dark"] th{background:#1a2437 !important;color:#c8d5e6 !important;border-color:#243247 !important}
+html[data-theme="dark"] td{border-color:#1f2b3e !important}
+html[data-theme="dark"] tr:hover td{background:#1a2437 !important}
+html[data-theme="dark"] .tipbox,html[data-theme="dark"] .leaflet-tooltip.lft{
+ background:#161f31 !important;border-color:#2b3a52 !important;color:#dbe4f0}
+html[data-theme="dark"] .tgrid{background:#243247}
+html[data-theme="dark"] .tgrid div{background:linear-gradient(160deg,#1a2437,#161f31);border-color:#2b3a52}
+html[data-theme="dark"] .tgrid b{color:#e8eef7}
+html[data-theme="dark"] .tnote{background:#1a2437;border-color:#2b3a52;color:#8fa0b6}
+html[data-theme="dark"] .cbar .ctrack{background:#243247}
+html[data-theme="dark"] .abx{background:linear-gradient(160deg,#2a2313,#1a2437);border-color:#6b5518}
+html[data-theme="dark"] .abx.hot{background:linear-gradient(160deg,#2e1717,#1a2437);border-color:#7f2323}
+html[data-theme="dark"] .abx-n div{background:#161f31;border-color:#3a3520}
+html[data-theme="dark"] .abx-msg{background:#161f31;border-color:#3a3520;color:#d8c9a0}
+html[data-theme="dark"] .abx-h{background:#3a3018;color:#f0d99a}
+html[data-theme="dark"] .abx.hot .abx-h{background:#3d1d1d;color:#fca5a5}
+html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{
+ background:#1a2437;color:#dbe4f0;border-color:#2b3a52}
+html[data-theme="dark"] .leaflet-container{background:#0f1725}
+html[data-theme="dark"] .leaflet-tile{filter:brightness(.72) contrast(1.05) saturate(.85)}
+html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220;
+ border-color:rgba(0,0,0,.2)}
+
+
+@media (max-width:1024px) and (min-width:641px){
+  .kpis{gap:11px}
+  .k .kv{font-size:30px}
+}
+
+</style>
+</head>
+<body>
+<div class="app" id="app">
+<div class="scrim" onclick="document.getElementById('app').classList.remove('navopen')"></div>
+<aside class="side">
+  <div class="brand"><a href="index.html" title="กลับหน้าปกนำเสนอ" style="display:contents"><img src="logo-nbp.png" alt="ตราจังหวัด"><div class="bt"><div class="kick">Water Command</div><div class="ttl">สถานการณ์น้ำจังหวัด</div><div class="en">NONG BUA LAM PHU</div></div></a></div>
+  <nav class="menu"><a href="dashboard.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span><span class="lbl"><b>ภาพรวมสถานการณ์</b><i>Executive Summary</i></span></a><a href="daily_briefing.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span><span class="lbl"><b>รายงานประจำวัน</b><i>Daily Briefing</i></span></a><a href="rivers.html" class="active" title="ภาพรวมทุกลำน้ำ"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/><circle cx="7" cy="7" r="1.6"/><circle cx="13" cy="12" r="1.6"/><circle cx="9" cy="17" r="1.6"/></svg></span><span class="lbl"><b>ภาพรวมทุกลำน้ำ</b><i>All Rivers</i></span></a><a href="paneang.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพะเนียง</b><i>Phaneang</i></span></a><a href="mong.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำโมง</b><i>Mong</i></span></a><a href="mo.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำมอ</b><i>Mo</i></span></a><a href="phuay.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพวย</b><i>Phuay</i></span></a><a href="rainfall.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11.6 2A3.5 3.5 0 0 0 6 18z"/><path d="M8 20l1 2M12 20l1 2M16 20l1 2"/></svg></span><span class="lbl"><b>ปริมาณฝน</b><i>Rainfall</i></span></a><a href="reservoir.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v6a8 8 0 0 1-16 0zM4 5c3 2 5 2 8 0s5-2 8 0"/></svg></span><span class="lbl"><b>อ่างเก็บน้ำ</b><i>Reservoir</i></span></a><a href="flood_risk.html" class="" title="พื้นที่เสี่ยงน้ำท่วม"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 8v8l8 6 8-6V8z"/><path d="M8 13h8M8 17h5"/></svg></span><span class="lbl"><b>พื้นที่เสี่ยงน้ำท่วม</b><i>Flood Risk Area</i></span></a><a href="input.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="lbl"><b>บันทึกข้อมูล</b><i>Data Input</i></span></a></nav>
+  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v49</span></div></div>
+</aside>
+  <div class="main-col">
+    <div class="topbar">
+      <button class="burger" onclick="var a=document.getElementById('app');window.innerWidth<=820?a.classList.toggle('navopen'):a.classList.toggle('collapsed')" aria-label="ย่อ/ขยายเมนู">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div class="tt">ภาพรวมทุกลำน้ำ<i id="subTt">20 สถานี · 4 ลำน้ำ</i></div>
+      <div style="margin-left:auto;display:flex;gap:9px;align-items:center">
+        <span class="chip" id="srcChip">● กำลังโหลด</span>
+        <button class="btn-dark" onclick="window.print()">🖨 PDF</button>
+      </div>
+    </div>
+    <div class="content">
+
+      <div class="rv-kpis" id="kpis"></div>
+
+      <div class="rvpanels">
+        <div class="panel">
+          <div class="ph"><div><h3><span class="hi">🌊</span>ทุกสถานี — เรียงตามความเร่งด่วน
+            <span class="sub" id="lsSub">—</span></h3></div></div>
+          <div class="rvbar" id="rvbar"></div>
+          <div class="slist" id="slist"></div>
+        </div>
+
+        <div>
+          <div class="panel">
+            <div class="ph"><div><h3><span class="hi">🏞️</span>สรุปรายลำน้ำ<span class="sub">กดเพื่อกรอง</span></h3></div></div>
+            <div class="rvsum" id="rvsum"></div>
+          </div>
+          <div class="panel">
+            <div class="ph"><div><h3><span class="hi">📊</span>สัดส่วนธงเตือน<span class="sub">ทั้งจังหวัด</span></h3></div></div>
+            <div style="padding:13px;display:flex;align-items:center;gap:14px">
+              <svg id="dn" viewBox="0 0 110 110" width="106" height="106"></svg>
+              <div id="dnlg" style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;font-size:12px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const RIV={"paneang":{"river":"ลำน้ำพะเนียง","flag":{"วังปลาป้อม":{"g":289.0,"y":289.5,"r":290.0,"x":false},"โคกกระทอ":{"g":265.0,"y":265.5,"r":266.0,"x":false},"วังสามหาบ":{"g":257.0,"y":257.5,"r":258.0,"x":false},"บ้านหนองด่าน":{"g":248.0,"y":248.5,"r":249.0,"x":false},"บ้านฝั่งแดง":{"g":236.0,"y":236.5,"r":237.0,"x":false},"ปตร.หนองหว้าใหญ่":{"g":214.0,"y":214.0,"r":214.5,"x":true},"วังหมื่น":{"g":209.0,"y":209.5,"r":210.0,"x":false},"ปตร.ปู่หลอด":{"g":202.9,"y":202.9,"r":203.4,"x":true},"บ้านข้องโป้":{"g":200.0,"y":200.5,"r":201.0,"x":false},"ปตร.หัวนา":{"g":191.2,"y":191.2,"r":192.2,"x":true}},"st":[{"id":"PN01","no":1,"name":"วังปลาป้อม","amphoe":"นาวัง","km":0,"lat":17.42065,"lon":101.99304},{"id":"PN02","no":2,"name":"โคกกระทอ","amphoe":"นาวัง","km":12.0,"lat":17.34314,"lon":102.07167},{"id":"PN03","no":3,"name":"วังสามหาบ","amphoe":"นาวัง","km":17.3,"lat":17.3099,"lon":102.10789},{"id":"PN04","no":4,"name":"บ้านหนองด่าน","amphoe":"นากลาง","km":24.3,"lat":17.27936,"lon":102.16552},{"id":"PN05","no":5,"name":"บ้านฝั่งแดง","amphoe":"นากลาง","km":31.0,"lat":17.2673,"lon":102.22728},{"id":"PN06","no":6,"name":"ปตร.หนองหว้าใหญ่","amphoe":"เมืองหนองบัวลำภู","km":50.5,"lat":17.17981,"lon":102.38617},{"id":"PN07","no":7,"name":"วังหมื่น","amphoe":"เมืองหนองบัวลำภู","km":55.4,"lat":17.18317,"lon":102.43244},{"id":"PN08","no":8,"name":"ปตร.ปู่หลอด","amphoe":"เมืองหนองบัวลำภู","km":63.4,"lat":17.11487,"lon":102.45435},{"id":"PN09","no":9,"name":"บ้านข้องโป้","amphoe":"เมืองหนองบัวลำภู","km":67.0,"lat":17.08217,"lon":102.45068},{"id":"PN10","no":10,"name":"ปตร.หัวนา","amphoe":"เมืองหนองบัวลำภู","km":76.5,"lat":17.00067,"lon":102.424}]},"mong":{"river":"ลำน้ำโมง","flag":{"คลองบุญทัน":{"g":230.0,"y":230.5,"r":231.0,"x":false},"บ้านโคก":{"g":217.0,"y":217.5,"r":218.0,"x":false},"บ้านนาตาแหลว":{"g":201.0,"y":201.5,"r":202.0,"x":false},"บ้านกุดผึ้ง":{"g":191.0,"y":191.5,"r":192.0,"x":false}},"st":[{"id":"MG01","no":1,"name":"คลองบุญทัน","amphoe":"สุวรรณคูหา","km":0,"lat":17.54512,"lon":102.16832},{"id":"MG02","no":2,"name":"บ้านโคก","amphoe":"สุวรรณคูหา","km":3.8,"lat":17.54952,"lon":102.20425},{"id":"MG03","no":3,"name":"บ้านนาตาแหลว","amphoe":"สุวรรณคูหา","km":11.7,"lat":17.57567,"lon":102.27326},{"id":"MG04","no":4,"name":"บ้านกุดผึ้ง","amphoe":"สุวรรณคูหา","km":16.5,"lat":17.56062,"lon":102.31572}]},"mo":{"river":"ลำน้ำมอ","flag":{"อ่างเก็บน้ำมอ":{"g":241.0,"y":241.5,"r":242.0,"x":false},"บ้านวังคูณ":{"g":210.0,"y":210.5,"r":211.0,"x":false},"บ้านโนนสูงเปลือย":{"g":201.0,"y":201.5,"r":202.0,"x":false}},"st":[{"id":"MO01","no":1,"name":"อ่างเก็บน้ำมอ","amphoe":"ศรีบุญเรือง","km":0,"lat":17.16608,"lon":102.18177},{"id":"MO02","no":2,"name":"บ้านวังคูณ","amphoe":"ศรีบุญเรือง","km":16.5,"lat":17.03214,"lon":102.2492},{"id":"MO03","no":3,"name":"บ้านโนนสูงเปลือย","amphoe":"ศรีบุญเรือง","km":23.9,"lat":16.96934,"lon":102.27002}]},"phuay":{"river":"ลำน้ำพวย","flag":{"บ้านวังโปร่ง":{"g":211.0,"y":211.5,"r":212.0,"x":false},"บ้านทุ่งโพธิ์":{"g":196.0,"y":196.5,"r":197.0,"x":false},"บ้านโคกล่าม":{"g":192.0,"y":192.5,"r":193.0,"x":false}},"st":[{"id":"PY01","no":1,"name":"บ้านวังโปร่ง","amphoe":"ศรีบุญเรือง","km":0,"lat":17.01415,"lon":102.19359},{"id":"PY02","no":2,"name":"บ้านทุ่งโพธิ์","amphoe":"ศรีบุญเรือง","km":5.4,"lat":16.97482,"lon":102.22344},{"id":"PY03","no":3,"name":"บ้านโคกล่าม","amphoe":"ศรีบุญเรือง","km":12.4,"lat":16.91317,"lon":102.23807}]}};
+const GAS="https://script.google.com/macros/s/AKfycbyNbwf9250krK8ObZwR83RYgg139pf72T7QMh1paVb2BI3OD5n1U4nIPEDCdIZGkU7F/exec";
+
+const SB={normal:{c:'#16a34a',l:'ปกติ',f:'🟢'},warn:{c:'#f59e0b',l:'แจ้งเตือน',f:'🟡'},crit:{c:'#dc2626',l:'วิกฤติ',f:'🔴'}};
+const nf=(v,d)=>(v==null||isNaN(v))?'—':Number(v).toFixed(d);
+const ZW=70, ZC=100, ZMAX=115, VSPAN=10;
+let ST=[], FRV='';
+
+/* ── รวมสถานีทุกลำน้ำเป็นชุดเดียว ── */
+function build(){
+  ST=[];
+  Object.keys(RIV).forEach(k=>{
+    const R=RIV[k];
+    R.st.forEach(s=>{
+      const f=R.flag[s.name];
+      if(!f) return;
+      ST.push({key:k, river:R.river, id:s.id, no:s.no, name:s.name, amphoe:s.amphoe,
+               km:s.km, g:f.g, y:f.y, r:f.r, x:!!f.x, cur:null});
+    });
+  });
+}
+function stOf(s){
+  if(s.cur==null||isNaN(s.cur)) return 'normal';
+  if(s.x ? (s.cur>s.r) : (s.cur>=s.r)) return 'crit';
+  if(s.cur>=s.y) return 'warn';
+  return 'normal';
+}
+function zpos(s,v){
+  const band=Math.max(.05,s.r-s.y);
+  if(v>s.r) return Math.min(ZMAX, ZC+(v-s.r)/band*(ZMAX-ZC));
+  if(v>=s.y) return ZW+(v-s.y)/band*(ZC-ZW);
+  const fl=s.r-VSPAN;
+  if(v<=fl) return 0;
+  return (v-fl)/Math.max(.05,(s.y-fl))*ZW;
+}
+const zx=z=>Math.max(0,Math.min(100,z/ZMAX*100));
+const gapOf=s=>s.cur==null?null:(s.r-s.cur);
+function urg(s){
+  const k=stOf(s);
+  if(s.cur==null) return 9999;
+  if(k==='crit') return -100+(s.cur-s.r)*-1;
+  if(k==='warn') return -50+(s.r-s.cur);
+  return s.r-s.cur;
+}
+
+function renderKPI(){
+  const has=ST.filter(s=>s.cur!=null);
+  const c={normal:0,warn:0,crit:0};
+  has.forEach(s=>c[stOf(s)]++);
+  const near=has.filter(s=>stOf(s)!=='crit').sort((a,b)=>gapOf(a)-gapOf(b))[0];
+  const nRiv=new Set(ST.map(s=>s.river)).size;
+  document.getElementById('kpis').innerHTML=`
+   <div class="rk k1"><div class="h"><span class="ic">📍</span><span class="t">สถานีตรวจวัดทั้งหมด</span></div>
+     <div class="v">${ST.length}<small>สถานี</small></div>
+     <div class="d">${nRiv} ลำน้ำ · มีข้อมูลวันนี้ ${has.length} จุด</div></div>
+   <div class="rk k2"><div class="h"><span class="ic">✅</span><span class="t">ปกติ · ธงเขียว</span></div>
+     <div class="v">${c.normal}<small>/${has.length||0}</small></div>
+     <div class="d">ต่ำกว่าเกณฑ์แจ้งเตือน — ปลอดภัย</div></div>
+   <div class="rk k3"><div class="h"><span class="ic">⚠️</span><span class="t">แจ้งเตือน · ธงเหลือง</span></div>
+     <div class="v">${c.warn}<small>จุด</small></div>
+     <div class="d">${c.warn?'⚡ แจ้งเตือน + เตรียมกำลัง':'ไม่มีจุดเข้าเกณฑ์'}</div></div>
+   <div class="rk k4"><div class="h"><span class="ic">🚨</span><span class="t">วิกฤติ · ธงแดง</span></div>
+     <div class="v">${c.crit}<small>จุด</small></div>
+     <div class="d">${c.crit?'🚨 ลงพื้นที่ทันที':'ไม่มีจุดน้ำล้นตลิ่ง'}</div></div>
+   <div class="rk k5"><div class="h"><span class="ic">📏</span><span class="t">ใกล้วิกฤติที่สุด</span></div>
+     <div class="v" style="font-size:24px">${near?nf(gapOf(near),2):'—'}<small>ม.</small></div>
+     <div class="d">${near?near.name+' · '+near.river:'—'}</div></div>`;
+}
+
+function renderBar(){
+  const rv=[...new Set(ST.map(s=>s.river))];
+  document.getElementById('rvbar').innerHTML=
+    `<button class="rvchip ${FRV?'':'on'}" onclick="setRiv('')">ทุกลำน้ำ<span class="n">${ST.length}</span></button>`
+    + rv.map(r=>{
+        const n=ST.filter(s=>s.river===r).length;
+        return `<button class="rvchip ${FRV===r?'on':''}" onclick="setRiv('${r}')">${r}<span class="n">${n}</span></button>`;
+      }).join('');
+}
+function setRiv(r){ FRV=r; renderBar(); renderList(); }
+
+function renderList(){
+  const list=ST.filter(s=>!FRV||s.river===FRV).sort((a,b)=>urg(a)-urg(b));
+  const act=list.filter(s=>s.cur!=null&&stOf(s)!=='normal').length;
+  document.getElementById('lsSub').textContent =
+    act? act+' จุดต้องดำเนินการ' : (list.filter(s=>s.cur!=null).length? 'ทุกจุดปกติ' : 'รอข้อมูล');
+  document.getElementById('slist').innerHTML=list.map(s=>{
+    const k=stOf(s), b=SB[k], g=gapOf(s);
+    const cls=k==='crit'?'n2':(k==='warn'?'n1':'n0');
+    const p=s.cur==null?0:zx(zpos(s,s.cur));
+    return `<div class="sc ${cls}" onclick="location.href='${s.key}.html'">
+      <div class="h"><span class="no" style="background:${b.c}">${s.no}</span>
+        <span class="nm"><b>${s.name}</b><span>${s.river} · อ.${s.amphoe}${s.km!=null?' · กม.'+nf(s.km,1):''}</span></span>
+        <span class="fg" style="background:${b.c}">${b.f} ${b.l}</span></div>
+      <div class="mid"><span class="lv" style="color:${b.c}">${s.cur==null?'—':nf(s.cur,2)}</span>
+        <span class="un">ม.รทก.</span>
+        <span class="gp" style="color:${b.c}">${g==null?'รอข้อมูล':(g<=0?'▲ ล้น '+nf(-g,2)+' ม.':'เหลือ '+nf(g,2)+' ม.')}</span></div>
+      <div class="bar"><i style="width:${p}%;background:${b.c}"></i>
+        <span class="mk" style="left:${zx(ZW)}%;background:#f59e0b"></span>
+        <span class="mk" style="left:${zx(ZC)}%;background:#dc2626"></span></div>
+      <div class="ft"><span>🟡 ${nf(s.y,2)}</span><span>🔴 ${nf(s.r,2)}</span>
+        <span>${s.cur==null?'—':nf(s.cur/s.r*100,1)+'% เทียบวิกฤติ'}</span></div>
+    </div>`;
+  }).join('') || '<div style="padding:26px;text-align:center;color:#94a3b8">ไม่มีข้อมูล</div>';
+}
+
+function renderSum(){
+  const rv=[...new Set(ST.map(s=>s.river))];
+  document.getElementById('rvsum').innerHTML=rv.map(r=>{
+    const g=ST.filter(s=>s.river===r), has=g.filter(s=>s.cur!=null);
+    const c={normal:0,warn:0,crit:0}; has.forEach(s=>c[stOf(s)]++);
+    const t=has.length||1;
+    const key=g[0].key;
+    return `<div class="rvs" onclick="setRiv('${r}')" ondblclick="location.href='${key}.html'">
+      <b>${r}</b>
+      <div class="fl">
+        <i style="background:#16a34a;flex:${c.normal||0.02}"></i>
+        <i style="background:#f59e0b;flex:${c.warn||0.02}"></i>
+        <i style="background:#dc2626;flex:${c.crit||0.02}"></i></div>
+      <div class="st"><span>🟢<u>${c.normal}</u></span><span>🟡<u>${c.warn}</u></span>
+        <span>🔴<u>${c.crit}</u></span><span style="margin-left:auto">${g.length} สถานี</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderDonut(){
+  const has=ST.filter(s=>s.cur!=null);
+  const c={normal:0,warn:0,crit:0}; has.forEach(s=>c[stOf(s)]++);
+  const tot=has.length||1, R=40, C=2*Math.PI*R;
+  let off=0, seg='';
+  [['normal','#16a34a'],['warn','#f59e0b'],['crit','#dc2626']].forEach(([k,col])=>{
+    if(!c[k]) return;
+    const len=C*(c[k]/tot);
+    seg+=`<circle cx="55" cy="55" r="${R}" fill="none" stroke="${col}" stroke-width="16"
+      stroke-dasharray="${len.toFixed(2)} ${(C-len).toFixed(2)}" stroke-dashoffset="${(-off).toFixed(2)}"
+      transform="rotate(-90 55 55)"><title>${SB[k].l} ${c[k]} จุด</title></circle>`;
+    off+=len;
+  });
+  document.getElementById('dn').innerHTML=seg+
+    `<text x="55" y="52" text-anchor="middle" font-size="19" font-weight="800" font-family="Kanit" fill="#0f172a">${has.length}</text>
+     <text x="55" y="66" text-anchor="middle" font-size="8.5" font-family="Sarabun" fill="#94a3b8">สถานี</text>`;
+  document.getElementById('dnlg').innerHTML=['normal','warn','crit'].map(k=>
+    `<div style="display:flex;align-items:center;gap:8px">
+      <i style="width:11px;height:11px;border-radius:3px;background:${SB[k].c};flex:0 0 11px"></i>
+      ${SB[k].f} ${SB[k].l}
+      <b style="margin-left:auto;font-family:var(--disp);font-weight:700">${c[k]}</b></div>`).join('');
+}
+
+function draw(){ renderKPI(); renderBar(); renderList(); renderSum(); renderDonut(); }
+
+/* ── ดึงข้อมูลสด 4 ลำน้ำ ── */
+async function boot(){
+  build(); draw();
+  const chip=document.getElementById('srcChip');
+  let ok=0, date='';
+  await Promise.all(Object.keys(RIV).map(async k=>{
+    try{
+      const d=await (await fetch(GAS+'?action='+k)).json();
+      const arr=d.stations||d.data||[];
+      arr.forEach(it=>{
+        const nm=String(it.name||'').trim();
+        const lv=[it.cur,it.current,it.current_level,it.water_level,it.level].find(v=>v!=null&&v!=='');
+        if(!nm||lv==null) return;
+        const s=ST.find(x=>x.key===k && x.name===nm);
+        if(s) s.cur=parseFloat(lv);
+      });
+      if(d.date&&d.date>date) date=d.date;
+      ok++;
+    }catch(e){ console.warn(k,e); }
+  }));
+  if(chip){
+    chip.className = ok? 'chip live':'chip';
+    chip.textContent = ok? '● ข้อมูลจริง'+(date?' · '+date:'') : '● เชื่อมข้อมูลไม่ได้';
+  }
+  const n=ST.filter(s=>s.cur!=null).length;
+  document.getElementById('subTt').textContent=ST.length+' สถานี · 4 ลำน้ำ'+(n?' · มีข้อมูล '+n:'');
+  draw();
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
+</script>
+<script src="weather_alert.js?v=2" defer></script>
+
+<style id="SOS-CSS">
+/* ══════ ปุ่มลอย: แจ้งเหตุ · แชร์ · สลับโหมด ══════ */
+#fabWrap{position:fixed;right:16px;bottom:16px;z-index:9998;display:flex;flex-direction:column;gap:10px;align-items:center}
+#fabWrap button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
+ cursor:pointer;font-size:19px;line-height:1;box-shadow:0 6px 20px rgba(10,30,60,.36);
+ transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
+#fabWrap button:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,30,60,.45)}
+#fabWrap button:active{transform:scale(.93)}
+#sosBtn{background:linear-gradient(145deg,#dc2626,#ef4444);color:#fff;
+ animation:sosPulse 2.6s ease-in-out infinite}
+@keyframes sosPulse{0%,100%{box-shadow:0 6px 20px rgba(220,38,38,.4)}
+ 50%{box-shadow:0 6px 26px rgba(220,38,38,.7),0 0 0 6px rgba(239,68,68,.16)}}
+#shareBtn{background:linear-gradient(145deg,#0f766e,#14b8a6);color:#fff}
+#themeBtn{background:linear-gradient(145deg,#0a1e3c,#1e3a5f);color:#fff}
+html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220}
+@media (max-width:640px){
+  #fabWrap{right:12px;bottom:12px;gap:8px}
+  #fabWrap button{width:44px;height:44px;font-size:18px}
+}
+@media print{#fabWrap{display:none !important}}
+
+/* ══════ แผ่นข้อมูลติดต่อ ══════ */
+#sosSheet{position:fixed;inset:0;z-index:9999;background:rgba(8,20,38,.55);
+ backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+ display:none;align-items:flex-end;justify-content:center;padding:0}
+#sosSheet.on{display:flex;animation:sosFade .2s ease}
+@keyframes sosFade{from{opacity:0}to{opacity:1}}
+#sosCard{width:100%;max-width:520px;background:#fff;border-radius:22px 22px 0 0;
+ max-height:88vh;overflow-y:auto;box-shadow:0 -10px 40px rgba(10,30,60,.3);
+ animation:sosUp .32s cubic-bezier(.2,.8,.25,1);padding-bottom:env(safe-area-inset-bottom)}
+@keyframes sosUp{from{transform:translateY(100%)}to{transform:none}}
+@media (min-width:640px){
+  #sosSheet{align-items:center}
+  #sosCard{border-radius:22px;max-height:84vh}
+}
+#sosCard .sh{background:linear-gradient(135deg,#b91c1c,#dc2626);color:#fff;padding:16px 18px;
+ position:sticky;top:0;z-index:2}
+#sosCard .sh b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:17px;line-height:1.3}
+#sosCard .sh span{display:block;font-size:11.5px;opacity:.9;margin-top:3px}
+#sosCard .sh .x{position:absolute;right:12px;top:12px;width:34px;height:34px;border-radius:50%;
+ background:rgba(255,255,255,.2);border:0;color:#fff;font-size:17px;cursor:pointer}
+#sosCard .sb{padding:16px 18px 20px}
+.sosline{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:14px;
+ border:1px solid #e6edf5;background:#fff;margin-bottom:10px;text-decoration:none;color:inherit;
+ transition:transform .16s,box-shadow .16s}
+.sosline:active{transform:scale(.985)}
+.sosline:hover{box-shadow:0 6px 18px rgba(15,40,80,.12)}
+.sosline .ic{flex:0 0 42px;height:42px;border-radius:13px;display:flex;align-items:center;
+ justify-content:center;font-size:19px}
+.sosline .tx{flex:1;min-width:0}
+.sosline .tx em{display:block;font-style:normal;font-size:10.5px;color:#7c8ba1;line-height:1.3}
+.sosline .tx b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:15px;
+ line-height:1.35;color:#0f172a;margin-top:2px}
+.sosline .tx small{display:block;font-size:11px;color:#8798ad;line-height:1.5;margin-top:3px;font-weight:400}
+.sosline .go{flex:0 0 auto;color:#94a3b8;font-size:15px}
+.sosline.hot{border-color:#fca5a5;background:linear-gradient(150deg,#fef2f2,#fff)}
+.sosline.hot .ic{background:#fee2e2}
+.sosline.hot .tx b{color:#b91c1c;font-size:19px;letter-spacing:.5px}
+.sosline.tel .ic{background:#e0f2fe}
+.sosline.map .ic{background:#dcfce7}
+.sosline.web .ic{background:#ede9fe}
+.soshead{font-family:'Kanit',sans-serif;font-weight:700;font-size:11px;color:#8798ad;
+ letter-spacing:.6px;margin:16px 0 8px}
+.sosnote{font-size:11px;color:#8798ad;line-height:1.6;background:#f8fafc;border:1px solid #eef2f7;
+ border-radius:12px;padding:11px 13px;margin-top:6px}
+.sosshare{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.sosshare button{height:46px;border-radius:13px;border:1px solid #e6edf5;background:#fff;cursor:pointer;
+ font-family:'Kanit',sans-serif;font-weight:600;font-size:13px;color:#0f172a;
+ display:flex;align-items:center;justify-content:center;gap:7px}
+.sosshare button:active{transform:scale(.97)}
+.sosshare .line{background:#06c755;border-color:#06c755;color:#fff}
+/* โหมดมืด */
+html[data-theme="dark"] #sosCard{background:#161f31;color:#dbe4f0}
+html[data-theme="dark"] .sosline{background:#1a2437;border-color:#2b3a52}
+html[data-theme="dark"] .sosline .tx b{color:#e8eef7}
+html[data-theme="dark"] .sosline.hot{background:linear-gradient(150deg,#2e1717,#1a2437);border-color:#7f2323}
+html[data-theme="dark"] .sosline.hot .tx b{color:#fca5a5}
+html[data-theme="dark"] .sosnote{background:#131c2c;border-color:#243247;color:#8fa0b6}
+html[data-theme="dark"] .sosshare button{background:#1a2437;border-color:#2b3a52;color:#dbe4f0}
+html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
+</style>
+
+<script id="SOS-JS">
+/* ══════ ปุ่มลอย + แผ่นแจ้งเหตุ/ติดต่อ ══════ */
+(function(){
+  var ORG = {
+    name:'สำนักงานป้องกันและบรรเทาสาธารณภัยจังหวัดหนองบัวลำภู',
+    addr:'ชั้น 3 ศาลากลางจังหวัดหนองบัวลำภู ถนนหนองบัวลำภู-เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000',
+    tel:'042-316710', telFull:'042-316710 ถึง 5',
+    hotline:'1784',
+    web:'https://nbp.disaster.go.th/'
+  };
+  var TK='wnb_theme';
+  function themeGet(){ try{return localStorage.getItem(TK);}catch(e){return null;} }
+  function sysDark(){ try{return matchMedia('(prefers-color-scheme:dark)').matches;}catch(e){return false;} }
+  function themeApply(t){
+    document.documentElement.setAttribute('data-theme',t);
+    var b=document.getElementById('themeBtn');
+    if(b){ b.textContent = t==='dark'?'☀️':'🌙';
+           b.title = t==='dark'?'สลับเป็นโหมดสว่าง':'สลับเป็นโหมดมืด';
+           b.setAttribute('aria-label',b.title); }
+  }
+  themeApply(themeGet() || 'light');   /* เปิดมาเป็นโหมดสว่างเสมอ ผู้ใช้เลือกมืดเองได้ */
+
+  function sheetHTML(){
+    var mapQ = encodeURIComponent('ศาลากลางจังหวัดหนองบัวลำภู');
+    return '<div id="sosCard" onclick="event.stopPropagation()">'
+     + '<div class="sh"><b>🚨 แจ้งเหตุ · ติดต่อหน่วยงาน</b>'
+     + '<span>'+ORG.name+'</span>'
+     + '<button class="x" onclick="wnbSOS(false)" aria-label="ปิด">✕</button></div>'
+     + '<div class="sb">'
+     + '<div class="soshead">แจ้งเหตุด่วน</div>'
+     + '<a class="sosline hot" href="tel:'+ORG.hotline+'"><span class="ic">📞</span>'
+     + '<span class="tx"><em>สายด่วนแจ้งเหตุสาธารณภัย</em><b>'+ORG.hotline+'</b>'
+     + '<small>รับแจ้งตลอด 24 ชั่วโมง · กดเพื่อโทรทันที</small></span><span class="go">›</span></a>'
+     + '<div class="soshead">ติดต่อสำนักงาน</div>'
+     + '<a class="sosline tel" href="tel:'+ORG.tel.replace(/-/g,'')+'"><span class="ic">☎️</span>'
+     + '<span class="tx"><em>โทรศัพท์สำนักงาน</em><b>'+ORG.telFull+'</b>'
+     + '<small>เวลาราชการ จันทร์–ศุกร์ 08:30–16:30 น.</small></span><span class="go">›</span></a>'
+     + '<a class="sosline map" href="https://www.google.com/maps/search/?api=1&query='+mapQ+'" target="_blank" rel="noopener">'
+     + '<span class="ic">📍</span><span class="tx"><em>ที่ตั้งสำนักงาน</em><b>ศาลากลางจังหวัด ชั้น 3</b>'
+     + '<small>'+ORG.addr+'</small></span><span class="go">›</span></a>'
+     + '<a class="sosline web" href="'+ORG.web+'" target="_blank" rel="noopener"><span class="ic">🌐</span>'
+     + '<span class="tx"><em>เว็บไซต์ทางการ</em><b>ปภ.จังหวัดหนองบัวลำภู</b>'
+     + '<small>nbp.disaster.go.th</small></span><span class="go">›</span></a>'
+     + '<div class="soshead">แชร์หน้านี้</div>'
+     + '<div class="sosshare">'
+     + '<button class="line" onclick="wnbShare(\'line\')">💬 ส่งทาง LINE</button>'
+     + '<button onclick="wnbShare(\'copy\')">🔗 คัดลอกลิงก์</button></div>'
+     + '<div class="sosnote">ℹ️ ข้อมูลระดับน้ำในระบบนี้รายงานโดยเจ้าหน้าที่ประจำจุดตรวจวัด '
+     + 'หากพบสถานการณ์ผิดปกติในพื้นที่ กรุณาแจ้งสายด่วน <b>'+ORG.hotline+'</b> ทันที '
+     + 'ไม่ต้องรอให้ระบบขึ้นสถานะวิกฤติ</div>'
+     + '</div></div>';
+  }
+
+  window.wnbSOS=function(open){
+    var el=document.getElementById('sosSheet');
+    if(!el) return;
+    if(open){ el.innerHTML=sheetHTML(); el.classList.add('on'); document.body.style.overflow='hidden'; }
+    else { el.classList.remove('on'); el.innerHTML=''; document.body.style.overflow=''; }
+  };
+  window.wnbShare=function(how){
+    var url=location.href, txt='ระบบติดตามสถานการณ์น้ำ จ.หนองบัวลำภู';
+    if(how==='line'){
+      window.open('https://social-plugins.line.me/lineit/share?url='+encodeURIComponent(url)
+        +'&text='+encodeURIComponent(txt),'_blank','noopener');
+    } else {
+      var done=function(){ var b=event&&event.target; if(b){ var o=b.innerHTML; b.innerHTML='✅ คัดลอกแล้ว';
+        setTimeout(function(){ b.innerHTML=o; },1600); } };
+      if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(url).then(done,done); }
+      else { var t=document.createElement('textarea'); t.value=url; document.body.appendChild(t);
+             t.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(t); done(); }
+    }
+  };
+
+  function boot(){
+    if(document.getElementById('fabWrap')) return;
+    var wrap=document.createElement('div'); wrap.id='fabWrap';
+    wrap.innerHTML='<button id="sosBtn" type="button" title="แจ้งเหตุ · ติดต่อหน่วยงาน" aria-label="แจ้งเหตุ">🚨</button>'
+      +'<button id="shareBtn" type="button" title="แชร์หน้านี้" aria-label="แชร์">🔗</button>'
+      +'<button id="themeBtn" type="button">🌙</button>';
+    document.body.appendChild(wrap);
+    var sheet=document.createElement('div'); sheet.id='sosSheet';
+    sheet.onclick=function(e){ if(e.target===sheet) wnbSOS(false); };
+    document.body.appendChild(sheet);
+    document.getElementById('sosBtn').onclick=function(){ wnbSOS(true); };
+    document.getElementById('shareBtn').onclick=function(){ wnbShare('copy'); };
+    document.getElementById('themeBtn').onclick=function(){
+      var t=(document.documentElement.getAttribute('data-theme')==='dark')?'light':'dark';
+      try{ localStorage.setItem(TK,t); }catch(e){}
+      themeApply(t);
+      try{ if(window.map) setTimeout(function(){ map.invalidateSize(); },260); }catch(e){}
+    };
+    themeApply(document.documentElement.getAttribute('data-theme')||'light');
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') wnbSOS(false); });
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
+})();
+</script>
+</body></html>
