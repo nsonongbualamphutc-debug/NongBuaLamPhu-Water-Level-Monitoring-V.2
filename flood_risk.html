@@ -161,7 +161,6 @@ html[data-theme="dark"] .gdbox a:hover{background:#1a2437}
 .infpop .dt{margin-top:6px;font-size:11px;color:#475569;line-height:1.6}
 
 /* ═══ จัดสัดส่วนให้พอดีจอ ไม่ล้น ไม่เลื่อนเกิน ═══ */
-.content{padding:14px;box-sizing:border-box;overflow-x:hidden}
 .fr-grid{align-items:stretch}
 .fr-grid>div:last-child{display:flex;flex-direction:column;gap:14px}
 #tlist{max-height:280px;overflow-y:auto;-webkit-overflow-scrolling:touch}
@@ -178,7 +177,6 @@ html,body,.app,.main-col,.content,.panel{max-width:100%;overflow-x:hidden}
 
 /* ═══ พอดีจอแบบปลอดภัย — ไม่ใช้ absolute กับแผนที่ ═══
    บทเรียน: absolute ทำให้ Leaflet วัดความสูงไม่ได้ตอนเริ่ม แปลงเลยไม่ขึ้น   */
-.content{padding:13px 14px 14px !important;box-sizing:border-box}
 .fr-kpis{margin-bottom:13px}
 .fr-grid{align-items:start}
 .fr-grid>*{min-width:0}
@@ -197,7 +195,6 @@ html,body,.app,.main-col,.content,.panel{max-width:100%;overflow-x:hidden}
 
 
 /* ═══ กล่องเฝ้าระวังพิเศษไม่ให้โดนตัด/โดนปุ่มลอยทับ ═══ */
-.content{padding-bottom:92px !important}          /* เว้นที่ให้พ้นปุ่มลอยมุมขวาล่าง */
 #xbox{max-height:none;overflow:visible}
 .xalert{margin-bottom:0}
 .xalert .xb{padding-right:64px}                    /* กันป้ายสถานะโดนปุ่มลอยบัง */
@@ -252,6 +249,47 @@ html[data-theme="dark"] .xnote{background:#1a2437;border-color:#7f2323;color:#fc
 .tamlbl{background:transparent;border:0;box-shadow:none;font-family:'Kanit',sans-serif;
  font-weight:600;font-size:10px;color:#0f172a;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
 html[data-theme="dark"] .tamlbl{color:#e8eef7;text-shadow:0 0 3px #0b1220,0 0 3px #0b1220}
+
+/* ══════════════════════════════════════════════════════════════════════
+   จัดสัดส่วนหน้านี้ให้พอดี — แก้ต้นเหตุจริง
+   ปัญหา: .main-col เป็น height:100vh + overflow:hidden
+          ส่วน .content เป็น overflow:visible
+          → เนื้อหาที่ยาวเกินจอถูก "ตัดทิ้ง" เลื่อนดูไม่ได้
+   แก้:   ให้ .content เลื่อนในตัวเอง + คุมความสูงแต่ละ visual ให้พอดี
+   ══════════════════════════════════════════════════════════════════════ */
+.main-col>.content{
+  display:block !important;
+  height:calc(100vh - 54px) !important;
+  overflow-y:auto !important; overflow-x:hidden !important;
+  padding:13px 15px 24px !important;
+  box-sizing:border-box; scroll-behavior:smooth;
+}
+.main-col>.content::-webkit-scrollbar{width:9px}
+.main-col>.content::-webkit-scrollbar-thumb{background:#c7d5e6;border-radius:99px}
+
+/* ── ระยะห่างระหว่างบล็อกให้สม่ำเสมอ ── */
+.fr-kpis{margin:0 0 13px}
+#xbox{margin:0 0 13px}
+.fr-grid{gap:13px;margin:0}
+.fr-grid>div:last-child>.panel+.panel{margin-top:13px}
+
+/* ── ความสูงแต่ละ visual ให้พอดีจอ ── */
+#frmap{height:min(50vh,500px) !important;min-height:300px !important;max-height:none !important}
+#tlist{max-height:min(30vh,290px);overflow-y:auto}
+.donut svg{width:100px;height:100px;flex:0 0 100px}
+.donut{padding:12px 13px}
+
+@media(max-width:1080px){
+  #frmap{height:400px !important}
+  #tlist{max-height:300px}
+}
+@media(max-width:640px){
+  .main-col>.content{padding:11px 12px 22px !important}
+  #frmap{height:330px !important;min-height:0 !important}
+}
+/* จอเตี้ยมาก — ย่อแผนที่ไม่ให้ดันทุกอย่างตกจอ */
+@media(max-height:700px){ #frmap{height:340px !important} #tlist{max-height:230px} }
+
 </style>
 <style id="UX-PACK">
 /* ══════════════════════════════════════════════════════════════════════
