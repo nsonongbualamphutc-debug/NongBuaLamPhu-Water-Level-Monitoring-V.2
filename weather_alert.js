@@ -210,16 +210,35 @@
     });
   }
 
+  function waitFab(){
+    return new Promise(function(resolve){
+      var tries = 0;
+      (function look(){
+        var w = document.getElementById('fabWrap');
+        /* ต้องมีปุ่มอย่างน้อย 1 ตัวอยู่แล้ว = ชุดเดิมสร้างเสร็จจริง */
+        if (w && w.querySelector('button')) return resolve(w);
+        if (++tries > 40) {          /* ~4 วินาที — หน้าไหนไม่มีชุดเดิม ค่อยสร้างเอง */
+          if (w) return resolve(w);
+          var n = document.createElement('div'); n.id = 'fabWrap';
+          n.style.cssText = 'position:fixed;right:16px;bottom:16px;z-index:9998;'
+                          + 'display:flex;flex-direction:column;gap:10px;align-items:center';
+          document.body.appendChild(n);
+          return resolve(n);
+        }
+        setTimeout(look, 100);
+      })();
+    });
+  }
+
   async function boot(){
     inject();
     if(document.getElementById('wxBtn')) return;
     /* แทรกปุ่มเข้าไปในชุดปุ่มลอยเดิม ถ้าไม่มีก็สร้างชุดใหม่ */
-    var wrap=document.getElementById('fabWrap');
-    if(!wrap){
-      wrap=document.createElement('div'); wrap.id='fabWrap';
-      wrap.style.cssText='position:fixed;right:16px;bottom:16px;z-index:9998;display:flex;flex-direction:column;gap:10px';
-      document.body.appendChild(wrap);
-    }
+    /* ── รอชุดปุ่มลอยเดิม (แจ้งเหตุ/แชร์/โหมด) สร้างเสร็จก่อน ──
+       เหตุผล: สคริปต์นี้โหลดแบบ defer จึงทำงานก่อน DOMContentLoaded
+       ถ้าเราสร้าง #fabWrap ขึ้นเอง สคริปต์ชุดปุ่มเดิมจะเห็นว่ามีแล้ว
+       แล้ว return ออก → ปุ่มแจ้งเหตุ/แชร์/โหมด จะหายไปทั้งหมด        */
+    var wrap = await waitFab();
     var b=document.createElement('button');
     b.id='wxBtn'; b.type='button'; b.title='พยากรณ์อากาศ 24 ชม.';
     b.innerHTML='⛈️<span class="bdg"></span>';
