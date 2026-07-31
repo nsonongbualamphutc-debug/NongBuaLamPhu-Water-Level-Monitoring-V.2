@@ -214,6 +214,40 @@ html,body,.app,.main-col,.content,.panel{max-width:100%;overflow-x:hidden}
 #fabWrap{bottom:20px}
 @media(max-width:640px){#fabWrap{bottom:14px}}
 
+
+/* ═══ แถบเฝ้าระวังพิเศษ — เต็มความกว้าง อยู่ใต้ KPI เห็นทันที ═══ */
+#xbox{margin-bottom:14px}
+#xbox:empty{display:none}
+.xalert{margin-top:0;border-width:2px;border-radius:16px;
+ box-shadow:0 6px 22px rgba(185,28,28,.16);animation:xIn .5s cubic-bezier(.2,.8,.25,1)}
+@keyframes xIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+.xalert .xh{font-size:12.5px;padding:10px 15px;display:flex;align-items:center;gap:8px}
+.xalert .xh::before{content:'';width:9px;height:9px;border-radius:50%;background:#dc2626;
+ box-shadow:0 0 0 0 rgba(220,38,38,.6);animation:xPulse 1.8s ease-out infinite;flex:0 0 9px}
+@keyframes xPulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.55)}70%{box-shadow:0 0 0 9px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+.xalert .xb{padding:12px 15px 13px !important}
+.xrows{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:9px}
+.xrow{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #fecaca;
+ border-radius:12px;background:#fff;font-size:12px;border-bottom:1px solid #fecaca}
+.xrow .nm{font-family:var(--disp);font-weight:700;font-size:13px;color:#0f172a;white-space:nowrap}
+.xrow .ds{flex:1;min-width:0;font-size:11px;color:#64748b;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.xrow .fg{flex:0 0 auto;margin-left:0}
+.xnote{margin-top:10px;font-size:11px;color:#7f1d1d;line-height:1.6;background:#fff;
+ border:1px solid #fecaca;border-radius:11px;padding:9px 12px}
+html[data-theme="dark"] .xrow{background:#1a2437;border-color:#7f2323}
+html[data-theme="dark"] .xrow .nm{color:#e8eef7}
+html[data-theme="dark"] .xnote{background:#1a2437;border-color:#7f2323;color:#fca5a5}
+@media(max-width:640px){.xrows{grid-template-columns:1fr}.xrow{flex-wrap:wrap;row-gap:5px}}
+
+
+/* ═══ กันล้นกรอบขั้นสุดท้าย ═══ */
+.topbar{flex-wrap:wrap;row-gap:6px}
+.topbar .tt{min-width:0;overflow:hidden;text-overflow:ellipsis}
+.topbar>div:last-child{flex:0 0 auto}
+.xrows{max-width:100%}
+.xrow{min-width:0}
+#kpis .fk .v{font-size:clamp(22px,2.4vw,33px)}
+@media(max-width:640px){.topbar .chip{display:none}}
 </style>
 <style id="UX-PACK">
 /* ══════════════════════════════════════════════════════════════════════
@@ -371,18 +405,21 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
   </aside>
   <div class="main-col">
     <div class="topbar">
-      <button class="burger" onclick="document.getElementById('app').classList.toggle('navopen')" aria-label="เมนู">
+      <button class="burger" onclick="var a=document.getElementById('app');window.innerWidth<=820?a.classList.toggle('navopen'):a.classList.toggle('collapsed');setTimeout(function(){try{map.invalidateSize();}catch(e){}},320)" aria-label="ย่อ/ขยายเมนู">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
       </button>
       <div class="tt">พื้นที่เสี่ยงน้ำท่วมซ้ำซาก<i id="subTt">กำลังโหลด…</i></div>
       <div style="margin-left:auto;display:flex;gap:9px;align-items:center">
         <span class="chip" id="srcChip">● กรมพัฒนาที่ดิน</span>
+        <button class="btn-dark" onclick="expCSV()" title="ดาวน์โหลดรายชื่อตำบลเสี่ยง">⬇ CSV</button>
         <button class="btn-dark" onclick="window.print()">🖨 PDF</button>
       </div>
     </div>
     <div class="content">
 
       <div class="fr-kpis" id="kpis"></div>
+
+      <div id="xbox"></div>
 
       <div class="fr-grid">
         <div class="panel">
@@ -428,7 +465,6 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
           </div>
 
 
-          <div id="xbox"></div>
         </div>
       </div>
     </div>
@@ -493,6 +529,22 @@ function renderDonut(){
 }
 
 /* ── ตารางตำบล ── */
+/* ── ส่งออกรายชื่อตำบลเสี่ยงเป็น CSV — ใช้ทำหนังสือแจ้งท้องถิ่น ── */
+function expCSV(){
+  const rows=TAMB.filter(r=>!FAMP||r.amphoe===FAMP).sort((a,b)=>b.rai-a.rai);
+  const hd=['ลำดับ','อำเภอ','ตำบล','จำนวนแปลง','เนื้อที่เสี่ยง(ไร่)','เนื้อที่(ตร.กม.)','ระดับความรุนแรง'];
+  const lv={1:'ท่วมซ้ำซากมาก',2:'ปานกลาง',3:'เป็นครั้งคราว'};
+  const body=rows.map((r,i)=>[i+1,r.amphoe,r.tambon,r.n,r.rai.toFixed(1),(r.rai*1600/1e6).toFixed(3),lv[r.cls]||'-']);
+  const csv='\uFEFF'+[hd].concat(body).map(r=>r.map(c=>{
+    const v=String(c); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
+  }).join(',')).join('\r\n');
+  const d=new Date(), st=d.getFullYear()+543+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+  a.download='พื้นที่เสี่ยงน้ำท่วมซ้ำซาก_'+(FAMP||'ทั้งจังหวัด').replace('อ.','')+'_'+st+'.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
 function renderTable(){
   const rows=TAMB.filter(r=>!FAMP||r.amphoe===FAMP).sort((a,b)=>b.rai-a.rai);
   const mx=rows.length?rows[0].rai:1;
@@ -601,16 +653,18 @@ function checkStations(){
   const hot=STA.filter(s=>s.st!=='normal' && amps.some(a=>a.replace('อ.','')===String(s.amphoe||'').replace('อ.','')));
   const box=document.getElementById('xbox');
   if(!box) return;
-  box.innerHTML = hot.length? `<div class="xalert"><div class="xh">🚨 เฝ้าระวังพิเศษ — สถานีผิดปกติในอำเภอที่มีพื้นที่เสี่ยงน้ำท่วมซ้ำซาก</div>
-    <div class="xb">${hot.map(s=>{
+  box.innerHTML = hot.length? `<div class="xalert"><div class="xh">🚨 เฝ้าระวังพิเศษ — สถานีผิดปกติในอำเภอที่มีพื้นที่เสี่ยงน้ำท่วมซ้ำซาก (${hot.length} จุด)</div>
+    <div class="xb"><div class="xrows">${hot.map(s=>{
       const c=s.st==='crit'?'#dc2626':'#f59e0b';
       const rai=TAMB.filter(r=>r.amphoe.replace('อ.','')===String(s.amphoe||'').replace('อ.','')).reduce((a,r)=>a+r.rai,0);
-      return `<div class="xrow"><b>${s.name}</b><span style="color:#64748b">อ.${String(s.amphoe||'').replace('อ.','')} · พื้นที่เสี่ยงในอำเภอ ${nf(rai,0)} ไร่</span>
+      const tb=TAMB.filter(r=>r.amphoe.replace('อ.','')===String(s.amphoe||'').replace('อ.','')).length;
+      return `<div class="xrow"><span class="nm">${s.name}</span>
+        <span class="ds">อ.${String(s.amphoe||'').replace('อ.','')} · เสี่ยง ${nf(rai,0)} ไร่ · ${tb} ตำบล</span>
         <span class="fg" style="background:${c}">${s.st==='crit'?'🔴 วิกฤติ':'🟡 เฝ้าระวัง'}</span></div>`;
-    }).join('')}
-    <div style="margin-top:9px;font-size:10.5px;color:#7f1d1d;line-height:1.6">
-      พื้นที่เสี่ยงเหล่านี้เคยประสบน้ำท่วมซ้ำซาก เมื่อสถานีในอำเภอเดียวกันเข้าเกณฑ์เตือน
-      ควรแจ้งเตือนล่วงหน้าและเตรียมเส้นทางอพยพ · แจ้งเหตุ 1784</div></div></div>` : '';
+    }).join('')}</div>
+    <div class="xnote">พื้นที่เหล่านี้เคยประสบน้ำท่วมซ้ำซาก เมื่อสถานีในอำเภอเดียวกันเข้าเกณฑ์เตือน
+      ควรแจ้งเตือนล่วงหน้า เตรียมเส้นทางอพยพ และประสานท้องถิ่นในตำบลเสี่ยง · แจ้งเหตุ <b>1784</b> ตลอด 24 ชม.</div>
+    </div></div>` : '';
 }
 
 /* ── โหลดข้อมูล ── */
