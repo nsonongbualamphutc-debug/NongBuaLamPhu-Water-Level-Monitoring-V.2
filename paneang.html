@@ -524,6 +524,37 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
 </style>
 
 
+
+<style id="SIDE-SLIM">
+/* ══════════════════════════════════════════════════════════════════════
+   แถบข้างกระชับ — ลดความกว้าง เพิ่มพื้นที่แดชบอร์ด
+   ปกติ 250px -> 216px  |  โหมดย่อ 76px -> 64px (ไอคอนล้วน)
+   ══════════════════════════════════════════════════════════════════════ */
+@media (min-width:821px){
+  .app{grid-template-columns:216px 1fr}
+  .app.collapsed{grid-template-columns:64px 1fr}
+  .side{width:auto}
+  .menu a{padding:7px 10px;gap:10px;margin-bottom:1px;border-radius:9px}
+  .menu .lbl b{font-size:12.5px}
+  .menu .lbl i{font-size:8.5px;letter-spacing:.3px}
+  .menu .ic{width:19px;height:19px;flex:0 0 19px}
+  .menu .ic svg{width:19px;height:19px}
+  .brand{padding:11px 12px 9px}
+  .brand .lg{width:36px;height:36px;flex:0 0 36px}
+  .brand .ttl{font-size:13.5px}
+  .brand .kick{font-size:8px}
+  .brand .en{font-size:8px}
+  .side-foot{padding:9px 12px;font-size:9.5px;line-height:1.5}
+  /* โหมดย่อ — ไอคอนกลางพอดี มีทูลทิปบอกชื่อ */
+  .app.collapsed .menu a{justify-content:center;padding:9px 0}
+  .app.collapsed .brand{justify-content:center;padding:11px 0 9px}
+  .app.collapsed .menu a::after{content:attr(title);position:absolute;left:calc(100% + 8px);top:50%;
+   transform:translateY(-50%);background:#0f172a;color:#fff;font-size:11px;font-family:'Kanit',sans-serif;
+   padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;
+   transition:opacity .15s;z-index:400;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .app.collapsed .menu a:hover::after{opacity:1}
+}
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -1153,6 +1184,16 @@ function countUp(){
     })(t0);
   });
 }
+/* ส่งสถานีที่เข้าเกณฑ์เข้าระบบบันทึกประวัติ */
+function pushLog(){
+  try{
+    if(typeof logAlert!=='function') return;
+    const items=ST.filter(s=>s.cur!=null&&stOf(s)!=='normal').map(s=>({
+      name:s.name, river:RIVER, amphoe:s.amphoe, level:stOf(s),
+      cur:+s.cur, warn:flagOf(s).y, crit:flagOf(s).r }));
+    logAlert(items);
+  }catch(e){}
+}
 function renderActs(){
   const acts=[];
   const cr=ST.filter(s=>stOf(s)==='crit'),wn=ST.filter(s=>stOf(s)==='warn');
@@ -1487,6 +1528,7 @@ function loadSlow(){const w=document.getElementById('lmWarn');if(w)w.style.displ
   clearTimeout(slow); srcChip(); recalcScale(); syncFloodgates();
   safe(buildTips,'tips'); safe(renderKPI,'kpi'); safe(renderList,'list'); safe(renderLadder,'ladder');
   safe(renderTrend,'trend'); safe(initMap,'map'); safe(renderCards,'cards'); safe(drawProfile,'profile'); safe(setView.bind(null,'card'),'view'); safe(renderActs,'acts');
+  setTimeout(pushLog,600);
   hideLoad();
   await loadRain();
   safe(buildTips,'tips2'); safe(renderKPI,'kpi2'); safe(renderActs,'acts2'); safe(renderCards,'cards2');
@@ -1713,5 +1755,28 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
 })();
 </script>
 
-<script src="weather_alert.js?v=1" defer></script>
+<script src="weather_alert.js?v=3" defer></script>
+
+<script id="SIDE-MEM">
+/* จำสถานะย่อ/ขยายแถบข้าง — เปิดหน้าใหม่ยังคงเดิม */
+(function(){
+  var K='wnb_side';
+  function apply(){
+    try{ if(localStorage.getItem(K)==='1' && window.innerWidth>820)
+      document.getElementById('app').classList.add('collapsed'); }catch(e){}
+  }
+  function hook(){
+    var b=document.querySelector('.burger'); if(!b) return;
+    b.addEventListener('click',function(){
+      setTimeout(function(){
+        try{ localStorage.setItem(K,
+          document.getElementById('app').classList.contains('collapsed')?'1':'0'); }catch(e){}
+      },10);
+    });
+  }
+  function go(){ apply(); hook(); }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',go); else go();
+})();
+</script>
+<script src="alert_log.js?v=1" defer></script>
 </body></html>
