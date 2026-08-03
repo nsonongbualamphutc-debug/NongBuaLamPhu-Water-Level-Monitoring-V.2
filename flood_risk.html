@@ -512,7 +512,9 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
             <span style="opacity:.75"><i style="background:#7dd3fc"></i>เฉดฟ้า = เนื้อที่เสี่ยงรายตำบล (เข้ม = มาก)</span>
           </div>
           <div class="srcnote">แหล่งข้อมูล: ชั้นข้อมูลพื้นที่น้ำท่วมซ้ำซาก จ.หนองบัวลำภู (Shapefile · WGS 1984 UTM Zone 47N)
-            แปลงพิกัดเป็น WGS84 เพื่อแสดงบนเว็บ · เนื้อที่คำนวณจากขอบเขตแปลงจริง</div>
+            แปลงพิกัดเป็น WGS84 เพื่อแสดงบนเว็บ · เนื้อที่คำนวณจากขอบเขตแปลงจริง<br>
+            ประชากร: ทะเบียนราษฎร์รายหมู่บ้าน ปี 2569 (กรมการปกครอง) รวมเป็นรายตำบล ·
+            ขอบเขตตำบล: OpenGISData-Thailand</div>
         </div>
 
         <div>
@@ -538,7 +540,7 @@ html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-const TAMB=[{"amphoe": "อ.ศรีบุญเรือง", "tambon": "ต.ทรายทอง", "n": 34, "rai": 1283.2, "cls": 3}, {"amphoe": "อ.โนนสัง", "tambon": "ต.โคกม่วง", "n": 16, "rai": 425.0, "cls": 3}, {"amphoe": "อ.ศรีบุญเรือง", "tambon": "ต.ศรีบุญเรือง", "n": 15, "rai": 320.3, "cls": 3}, {"amphoe": "อ.ศรีบุญเรือง", "tambon": "ต.หนองบัวใต้", "n": 14, "rai": 160.1, "cls": 3}, {"amphoe": "อ.สุวรรณคูหา", "tambon": "ต.กุดผึ้ง", "n": 4, "rai": 109.6, "cls": 3}, {"amphoe": "อ.โนนสัง", "tambon": "ต.โนนเมือง", "n": 2, "rai": 41.8, "cls": 3}, {"amphoe": "อ.โนนสัง", "tambon": "ต.หนองเรือ", "n": 1, "rai": 18.5, "cls": 3}, {"amphoe": "อ.เมืองหนองบัวลำภู", "tambon": "ต.ป่าไม้งาม", "n": 1, "rai": 6.1, "cls": 3}];
+const TAMB=[{"amphoe":"อ.ศรีบุญเรือง","tambon":"ต.ทรายทอง","n":34,"rai":1283.2,"cls":3,"pop":8361,"moo":10},{"amphoe":"อ.โนนสัง","tambon":"ต.โคกม่วง","n":16,"rai":425.0,"cls":3,"pop":6532,"moo":9},{"amphoe":"อ.ศรีบุญเรือง","tambon":"ต.ศรีบุญเรือง","n":15,"rai":320.3,"cls":3,"pop":5853,"moo":13},{"amphoe":"อ.ศรีบุญเรือง","tambon":"ต.หนองบัวใต้","n":14,"rai":160.1,"cls":3,"pop":7130,"moo":10},{"amphoe":"อ.สุวรรณคูหา","tambon":"ต.กุดผึ้ง","n":4,"rai":109.6,"cls":3,"pop":3599,"moo":7},{"amphoe":"อ.โนนสัง","tambon":"ต.โนนเมือง","n":2,"rai":41.8,"cls":3,"pop":4528,"moo":7},{"amphoe":"อ.โนนสัง","tambon":"ต.หนองเรือ","n":1,"rai":18.5,"cls":3,"pop":9446,"moo":14},{"amphoe":"อ.เมืองหนองบัวลำภู","tambon":"ต.ป่าไม้งาม","n":1,"rai":6.1,"cls":3,"pop":8241,"moo":13}];
 const GAS=(window.APP_CONFIG&&window.APP_CONFIG.API_URL)||"";
 const CLS={1:{l:'ท่วมซ้ำซากมาก',d:'ประสบน้ำท่วม 7–10 ครั้ง ในรอบ 10 ปี',c:'#dc2626'},
            2:{l:'ท่วมซ้ำซากปานกลาง',d:'ประสบน้ำท่วม 4–6 ครั้ง ในรอบ 10 ปี',c:'#f59e0b'},
@@ -566,6 +568,9 @@ function renderKPI(){
    <div class="fk c4"><div class="h"><span class="ic">🎯</span><span class="t">ตำบลเสี่ยงสูงสุด</span></div>
      <div class="v" style="font-size:20px;line-height:1.55">${topT?topT.tambon.replace('ต.',''):'—'}</div>
      <div class="d">${topT?nf(topT.rai,0)+' ไร่ · '+topT.amphoe:'—'}</div></div>
+   <div class="fk c1"><div class="h"><span class="ic">👥</span><span class="t">ประชากรในตำบลพื้นที่เสี่ยง</span></div>
+     <div class="v">${nf(rows.reduce((a,r)=>a+(r.pop||0),0),0)}<small>คน</small></div>
+     <div class="d">${rows.reduce((a,r)=>a+(r.moo||0),0)} หมู่บ้าน · ${rows.filter(r=>r.pop).length} ตำบลที่มีข้อมูล</div></div>
    <div class="fk c5"><div class="h"><span class="ic">🛰️</span><span class="t">สถานีวัดน้ำในพื้นที่เสี่ยง</span></div>
      <div class="v" id="kSta">—<small>สถานี</small></div>
      <div class="d" id="kStaD">กำลังตรวจสอบจากข้อมูลสด</div></div>`;
@@ -597,9 +602,9 @@ function renderDonut(){
 /* ── ส่งออกรายชื่อตำบลเสี่ยงเป็น CSV — ใช้ทำหนังสือแจ้งท้องถิ่น ── */
 function expCSV(){
   const rows=TAMB.filter(r=>!FAMP||r.amphoe===FAMP).sort((a,b)=>b.rai-a.rai);
-  const hd=['ลำดับ','อำเภอ','ตำบล','จำนวนแปลง','เนื้อที่เสี่ยง(ไร่)','เนื้อที่(ตร.กม.)','ระดับความรุนแรง'];
+  const hd=['ลำดับ','อำเภอ','ตำบล','จำนวนแปลง','เนื้อที่เสี่ยง(ไร่)','เนื้อที่(ตร.กม.)','ระดับความรุนแรง','ประชากร(คน)','จำนวนหมู่บ้าน'];
   const lv={1:'ท่วมซ้ำซากมาก',2:'ปานกลาง',3:'เป็นครั้งคราว'};
-  const body=rows.map((r,i)=>[i+1,r.amphoe,r.tambon,r.n,r.rai.toFixed(1),(r.rai*1600/1e6).toFixed(3),lv[r.cls]||'-']);
+  const body=rows.map((r,i)=>[i+1,r.amphoe,r.tambon,r.n,r.rai.toFixed(1),(r.rai*1600/1e6).toFixed(3),lv[r.cls]||'-',r.pop||'',r.moo||'']);
   const csv='\uFEFF'+[hd].concat(body).map(r=>r.map(c=>{
     const v=String(c); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;
   }).join(',')).join('\r\n');
@@ -617,7 +622,7 @@ function renderTable(){
   document.getElementById('tlist').innerHTML=rows.map((r,i)=>`
     <div class="trow" onclick="zoomTambon('${r.tambon.replace(/'/g,"")}')">
       <span class="rk">${i+1}</span>
-      <span class="nm"><b>${r.tambon}</b><span>${r.amphoe} · ${r.n} แปลง</span></span>
+      <span class="nm"><b>${r.tambon}</b><span>${r.amphoe} · ${r.n} แปลง${r.pop?' · 👥 '+nf(r.pop,0)+' คน':''}</span></span>
       <span class="bar"><i style="width:${(r.rai/mx*100).toFixed(1)}%"></i></span>
       <span class="va"><b>${nf(r.rai,0)}</b><span>ไร่</span></span>
     </div>`).join('') || '<div style="padding:22px;text-align:center;color:#94a3b8">ไม่มีข้อมูล</div>';
@@ -715,7 +720,10 @@ function drawTam(){
         <span style="font-size:11px;color:#64748b">อ.${p.amp} · พื้นที่ ${nf(p.km2,1)} ตร.กม.</span>
         <div style="margin-top:6px;font-size:12px">${v>0
           ? '<b style="color:#0369a1">พื้นที่เสี่ยง '+nf(v,0)+' ไร่</b>'
-          : '<span style="color:#16a34a">ไม่พบพื้นที่เสี่ยงในชุดข้อมูล</span>'}</div></div>`);
+          : '<span style="color:#16a34a">ไม่พบพื้นที่เสี่ยงในชุดข้อมูล</span>'}
+          ${(function(){const t=TAMB.find(x=>x.tambon.replace('ต.','')===p.tam&&x.amphoe.replace('อ.','')===p.amp);
+            return t&&t.pop?'<br><span style="font-size:11px;color:#475569">👥 ประชากร '+nf(t.pop,0)+' คน · '+t.moo+' หมู่บ้าน</span>':'';})()}
+          </div></div>`);
       l.on('mouseover',()=>l.setStyle({weight:2.2,opacity:1}));
       l.on('mouseout',()=>l.setStyle({weight:.8,opacity:.55}));
     }}).addTo(map);
@@ -759,9 +767,10 @@ function checkStations(){
     <div class="xb"><div class="xrows">${hot.map(s=>{
       const c=s.st==='crit'?'#dc2626':'#f59e0b';
       const rai=TAMB.filter(r=>r.amphoe.replace('อ.','')===String(s.amphoe||'').replace('อ.','')).reduce((a,r)=>a+r.rai,0);
-      const tb=TAMB.filter(r=>r.amphoe.replace('อ.','')===String(s.amphoe||'').replace('อ.','')).length;
+      const g=TAMB.filter(r=>r.amphoe.replace('อ.','')===String(s.amphoe||'').replace('อ.',''));
+      const tb=g.length, pop=g.reduce((a,r)=>a+(r.pop||0),0);
       return `<div class="xrow"><span class="nm">${s.name}</span>
-        <span class="ds">อ.${String(s.amphoe||'').replace('อ.','')} · เสี่ยง ${nf(rai,0)} ไร่ · ${tb} ตำบล</span>
+        <span class="ds">อ.${String(s.amphoe||'').replace('อ.','')} · เสี่ยง ${nf(rai,0)} ไร่ · ${tb} ตำบล${pop?' · 👥 '+nf(pop,0)+' คน':''}</span>
         <span class="fg" style="background:${c}">${s.st==='crit'?'🔴 วิกฤติ':'🟡 เฝ้าระวัง'}</span></div>`;
     }).join('')}</div>
     <div class="xnote">พื้นที่เหล่านี้เคยประสบน้ำท่วมซ้ำซาก เมื่อสถานีในอำเภอเดียวกันเข้าเกณฑ์เตือน
@@ -999,5 +1008,5 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 })();
 </script>
-<script src="weather_alert.js?v=1" defer></script>
+<script src="weather_alert.js?v=3" defer></script>
 </body></html>
