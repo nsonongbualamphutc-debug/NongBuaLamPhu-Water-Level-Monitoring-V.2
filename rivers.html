@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="ds.css?v=50">
-<link rel="stylesheet" href="mobile.css?v=2">
+<link rel="stylesheet" href="mobile.css?v=3">
 <script src="config.js"></script>
 <style>
 .rv-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin-bottom:13px}
@@ -320,13 +320,21 @@ async function boot(){
   let ok=0, date='';
   await Promise.all(Object.keys(RIV).map(async k=>{
     try{
-      const d=await (await fetch(GAS+'?action='+k)).json();
+      /* จับคู่ด้วย station_id ก่อน (แม่นกว่าชื่อ) แล้วค่อยลองชื่อ — ตรงกับหน้าลำน้ำ */
+      const c=new AbortController(); const t=setTimeout(()=>c.abort(),12000);
+      const r=await fetch(GAS+'?action='+k+'&_t='+Date.now(),{cache:'no-store',signal:c.signal});
+      clearTimeout(t);
+      if(!r.ok) throw 0;
+      const d=await r.json();
       const arr=d.stations||d.data||[];
       arr.forEach(it=>{
+        const id=String(it.id||it.station_id||'').trim().toUpperCase();
         const nm=String(it.name||'').trim();
-        const lv=[it.cur,it.current,it.current_level,it.water_level,it.level].find(v=>v!=null&&v!=='');
-        if(!nm||lv==null) return;
-        const s=ST.find(x=>x.key===k && x.name===nm);
+        const lv=[it.cur,it.current,it.current_level,it.water_level,it.level]
+                 .find(v=>v!=null&&v!==''&&!isNaN(v));
+        if(lv==null) return;
+        const s=ST.find(x=>x.key===k && (id&&x.id.toUpperCase()===id))
+              || ST.find(x=>x.key===k && nm&&x.name===nm);
         if(s) s.cur=parseFloat(lv);
       });
       if(d.date&&d.date>date) date=d.date;

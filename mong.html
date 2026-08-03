@@ -13,7 +13,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="ds.css?v=50">
-<link rel="stylesheet" href="mobile.css?v=2">
+<link rel="stylesheet" href="mobile.css?v=3">
 <style>
 /* ═══════ ตารางสรุป (Data Table Overlay) ═══════ */
 .mini-i{display:inline-flex;align-items:center;justify-content:center;width:17px;height:17px;flex:0 0 17px;
@@ -393,7 +393,7 @@ table.dt .bar .mk{position:absolute;top:-2px;bottom:-2px;width:1.5px;background:
 <div class="main-col">
   <header class="topbar">
     <button class="burger" data-tip="พับ/ขยายเมนูด้านข้าง" onclick="var a=document.getElementById('app');window.innerWidth<=820?a.classList.toggle('navopen'):a.classList.toggle('collapsed');setTimeout(()=>{window._m&&window._m.invalidateSize();drawProfile();},300)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-    <div class="tt">ลำน้ำพะเนียง<i id="tsub">—</i></div>
+    <div class="tt">ลำน้ำโมง<i id="tsub">—</i></div>
     <div class="tr"><span class="chip" id="src" data-tip="สถานะการเชื่อมต่อข้อมูลจากระบบหลังบ้าน">กำลังโหลด…</span><button class="btn" data-tip="พิมพ์หรือบันทึกหน้านี้เป็น PDF" onclick="window.print()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg> PDF</button></div>
   </header>
   <div class="content">
