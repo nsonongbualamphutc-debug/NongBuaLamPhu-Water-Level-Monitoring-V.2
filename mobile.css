@@ -1,0 +1,149 @@
+/* ══════════════════════════════════════════════════════════════════════
+   mobile.css — รองรับมือถือ / แท็บเล็ต (ไฟล์รวมชุดเดียว)
+   ─────────────────────────────────────────────────────────────────────
+   แทนที่ UX-PACK + SIDE-SLIM ที่เคยฝังซ้ำในทุกหน้า
+   หลักการ:
+     • แตะเฉพาะคลาสที่มีจริงในระบบ ไม่บังคับ display กับคลาสที่เดาเอา
+     • ตัวหนังสือไม่เล็กกว่า 10.5px  ปุ่มกดสูงอย่างน้อย 40px
+     • จอเล็กให้เนื้อหาไหลลงและเลื่อนได้ ไม่บีบจนอ่านไม่ออก
+   โหลดต่อจาก ds.css เสมอ (มาทีหลัง = ทับได้โดยไม่ต้องใช้ !important มาก)
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ═══════════ 1. แถบข้างกระชับ (จอใหญ่) ═══════════ */
+@media (min-width:821px){
+  .app{grid-template-columns:216px 1fr}
+  .app.collapsed{grid-template-columns:64px 1fr}
+  .side{width:auto}
+  .menu a{padding:7px 10px;gap:10px;margin-bottom:1px;border-radius:9px}
+  .menu .lbl b{font-size:12.5px}
+  .menu .lbl i{font-size:8.5px;letter-spacing:.3px}
+  .menu .ic,.menu .ic svg{width:19px;height:19px}
+  .menu .ic{flex:0 0 19px}
+  .brand{padding:11px 12px 9px}
+  .brand .lg{width:36px;height:36px;flex:0 0 36px}
+  .brand .ttl{font-size:13.5px}
+  .brand .kick,.brand .en{font-size:8px}
+  .side-foot{padding:9px 12px;font-size:9.5px;line-height:1.5}
+  /* โหมดย่อ — ไอคอนกลาง + ทูลทิปบอกชื่อ */
+  .app.collapsed .menu a{justify-content:center;padding:9px 0}
+  .app.collapsed .brand{justify-content:center;padding:11px 0 9px}
+  .app.collapsed .menu a::after{content:attr(title);position:absolute;left:calc(100% + 8px);top:50%;
+   transform:translateY(-50%);background:#0f172a;color:#fff;font-size:11px;font-family:'Kanit',sans-serif;
+   padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;
+   transition:opacity .15s;z-index:400;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .app.collapsed .menu a:hover::after{opacity:1}
+}
+
+/* ═══════════ 2. แท็บเล็ตแนวนอน (≤1180px) ═══════════ */
+@media (max-width:1180px){
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(172px,1fr))}
+  .ldl{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+  .slist{grid-template-columns:repeat(auto-fill,minmax(272px,1fr))}
+  .k .kv,.rk .v,.fk .v{font-size:29px}
+}
+
+/* ═══════════ 3. แท็บเล็ตแนวตั้ง (≤900px) ═══════════ */
+@media (max-width:900px){
+  .k,.rk,.fk{padding:13px 14px 12px}
+  .k .kv,.rk .v,.fk .v{font-size:27px;letter-spacing:-.8px}
+  .k .ki,.rk .ic,.fk .ic{width:33px;height:33px;flex:0 0 33px;font-size:16px}
+  .k .kt,.rk .t,.fk .t{font-size:11.5px}
+  .ph h3{font-size:13.5px}
+  .pnl .pb{min-height:290px}
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(163px,1fr))}
+  .ldl,.slist{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .leaflet-container{min-height:320px}
+}
+
+/* ═══════════ 4. มือถือ (≤640px) ═══════════ */
+@media (max-width:640px){
+  /* แถบบน */
+  .topbar{flex-wrap:wrap;row-gap:6px;padding:9px 12px}
+  .topbar .tt{min-width:0;overflow:hidden;text-overflow:ellipsis}
+  .topbar .chip{display:none}
+  .topbar .btn-dark{height:36px;padding:0 12px;font-size:12px}
+
+  /* การ์ด KPI */
+  .k,.rk,.fk{padding:12px 13px 11px;border-radius:16px}
+  .k .kv,.rk .v,.fk .v{font-size:25px}
+  .k .kh,.rk .h,.fk .h{gap:8px;margin-bottom:8px}
+  .k .kd,.rk .d,.fk .d{font-size:10.5px;line-height:1.5}
+
+  /* รายการ/การ์ดต่าง ๆ เป็นคอลัมน์เดียวหรือสองคอลัมน์เล็ก */
+  .stcards{grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:8px;padding:9px 10px}
+  .stc-lv b{font-size:19px}
+  .stc-n{font-size:12px}
+  .ldl,.slist,.tgrid,.wxgrid,.xrows{grid-template-columns:1fr}
+
+  /* ทูลทิป/แผ่นข้อมูลเต็มความกว้าง */
+  .tipbox,.leaflet-tooltip.lft{max-width:calc(100vw - 22px)}
+  .hero .lv b{font-size:21px}
+  .flagpct{font-size:18px}
+
+  /* ปุ่มและแท็บกดง่ายด้วยนิ้ว */
+  .tab,.chip,.pill,.rvchip,.frchip,.btn{min-height:40px}
+  .tabs,.frbar,.rvbar,.segbar{overflow-x:auto;-webkit-overflow-scrolling:touch;
+   scrollbar-width:none;flex-wrap:nowrap}
+  .tabs::-webkit-scrollbar,.frbar::-webkit-scrollbar,.rvbar::-webkit-scrollbar{display:none}
+  .frbar>*,.rvbar>*{flex:0 0 auto}
+
+  /* ตารางเลื่อนแนวนอนแทนบีบจนอ่านไม่ออก */
+  .tblwrap,.tablewrap,.tbl-scroll,.dtwrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+
+  /* ตัวหนังสือขั้นต่ำ — อ่านออกแน่นอน */
+  .kd,.stc-a,.eta-a,.tnote,.abr-lb,.srcnote{font-size:10.5px;line-height:1.55}
+  .eta-g em,.tgrid em,.abx-n em,.cleg3,.cscale{font-size:9.5px}
+
+  /* ลดแอนิเมชันหนักบนเครื่องช้า */
+  .k::after,.k::before,.rk::before,.fk::before{animation:none}
+  .top::after,.hdr::after{animation:none}
+}
+
+/* ═══════════ 5. จอแคบมาก (≤380px) ═══════════ */
+@media (max-width:380px){
+  .stcards{grid-template-columns:1fr}
+  .k .kv,.rk .v,.fk .v{font-size:26px}
+  .topbar .tt{font-size:14px}
+}
+
+/* ═══════════ 6. ปุ่มลอย — ไม่บังเนื้อหา ═══════════ */
+#fabWrap{position:fixed;right:16px;bottom:20px;z-index:9998;
+ display:flex;flex-direction:column;gap:10px;align-items:center}
+#fabWrap button{width:46px;height:46px;border-radius:50%;
+ border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:19px;line-height:1;
+ box-shadow:0 6px 20px rgba(10,30,60,.36);transition:transform .2s,box-shadow .2s;
+ display:flex;align-items:center;justify-content:center}
+#fabWrap button:hover{transform:translateY(-3px)}
+#fabWrap button:active{transform:scale(.93)}
+@media (max-width:640px){
+  #fabWrap{right:11px;bottom:12px;gap:8px}
+  #fabWrap button{width:42px;height:42px;font-size:17px}
+}
+/* จอเตี้ย — เรียงปุ่มเป็นแถวนอน ไม่สูงเกินจอ */
+@media (max-height:560px){
+  #fabWrap{flex-direction:row;bottom:10px;right:10px}
+}
+
+/* ═══════════ 7. จอสัมผัส / การเข้าถึง ═══════════ */
+@media (hover:none){
+  .k:hover,.stc:hover,.eta:hover,.sc:hover,.panel:hover,.trow:hover{transform:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
+   transition-duration:.001ms !important}
+}
+
+/* ═══════════ 8. กันล้นแนวนอนทั้งระบบ ═══════════ */
+html,body{overflow-x:hidden;max-width:100%}
+.app,.main-col,.content,.panel,.pnl{max-width:100%}
+img,svg,canvas{max-width:100%}
+
+/* ═══════════ 9. สั่งพิมพ์ / บันทึก PDF ═══════════ */
+@media print{
+  .side,.topbar,#fabWrap,.tabs,.frbar,.rvbar,.noprint{display:none !important}
+  .app{grid-template-columns:1fr !important}
+  .panel,.pnl,.k,.rk,.fk,.sc{break-inside:avoid;box-shadow:none !important;border:1px solid #ccc !important}
+  .k::before,.k::after,.rk::before,.fk::before{display:none}
+  body{background:#fff}
+  .content{height:auto !important;overflow:visible !important}
+}

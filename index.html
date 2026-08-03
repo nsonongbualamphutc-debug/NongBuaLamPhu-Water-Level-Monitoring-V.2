@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#0a1e3c">
 
 <link rel="stylesheet" href="ds.css?v=50">
+<link rel="stylesheet" href="mobile.css?v=1">
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@200;300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 html,body{height:100%;overflow:hidden}
@@ -115,184 +116,9 @@ h1 b{display:block;font-weight:800;background:linear-gradient(92deg,#fff 15%,#bf
 .tipbox .row b{font-family:'Kanit',sans-serif;font-weight:600;text-align:right}
 </style>
 
-<style id="UX-PACK">
-/* ══════════════════════════════════════════════════════════════════════
-   ชุดที่ 1 — รองรับมือถือ/แท็บเล็ต (ฉบับปลอดภัย)
-   บทเรียนจากรอบก่อน: ห้ามใช้ display/grid-template กับคลาสที่ไม่รู้จัก
-   รอบนี้แตะเฉพาะคลาสที่มีจริงในหน้านี้เท่านั้น และไม่บังคับ display
-   ══════════════════════════════════════════════════════════════════════ */
-
-/* ── แท็บเล็ตแนวนอน (≤1180px) ── */
-@media (max-width:1180px){
-  .stcards{grid-template-columns:repeat(auto-fill,minmax(172px,1fr))}
-  .ldl{grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-  .k .kv{font-size:31px}
-}
-
-/* ── แท็บเล็ตแนวตั้ง (≤900px) ── */
-@media (max-width:900px){
-  .k{padding:14px 14px 13px}
-  .k .kv{font-size:28px;letter-spacing:-.9px}
-  .k .ki{width:34px;height:34px;flex:0 0 34px;font-size:16px}
-  .k .kt{font-size:11.5px}
-  .ph h3{font-size:13.5px}
-  .pnl .pb{min-height:300px}
-  .stcards{grid-template-columns:repeat(auto-fill,minmax(165px,1fr))}
-  .ldl{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
-}
-
-/* ── มือถือ (≤640px) ── */
-@media (max-width:640px){
-  .k{padding:12px 13px 11px;border-radius:16px}
-  .k .kv{font-size:26px}
-  .k .kh{gap:8px;margin-bottom:8px}
-  .k .kd{font-size:10.5px;line-height:1.5}
-  .stcards{grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:8px;padding:9px 10px}
-  .stc-lv b{font-size:19px}
-  .stc-n{font-size:12px}
-  .ldl{grid-template-columns:1fr}
-  .tgrid{grid-template-columns:1fr}
-  .hero .lv b{font-size:21px}
-  .flagpct{font-size:18px}
-  .abx-n b{font-size:14px}
-  .tipbox,.leaflet-tooltip.lft{max-width:calc(100vw - 22px)}
-  /* ตัวหนังสือขั้นต่ำ อ่านออกแน่นอน */
-  .kd,.stc-a,.eta-a,.tnote,.abr-lb{font-size:10.5px;line-height:1.5}
-  .eta-g em,.tgrid em,.abx-n em,.cleg3{font-size:9.5px}
-  /* ปุ่มกดด้วยนิ้ว */
-  .tab,.chip,.pill{min-height:40px}
-  /* แถบแท็บเลื่อนนิ้วได้ */
-  .tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
-  .tabs::-webkit-scrollbar{display:none}
-  /* ลดแอนิเมชันหนัก */
-  .k::after,.k::before{animation:none}
-}
-
-/* ── จอแคบมาก (≤380px) ── */
-@media (max-width:380px){
-  .stcards{grid-template-columns:1fr}
-  .k .kv{font-size:27px}
-}
-
-/* ── จอสัมผัส: ไม่ค้าง hover ── */
-@media (hover:none){
-  .k:hover,.stc:hover,.eta:hover{transform:none}
-}
-
-/* ── เคารพการตั้งค่าลดแอนิเมชัน ── */
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;
-   transition-duration:.001ms !important}
-}
-
-/* ── สั่งพิมพ์ / PDF ── */
-@media print{
-  #themeBtn,.tabs{display:none !important}
-  .k::before,.k::after{display:none}
-  .panel,.pnl,.k{break-inside:avoid;box-shadow:none !important}
-  body{background:#fff}
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   ชุดที่ 2 — โหมดสว่าง / มืด
-   สลับด้วยปุ่มลอยมุมขวาล่าง · จำค่าไว้ในเครื่อง · ตามระบบเป็นค่าเริ่มต้น
-   ══════════════════════════════════════════════════════════════════════ */
-#themeBtn{position:fixed;right:16px;bottom:16px;z-index:9998;width:46px;height:46px;border-radius:50%;
- border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:19px;line-height:1;
- background:linear-gradient(145deg,#0a1e3c,#1e3a5f);color:#fff;
- box-shadow:0 6px 20px rgba(10,30,60,.36);transition:transform .2s,box-shadow .2s}
-#themeBtn:hover{transform:translateY(-3px) rotate(-12deg);box-shadow:0 10px 26px rgba(10,30,60,.45)}
-#themeBtn:active{transform:scale(.93)}
-@media (max-width:640px){#themeBtn{right:12px;bottom:12px;width:42px;height:42px;font-size:17px}}
-
-html[data-theme="dark"]{color-scheme:dark}
-html[data-theme="dark"] body{background:#0b1220;color:#dbe4f0}
-html[data-theme="dark"]{
-  --navy:#dbe4f0; --ink:#e8eef7; --muted:#93a3b8; --faint:#6b7c93;
-  --line:#243247; --bg:#131c2c; --card:#161f31; --gold:#e3c375;
-}
-html[data-theme="dark"] .panel,html[data-theme="dark"] .pnl,
-html[data-theme="dark"] .card{background:#161f31;border-color:#243247;color:#dbe4f0}
-html[data-theme="dark"] .ph{background:linear-gradient(180deg,#18233a,#141d2e);border-bottom-color:#243247}
-html[data-theme="dark"] .ph h3{color:#e8eef7}
-html[data-theme="dark"] .k{background:linear-gradient(150deg,rgba(26,36,56,.94),rgba(19,28,44,.86));
- border-color:rgba(255,255,255,.09);box-shadow:0 4px 18px rgba(0,0,0,.4)}
-html[data-theme="dark"] .k .kt{color:#93a3b8}
-html[data-theme="dark"] .k .kd{color:#8fa0b6}
-html[data-theme="dark"] .k .ki{background:linear-gradient(145deg,#22304a,#1a2437)}
-html[data-theme="dark"] .stc{background:linear-gradient(168deg,#182236,#141d2e);border-color:#243247}
-html[data-theme="dark"] .stc-n{color:#e8eef7}
-html[data-theme="dark"] .stc-a,html[data-theme="dark"] .stc-f .k{color:#8fa0b6}
-html[data-theme="dark"] .stc-f{background:rgba(20,29,46,.7);border-top-color:#243247}
-html[data-theme="dark"] .eta{background:#182236;border-color:#243247}
-html[data-theme="dark"] .eta-g span{background:#131c2c}
-html[data-theme="dark"] .eta-h b,html[data-theme="dark"] .eta-a{color:#dbe4f0}
-html[data-theme="dark"] .ri,html[data-theme="dark"] .ldi{border-color:#243247}
-html[data-theme="dark"] table{color:#dbe4f0}
-html[data-theme="dark"] th{background:#1a2437 !important;color:#c8d5e6 !important;border-color:#243247 !important}
-html[data-theme="dark"] td{border-color:#1f2b3e !important}
-html[data-theme="dark"] tr:hover td{background:#1a2437 !important}
-html[data-theme="dark"] .tipbox,html[data-theme="dark"] .leaflet-tooltip.lft{
- background:#161f31 !important;border-color:#2b3a52 !important;color:#dbe4f0}
-html[data-theme="dark"] .tgrid{background:#243247}
-html[data-theme="dark"] .tgrid div{background:linear-gradient(160deg,#1a2437,#161f31);border-color:#2b3a52}
-html[data-theme="dark"] .tgrid b{color:#e8eef7}
-html[data-theme="dark"] .tnote{background:#1a2437;border-color:#2b3a52;color:#8fa0b6}
-html[data-theme="dark"] .cbar .ctrack{background:#243247}
-html[data-theme="dark"] .abx{background:linear-gradient(160deg,#2a2313,#1a2437);border-color:#6b5518}
-html[data-theme="dark"] .abx.hot{background:linear-gradient(160deg,#2e1717,#1a2437);border-color:#7f2323}
-html[data-theme="dark"] .abx-n div{background:#161f31;border-color:#3a3520}
-html[data-theme="dark"] .abx-msg{background:#161f31;border-color:#3a3520;color:#d8c9a0}
-html[data-theme="dark"] .abx-h{background:#3a3018;color:#f0d99a}
-html[data-theme="dark"] .abx.hot .abx-h{background:#3d1d1d;color:#fca5a5}
-html[data-theme="dark"] input,html[data-theme="dark"] select,html[data-theme="dark"] textarea{
- background:#1a2437;color:#dbe4f0;border-color:#2b3a52}
-html[data-theme="dark"] .leaflet-container{background:#0f1725}
-html[data-theme="dark"] .leaflet-tile{filter:brightness(.72) contrast(1.05) saturate(.85)}
-html[data-theme="dark"] #themeBtn{background:linear-gradient(145deg,#e3c375,#c9a24b);color:#0b1220;
- border-color:rgba(0,0,0,.2)}
-
-
-@media (max-width:1024px) and (min-width:641px){
-  .kpis{gap:11px}
-  .k .kv{font-size:30px}
-}
-
-</style>
 
 
 
-<style id="SIDE-SLIM">
-/* ══════════════════════════════════════════════════════════════════════
-   แถบข้างกระชับ — ลดความกว้าง เพิ่มพื้นที่แดชบอร์ด
-   ปกติ 250px -> 216px  |  โหมดย่อ 76px -> 64px (ไอคอนล้วน)
-   ══════════════════════════════════════════════════════════════════════ */
-@media (min-width:821px){
-  .app{grid-template-columns:216px 1fr}
-  .app.collapsed{grid-template-columns:64px 1fr}
-  .side{width:auto}
-  .menu a{padding:7px 10px;gap:10px;margin-bottom:1px;border-radius:9px}
-  .menu .lbl b{font-size:12.5px}
-  .menu .lbl i{font-size:8.5px;letter-spacing:.3px}
-  .menu .ic{width:19px;height:19px;flex:0 0 19px}
-  .menu .ic svg{width:19px;height:19px}
-  .brand{padding:11px 12px 9px}
-  .brand .lg{width:36px;height:36px;flex:0 0 36px}
-  .brand .ttl{font-size:13.5px}
-  .brand .kick{font-size:8px}
-  .brand .en{font-size:8px}
-  .side-foot{padding:9px 12px;font-size:9.5px;line-height:1.5}
-  /* โหมดย่อ — ไอคอนกลางพอดี มีทูลทิปบอกชื่อ */
-  .app.collapsed .menu a{justify-content:center;padding:9px 0}
-  .app.collapsed .brand{justify-content:center;padding:11px 0 9px}
-  .app.collapsed .menu a::after{content:attr(title);position:absolute;left:calc(100% + 8px);top:50%;
-   transform:translateY(-50%);background:#0f172a;color:#fff;font-size:11px;font-family:'Kanit',sans-serif;
-   padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;
-   transition:opacity .15s;z-index:400;box-shadow:0 4px 14px rgba(0,0,0,.35)}
-  .app.collapsed .menu a:hover::after{opacity:1}
-}
-</style>
 </head>
 <body>
 <div class="cover">
@@ -421,10 +247,6 @@ window.addEventListener('load',function(){
 
 <style id="SOS-CSS">
 /* ══════ ปุ่มลอย: แจ้งเหตุ · แชร์ · สลับโหมด ══════ */
-#fabWrap{position:fixed;right:16px;bottom:16px;z-index:9998;display:flex;flex-direction:column;gap:10px;align-items:center}
-#fabWrap button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);
- cursor:pointer;font-size:19px;line-height:1;box-shadow:0 6px 20px rgba(10,30,60,.36);
- transition:transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center}
 #fabWrap button:hover{transform:translateY(-3px);box-shadow:0 10px 26px rgba(10,30,60,.45)}
 #fabWrap button:active{transform:scale(.93)}
 #sosBtn{background:linear-gradient(145deg,#dc2626,#ef4444);color:#fff;
