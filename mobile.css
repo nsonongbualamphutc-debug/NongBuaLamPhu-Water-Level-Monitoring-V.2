@@ -106,22 +106,39 @@
   .topbar .tt{font-size:14px}
 }
 
-/* ═══════════ 6. ปุ่มลอย — ไม่บังเนื้อหา ═══════════ */
-#fabWrap{position:fixed;right:16px;bottom:20px;z-index:9998;
- display:flex;flex-direction:column;gap:10px;align-items:center}
-#fabWrap button{width:46px;height:46px;border-radius:50%;
- border:1px solid rgba(255,255,255,.25);cursor:pointer;font-size:19px;line-height:1;
- box-shadow:0 6px 20px rgba(10,30,60,.36);transition:transform .2s,box-shadow .2s;
- display:flex;align-items:center;justify-content:center}
-#fabWrap button:hover{transform:translateY(-3px)}
-#fabWrap button:active{transform:scale(.93)}
-@media (max-width:640px){
-  #fabWrap{right:11px;bottom:12px;gap:8px}
-  #fabWrap button{width:42px;height:42px;font-size:17px}
+/* ═══════════ 6. แถบเครื่องมือด้านบน — ไม่บังเนื้อหา ═══════════
+   เดิมเป็นปุ่มลอยมุมขวาล่าง ไปทับตัวเลขในการ์ด
+   ย้ายขึ้นแถบบนซึ่งมีที่ว่างอยู่แล้ว                                */
+#fabWrap{
+  position:static;display:inline-flex;flex-direction:row;gap:6px;align-items:center;
+  margin-left:8px;z-index:auto;
 }
-/* จอเตี้ย — เรียงปุ่มเป็นแถวนอน ไม่สูงเกินจอ */
-@media (max-height:560px){
-  #fabWrap{flex-direction:row;bottom:10px;right:10px}
+#fabWrap button{
+  width:36px;height:36px;border-radius:11px;border:1px solid rgba(15,40,80,.1);
+  cursor:pointer;font-size:16px;line-height:1;box-shadow:0 2px 7px rgba(15,40,80,.14);
+  transition:transform .18s,box-shadow .18s,filter .18s;
+  display:inline-flex;align-items:center;justify-content:center;position:relative;flex:0 0 auto;
+}
+#fabWrap button:hover{transform:translateY(-2px);box-shadow:0 5px 14px rgba(15,40,80,.24);filter:brightness(1.06)}
+#fabWrap button:active{transform:scale(.94)}
+/* ป้ายตัวเลขเล็กลงให้พอดีปุ่ม */
+#fabWrap .bdg{top:-4px;right:-4px;min-width:16px;height:16px;font-size:9px}
+
+/* ยังไม่ถูกย้ายขึ้นแถบบน (บางหน้าโหลดช้า) — กันไว้ไม่ให้ทับเนื้อหา */
+#fabWrap.floating{
+  position:fixed;right:14px;bottom:16px;flex-direction:column;gap:8px;z-index:9998;margin-left:0;
+}
+#fabWrap.floating button{width:42px;height:42px;border-radius:50%;font-size:17px;
+  box-shadow:0 6px 18px rgba(10,30,60,.34)}
+
+@media (max-width:820px){
+  #fabWrap{gap:5px;margin-left:6px}
+  #fabWrap button{width:34px;height:34px;font-size:15px;border-radius:10px}
+}
+@media (max-width:520px){
+  /* จอแคบ — ซ่อนปุ่มรองไว้ก่อน เหลือเฉพาะที่จำเป็น */
+  #fabWrap button{width:32px;height:32px;font-size:14px}
+  #fabWrap #shareBtn{display:none}
 }
 
 /* ═══════════ 7. จอสัมผัส / การเข้าถึง ═══════════ */

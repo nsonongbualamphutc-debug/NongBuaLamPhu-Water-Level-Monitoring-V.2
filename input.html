@@ -314,7 +314,7 @@ details.more .inner{padding:0 14px 14px}
   .two{grid-template-columns:1fr}
   .fhead{top:50px}
 }
-</style><link rel="stylesheet" href="mobile.css?v=1">
+</style><link rel="stylesheet" href="mobile.css?v=2">
 </head>
 <body>
 <header class="top">
@@ -1677,11 +1677,15 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
 
   function boot(){
     if(document.getElementById('fabWrap')) return;
+    /* วางชุดปุ่มไว้ในแถบบนของหน้า (ไม่บังเนื้อหา) — ถ้าไม่มีแถบบนค่อยลอยมุมล่าง */
     var wrap=document.createElement('div'); wrap.id='fabWrap';
     wrap.innerHTML='<button id="sosBtn" type="button" title="แจ้งเหตุ · ติดต่อหน่วยงาน" aria-label="แจ้งเหตุ">🚨</button>'
       +'<button id="shareBtn" type="button" title="แชร์หน้านี้" aria-label="แชร์">🔗</button>'
       +'<button id="themeBtn" type="button">🌙</button>';
-    document.body.appendChild(wrap);
+    var bar=document.querySelector('.topbar')||document.querySelector('header.top')||document.querySelector('.top');
+    var host=bar?(bar.querySelector('.top-right')||bar):null;
+    if(host){ host.appendChild(wrap); }
+    else{ wrap.className='floating'; document.body.appendChild(wrap); }
     var sheet=document.createElement('div'); sheet.id='sosSheet';
     sheet.onclick=function(e){ if(e.target===sheet) wnbSOS(false); };
     document.body.appendChild(sheet);

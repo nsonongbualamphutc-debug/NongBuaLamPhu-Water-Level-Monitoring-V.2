@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&family=Kanit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="ds.css?v=50">
-<link rel="stylesheet" href="mobile.css?v=1">
+<link rel="stylesheet" href="mobile.css?v=2">
 <script src="config.js"></script>
 <style>
 .fr-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(196px,1fr));gap:13px;margin-bottom:14px}
@@ -839,11 +839,15 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
 
   function boot(){
     if(document.getElementById('fabWrap')) return;
+    /* วางชุดปุ่มไว้ในแถบบนของหน้า (ไม่บังเนื้อหา) — ถ้าไม่มีแถบบนค่อยลอยมุมล่าง */
     var wrap=document.createElement('div'); wrap.id='fabWrap';
     wrap.innerHTML='<button id="sosBtn" type="button" title="แจ้งเหตุ · ติดต่อหน่วยงาน" aria-label="แจ้งเหตุ">🚨</button>'
       +'<button id="shareBtn" type="button" title="แชร์หน้านี้" aria-label="แชร์">🔗</button>'
       +'<button id="themeBtn" type="button">🌙</button>';
-    document.body.appendChild(wrap);
+    var bar=document.querySelector('.topbar')||document.querySelector('header.top')||document.querySelector('.top');
+    var host=bar?(bar.querySelector('.top-right')||bar):null;
+    if(host){ host.appendChild(wrap); }
+    else{ wrap.className='floating'; document.body.appendChild(wrap); }
     var sheet=document.createElement('div'); sheet.id='sosSheet';
     sheet.onclick=function(e){ if(e.target===sheet) wnbSOS(false); };
     document.body.appendChild(sheet);
@@ -861,7 +865,7 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot); else boot();
 })();
 </script>
-<script src="weather_alert.js?v=3" defer></script>
+<script src="weather_alert.js?v=4" defer></script>
 
 <script id="SIDE-MEM">
 /* จำสถานะย่อ/ขยายแถบข้าง — เปิดหน้าใหม่ยังคงเดิม */
@@ -884,5 +888,5 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',go); else go();
 })();
 </script>
-<script src="alert_log.js?v=1" defer></script>
+<script src="alert_log.js?v=2" defer></script>
 </body></html>

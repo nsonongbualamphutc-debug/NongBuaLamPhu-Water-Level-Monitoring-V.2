@@ -173,6 +173,22 @@
     setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
   };
 
+  /* หาแถบบนของหน้า แล้ววางชุดปุ่มไว้ท้ายแถบ (ไม่บังเนื้อหา)
+     ถ้าหน้าไหนไม่มีแถบบน ค่อยกลับไปเป็นปุ่มลอยมุมขวาล่าง */
+  function mountHost(){
+    var bar = document.querySelector('.topbar') || document.querySelector('header.top')
+           || document.querySelector('.top');
+    if(!bar) return null;
+    var right = bar.querySelector('.top-right');
+    return right || bar;
+  }
+  function makeWrap(){
+    var w = document.createElement('div'); w.id='fabWrap';
+    var host = mountHost();
+    if(host){ host.appendChild(w); }
+    else { w.className='floating'; document.body.appendChild(w); }
+    return w;
+  }
   function waitFab(){
     return new Promise(function(resolve){
       var n = 0;
