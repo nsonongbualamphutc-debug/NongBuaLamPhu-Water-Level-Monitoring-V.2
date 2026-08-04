@@ -143,15 +143,14 @@
 
 
 /* ══════════════════════════════════════════════════════════════════════
-   แท็บเล็ต (821–1300px) — ให้ "เหมือนคอม"
-   แนวคิด: ไม่ยำเลย์เอาต์ใหม่ (ต้นเหตุการซ้อนทับ) — ใช้เลย์เอาต์เดสก์ท็อป
-           ของจริง ย่อแถบข้างเป็นไอคอน แล้ว "อนุโลมให้เลื่อนแนวนอน"
-           ถ้าจอแคบกว่าเดสก์ท็อป (เลยขอบได้ ตามที่ต้องการ)
-   เดสก์ท็อป (>1300px) ไม่แตะ — คงจอเดียว ไม่เลยขอบ
+   แท็บเล็ต / iPad (768–1300px) — แบบเดียวกับหน้า "ภาพรวมสถานการณ์น้ำ"
+   แนวคิด: แถบข้างเป็นราวไอคอน + เนื้อหาไหลเป็นบล็อกเรียงลง เลื่อนลงได้
+           ไม่บีบ · ไม่เลื่อนแนวนอน · ไม่ทับกัน
+   เดสก์ท็อป (>1300px) ไม่แตะเลย — คงจอเดียวเหมือนเดิม
    ══════════════════════════════════════════════════════════════════════ */
 @media (min-width:768px) and (max-width:1300px){
-  /* แถบข้างเป็นราวไอคอน — คืนพื้นที่ให้เนื้อหา */
-  .app{grid-template-columns:64px 1fr !important}
+  /* แถบข้างเป็นราวไอคอน (อยู่นิ่ง เต็มความสูง) */
+  .app{grid-template-columns:64px 1fr !important;height:100dvh}
   .app .brand .bt,.app .menu .lbl,.app .side-foot{opacity:0;width:0;height:0;pointer-events:none;overflow:hidden}
   .app .menu a{justify-content:center;padding:9px 0}
   .app .brand{justify-content:center;padding:11px 0 9px}
@@ -160,34 +159,34 @@
    padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;
    transition:opacity .15s;z-index:400;box-shadow:0 4px 14px rgba(0,0,0,.35)}
   .app .menu a:hover::after{opacity:1}
-  /* กดปุ่ม ☰ กางเมนูเต็มชั่วคราวได้ */
   .app.navopen{grid-template-columns:216px 1fr !important}
   .app.navopen .brand .bt,.app.navopen .menu .lbl,.app.navopen .side-foot{opacity:1;width:auto;height:auto;pointer-events:auto}
   .app.navopen .menu a{justify-content:flex-start;padding:7px 10px}
   .app.navopen .brand{justify-content:flex-start;padding:11px 12px 9px}
+  /* บางหน้ามี @media ≤820 ฝังในหน้าที่ดัน .side เป็น fixed (ลิ้นชัก)
+     บนแท็บเล็ตต้องดึงกลับเข้ากริดเป็นราวไอคอน ไม่งั้นเนื้อหาไปตกช่อง 64px */
+  .app .side{position:relative !important;transform:none !important;
+   left:auto !important;top:auto !important;width:auto !important;height:auto !important;z-index:auto}
+  .scrim{display:none !important}
 
-  /* คงเลย์เอาต์เดสก์ท็อป — ถ้ากว้างไม่พอให้เลื่อนแนวนอน ไม่ยุบเป็นคอลัมน์เดียว */
-  .main-col,.main{height:100dvh;overflow-x:auto !important;overflow-y:hidden}
-  .content{grid-template-rows:auto minmax(0,1fr) 196px !important;
-   overflow:hidden !important;min-width:940px}
-  /* กันไม่ให้เบรกพอยต์ ≤1050 ของ ds.css ยุบเป็นคอลัมน์เดียว
-     — ตรึงไว้ที่หน้าตา "คอมจอแคบ" (แบบเดียวกับ 1050–1300px) */
-  .mid{grid-template-columns:1.3fr 1fr !important;min-height:0}
-  .bot{grid-template-columns:1fr 1fr !important;min-height:0}
-  .kpis{grid-template-columns:repeat(3,1fr) !important}
-  .col.c3{display:none !important}
-  #map,#prof{position:absolute !important;inset:0 !important;height:auto !important}
-  /* คงกริดเฉพาะหน้าที่ไม่ใช่คลาสร่วม ไม่ให้ยุบเป็นคอลัมน์เดียว */
+  /* เนื้อหาไหลเป็นบล็อกเรียงลง — เลื่อนลงในคอลัมน์เนื้อหา แถบบนอยู่นิ่ง */
+  .main-col,.main{height:100dvh !important;overflow:hidden !important}
+  .content{display:block !important;flex:1 !important;overflow-y:auto !important;overflow-x:hidden !important;
+   height:auto !important;grid-template-rows:none !important;min-width:0 !important;padding:12px 14px 18px !important}
+  .content>*{margin-bottom:12px !important}
+
+  /* คงหลายคอลัมน์แบบคอม (ไม่ยุบเป็น 1 คอลัมน์) แต่กว้างสบาย ไม่บีบ ไม่เลื่อนขวา */
+  .mid,.midrow{grid-template-columns:1fr 1fr !important;min-height:0}
+  .bot,.botrow{grid-template-columns:1fr 1fr !important;min-height:0}
+  .kpis,.kpirow{grid-template-columns:repeat(auto-fit,minmax(200px,1fr)) !important}
   .fr-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) !important}
-  .rvpanels{grid-template-columns:minmax(0,1fr) minmax(0,320px) !important}
+  .rvpanels{grid-template-columns:minmax(0,1fr) minmax(0,300px) !important;height:auto !important}
+  .col.c3,.col.c4{display:flex !important}
 
-  /* dashboard.html มีระบบ responsive ของตัวเองครบ (เบรกพอยต์ 1250/1024)
-     — เอาราวไอคอนไป แต่ให้ "แถวเนื้อหา" วางซ้อนลงตามบล็อกแล้วเลื่อนลงได้
-     (กันปัญหาแถวอัดกันในความสูงจอเดียวจน midrow/botrow ทับกัน) */
-  .app.dash .content{display:block !important;overflow:visible !important;height:auto !important;min-width:0 !important}
-  .app.dash .kpirow,.app.dash .midrow,.app.dash .botrow{margin-bottom:12px}
-  .app.dash .main{overflow-x:hidden !important;overflow-y:auto !important;height:auto !important;min-height:100dvh}
-  .app.dash #map,.app.dash #prof{position:relative !important;inset:auto !important;height:340px !important}
+  /* แผนที่/กราฟกำหนดความสูงเอง เพราะแผงไม่ได้สูงคงที่แล้ว (กันยุบทับ) */
+  .pb{position:relative;min-height:0}
+  .panel,.pnl{min-height:0}
+  #map,#prof,#frmap,.leaflet-container{position:relative !important;inset:auto !important;height:360px !important;min-height:0 !important}
 }
 
 
