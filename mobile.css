@@ -177,6 +177,9 @@
   .kpis{grid-template-columns:repeat(3,1fr) !important}
   .col.c3{display:none !important}
   #map,#prof{position:absolute !important;inset:0 !important;height:auto !important}
+  /* คงกริดเฉพาะหน้าที่ไม่ใช่คลาสร่วม ไม่ให้ยุบเป็นคอลัมน์เดียว */
+  .fr-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) !important}
+  .rvpanels{grid-template-columns:minmax(0,1fr) minmax(0,320px) !important}
 
   /* dashboard.html มีระบบ responsive ของตัวเองครบ (เบรกพอยต์ 1250/1024)
      — เอาราวไอคอนไป แต่ให้ "แถวเนื้อหา" วางซ้อนลงตามบล็อกแล้วเลื่อนลงได้
