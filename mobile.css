@@ -175,18 +175,22 @@
    height:auto !important;grid-template-rows:none !important;min-width:0 !important;padding:12px 14px 18px !important}
   .content>*{margin-bottom:12px !important}
 
-  /* คงหลายคอลัมน์แบบคอม (ไม่ยุบเป็น 1 คอลัมน์) แต่กว้างสบาย ไม่บีบ ไม่เลื่อนขวา */
-  .mid,.midrow{grid-template-columns:1fr 1fr !important;min-height:0}
-  .bot,.botrow{grid-template-columns:1fr 1fr !important;min-height:0}
+  /* หน้าทั่วไป (.mid/.bot มี .col หลายตัว/มีแผนที่) → เรียงเต็มกว้างทีละอัน
+     เหมือนหน้าภาพรวม: แผนที่/แผงกว้างเต็ม อ่านง่าย ไม่บีบ ไม่เหลื่อม */
+  .mid,.bot{grid-template-columns:1fr !important;min-height:0}
+  .fr-grid,.rvpanels{grid-template-columns:1fr !important;height:auto !important}
+  /* หน้าภาพรวม (dashboard) จัดสวยด้วย 2 คอลัมน์อยู่แล้ว — คงไว้ */
+  .midrow,.botrow{grid-template-columns:1fr 1fr !important;min-height:0}
   .kpis,.kpirow{grid-template-columns:repeat(auto-fit,minmax(200px,1fr)) !important}
-  .fr-grid{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) !important}
-  .rvpanels{grid-template-columns:minmax(0,1fr) minmax(0,300px) !important;height:auto !important}
-  .col.c3,.col.c4{display:flex !important}
+  .col,.col.c3,.col.c4{display:flex !important;min-width:0}
 
   /* แผนที่/กราฟกำหนดความสูงเอง เพราะแผงไม่ได้สูงคงที่แล้ว (กันยุบทับ) */
   .pb{position:relative;min-height:0}
   .panel,.pnl{min-height:0}
   #map,#prof,#frmap,.leaflet-container{position:relative !important;inset:auto !important;height:360px !important;min-height:0 !important}
+  /* การ์ดสถานี (เดิม absolute เต็มแผง) → ให้ไหลปกติ ไม่งั้นแผงยุบเหลือแต่หัว */
+  .pb .stcards{position:static !important;inset:auto !important;height:auto !important;overflow:visible !important}
+  .pb:has(.stcards){min-height:0;flex:none}
 }
 
 
