@@ -143,12 +143,14 @@
 
 
 /* ══════════════════════════════════════════════════════════════════════
-   แท็บเล็ต (821–1280px) — แก้เนื้อหาทับซ้อน
-   ต้นเหตุ: แถบข้าง 216px + แผงวางข้างกัน 2 คอลัมน์ = เนื้อหาถูกบีบจนล้น
-   แก้: แถบข้างย่อเป็นไอคอน (64px) อัตโนมัติ + แผงเรียงลงทีละคอลัมน์
+   แท็บเล็ต (821–1300px) — ให้ "เหมือนคอม"
+   แนวคิด: ไม่ยำเลย์เอาต์ใหม่ (ต้นเหตุการซ้อนทับ) — ใช้เลย์เอาต์เดสก์ท็อป
+           ของจริง ย่อแถบข้างเป็นไอคอน แล้ว "อนุโลมให้เลื่อนแนวนอน"
+           ถ้าจอแคบกว่าเดสก์ท็อป (เลยขอบได้ ตามที่ต้องการ)
+   เดสก์ท็อป (>1300px) ไม่แตะ — คงจอเดียว ไม่เลยขอบ
    ══════════════════════════════════════════════════════════════════════ */
-@media (min-width:821px) and (max-width:1280px){
-  /* แถบข้างย่อเองอัตโนมัติ ได้พื้นที่คืน 152px */
+@media (min-width:768px) and (max-width:1300px){
+  /* แถบข้างเป็นราวไอคอน — คืนพื้นที่ให้เนื้อหา */
   .app{grid-template-columns:64px 1fr !important}
   .app .brand .bt,.app .menu .lbl,.app .side-foot{opacity:0;width:0;height:0;pointer-events:none;overflow:hidden}
   .app .menu a{justify-content:center;padding:9px 0}
@@ -158,30 +160,31 @@
    padding:5px 10px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;
    transition:opacity .15s;z-index:400;box-shadow:0 4px 14px rgba(0,0,0,.35)}
   .app .menu a:hover::after{opacity:1}
-  /* กดปุ่ม ☰ เพื่อกางกลับได้ */
+  /* กดปุ่ม ☰ กางเมนูเต็มชั่วคราวได้ */
   .app.navopen{grid-template-columns:216px 1fr !important}
   .app.navopen .brand .bt,.app.navopen .menu .lbl,.app.navopen .side-foot{opacity:1;width:auto;height:auto;pointer-events:auto}
   .app.navopen .menu a{justify-content:flex-start;padding:7px 10px}
   .app.navopen .brand{justify-content:flex-start;padding:11px 12px 9px}
 
-  /* แผงเรียงลงทีละคอลัมน์ — ไม่บีบจนทับกัน */
-  .fr-grid,.rvpanels,.grid2,.row2{grid-template-columns:1fr !important}
-  .fr-grid>*,.rvpanels>*{height:auto !important;min-height:0}
-  .content{display:block !important;height:auto !important;
-   overflow-y:auto !important;padding:13px 15px 20px !important}
-  .main-col{height:100vh;overflow:hidden}
-  .main-col>.content{height:calc(100vh - 54px) !important}
-  .panel,.pnl{margin-bottom:13px}
-  .pnl .pb,.panel .pb{position:static !important;height:auto !important;min-height:0 !important;overflow:visible !important}
-  .pb .stcards,.pb .ldl,.pb .slist{position:static !important;inset:auto !important;
-   max-height:none !important;overflow:visible !important}
-  /* แผนที่/รายการสูงพอใช้งาน ไม่ล้น */
-  #frmap,.leaflet-container{height:420px !important;min-height:0 !important}
-  #rlist,#tlist{max-height:340px;overflow-y:auto}
-  .stcards{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
-  .ldl,.slist{grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
-  /* KPI 3 ใบต่อแถว อ่านสบาย */
-  .kpis,.rv-kpis,.fr-kpis,.kpirow{grid-template-columns:repeat(auto-fit,minmax(210px,1fr)) !important}
+  /* คงเลย์เอาต์เดสก์ท็อป — ถ้ากว้างไม่พอให้เลื่อนแนวนอน ไม่ยุบเป็นคอลัมน์เดียว */
+  .main-col,.main{height:100dvh;overflow-x:auto !important;overflow-y:hidden}
+  .content{grid-template-rows:auto minmax(0,1fr) 196px !important;
+   overflow:hidden !important;min-width:940px}
+  /* กันไม่ให้เบรกพอยต์ ≤1050 ของ ds.css ยุบเป็นคอลัมน์เดียว
+     — ตรึงไว้ที่หน้าตา "คอมจอแคบ" (แบบเดียวกับ 1050–1300px) */
+  .mid{grid-template-columns:1.3fr 1fr !important;min-height:0}
+  .bot{grid-template-columns:1fr 1fr !important;min-height:0}
+  .kpis{grid-template-columns:repeat(3,1fr) !important}
+  .col.c3{display:none !important}
+  #map,#prof{position:absolute !important;inset:0 !important;height:auto !important}
+
+  /* dashboard.html มีระบบ responsive ของตัวเองครบ (เบรกพอยต์ 1250/1024)
+     — เอาราวไอคอนไป แต่ให้ "แถวเนื้อหา" วางซ้อนลงตามบล็อกแล้วเลื่อนลงได้
+     (กันปัญหาแถวอัดกันในความสูงจอเดียวจน midrow/botrow ทับกัน) */
+  .app.dash .content{display:block !important;overflow:visible !important;height:auto !important;min-width:0 !important}
+  .app.dash .kpirow,.app.dash .midrow,.app.dash .botrow{margin-bottom:12px}
+  .app.dash .main{overflow-x:hidden !important;overflow-y:auto !important;height:auto !important;min-height:100dvh}
+  .app.dash #map,.app.dash #prof{position:relative !important;inset:auto !important;height:340px !important}
 }
 
 
@@ -199,8 +202,6 @@
   .topbar .btn-dark,.top-right .btn,.btn.gd{height:34px;padding:0 11px;font-size:11.5px}
   #fabWrap{margin-left:4px;gap:5px}
   #fabWrap button{width:33px;height:33px;font-size:15px;border-radius:10px}
-  .main-col>.content{height:auto !important;max-height:none !important}
-  .main-col{height:auto;min-height:100vh;overflow:visible}
 }
 @media (max-width:900px){
   .topbar .chip,.top-right .chip,.live{display:none !important}
