@@ -341,7 +341,7 @@ html[data-theme="dark"] .tamlbl{color:#e8eef7;text-shadow:0 0 3px #0b1220,0 0 3p
           <div id="xbox"></div>
           <div class="mapwrap">
             <div id="frmap"></div>
-            <div class="mapov" id="mapov"><b>—</b><em>กำลังโหลด…</em></div>
+            <div class="mapov" id="mapov" style="display:none"></div>
             <div class="basesw">
               <button class="on" id="bA" onclick="setBase('a')">แผนที่</button>
               <button id="bB" onclick="setBase('b')">ดาวเทียม</button>
@@ -486,12 +486,16 @@ function setBase(k){
   if(layer) layer.bringToFront();
 }
 function updOverlay(){
-  const rows=TAMB.filter(r=>!FAMP||r.amphoe===FAMP);
+  const el=document.getElementById('mapov');
+  if(!el) return;
+  /* ทุกอำเภอ = ซ้ำกับการ์ด KPI ด้านบน → ซ่อน · โชว์เฉพาะตอนเจาะรายอำเภอ */
+  if(!FAMP){ el.style.display='none'; el.innerHTML=''; return; }
+  el.style.display='';
+  const rows=TAMB.filter(r=>r.amphoe===FAMP);
   const rai=rows.reduce((a,r)=>a+r.rai,0);
   const n=GJ?GJ.features.filter(visible).length:0;
-  const el=document.getElementById('mapov');
-  if(el) el.innerHTML=`<b>${nf(rai,0)}<small>ไร่</small></b>
-    <em>${FAMP||'ทั้งจังหวัด'} · พื้นที่น้ำท่วมซ้ำซาก</em>
+  el.innerHTML=`<b>${nf(rai,0)}<small>ไร่</small></b>
+    <em>${FAMP} · พื้นที่น้ำท่วมซ้ำซาก</em>
     <div class="sp"><div><u>${n}</u><i>แปลง</i></div>
       <div><u>${rows.length}</u><i>ตำบล</i></div>
       <div><u>${nf(rai*1600/1e6,2)}</u><i>ตร.กม.</i></div></div>`;
