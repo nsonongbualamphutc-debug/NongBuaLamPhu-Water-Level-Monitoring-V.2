@@ -11,7 +11,7 @@
   'use strict';
   if (window.__ALERT_POP__) return;  window.__ALERT_POP__ = true;
 
-  var GAS = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || (typeof GAS!=='undefined'?GAS:'');
+  var GAS = (window.APP_CONFIG && window.APP_CONFIG.API_URL) || window.GAS || '';
   var SEEN = 'wnb_pop_seen';
   var AMP = [
     {n:'เมืองหนองบัวลำภู', la:17.1656, lo:102.3953},
@@ -38,7 +38,17 @@
    +  'background:linear-gradient(135deg,#b91c1c,#ef4444)}'
    + '#popCard.lv2 .ph{background:linear-gradient(135deg,#b45309,#f59e0b)}'
    + '#popCard.lv0 .ph{background:linear-gradient(135deg,#15803d,#22c55e)}'
-   + '#popCard .ph b{display:block;font-family:"Kanit",sans-serif;font-weight:700;font-size:18px;line-height:1.35}'
+   + '#popCard .ph::after{content:"";position:absolute;right:-40px;top:-60px;width:190px;height:190px;'
+   +  'border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.22),transparent 68%);pointer-events:none}'
+   + '#popCard .ph b{display:block;font-family:"Kanit",sans-serif;font-weight:700;font-size:19px;line-height:1.35;'
+   +  'position:relative;z-index:2}'
+   + '#popCard .ph .beat{display:inline-block;animation:pBeat 1.5s ease-in-out infinite;margin-right:6px}'
+   + '@keyframes pBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}'
+   + '.pstat{display:flex;gap:8px;margin-bottom:13px}'
+   + '.pstat div{flex:1;text-align:center;background:#f8fafc;border:1px solid #eef2f7;border-radius:12px;padding:9px 6px}'
+   + '.pstat em{display:block;font-style:normal;font-size:9.5px;color:#8798ad;line-height:1.3}'
+   + '.pstat b{display:block;font-family:"Kanit",sans-serif;font-weight:800;font-size:21px;line-height:1.2;margin-top:2px}'
+   + 'html[data-theme="dark"] .pstat div{background:#131c2c;border-color:#243247}'
    + '#popCard .ph span{display:block;font-size:11.5px;opacity:.94;margin-top:4px}'
    + '#popCard .ph .x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;'
    +  'background:rgba(255,255,255,.22);border:0;color:#fff;font-size:18px;cursor:pointer}'
@@ -143,13 +153,16 @@
     var card=document.getElementById('popCard');
     card.className = lv===3?'':(lv===2?'lv2':'lv0');
 
-    var head = lv===3 ? '🚨 แจ้งเตือนสถานการณ์น้ำ'
-             : (lv===2 ? '⚠️ เฝ้าระวังสถานการณ์น้ำ' : '✅ สถานการณ์ปกติ');
+    var head = lv===3 ? 'แจ้งเตือนสถานการณ์น้ำ'
+             : (lv===2 ? 'เฝ้าระวังสถานการณ์น้ำ' : 'สถานการณ์ปกติ');
     var sub  = lv===0 ? 'ไม่มีจุดเกินตลิ่ง และไม่มีพื้นที่คาดฝนหนักใน 24 ชม.'
              : [nC?nC+' จุดเกินตลิ่ง':'', nW?nW+' จุดเฝ้าระวัง':'',
                 R.length?R.length+' อำเภอคาดฝนหนัก':''].filter(Boolean).join(' · ');
 
-    var body='';
+    var body='<div class="pstat">'
+      + '<div><em>เกินตลิ่ง</em><b style="color:#dc2626">'+nC+'</b></div>'
+      + '<div><em>เฝ้าระวัง</em><b style="color:#f59e0b">'+nW+'</b></div>'
+      + '<div><em>อำเภอฝนหนัก</em><b style="color:#0369a1">'+R.length+'</b></div></div>';
     if(W.length){
       body += '<div class="pgrp">💧 สถานีที่ต้องติดตาม</div>';
       body += W.slice(0,6).map(function(x){
@@ -196,7 +209,7 @@
           + '<div class="pact"><b>ข้อเสนอแนะการปฏิบัติ</b><ul><li>'+acts.join('</li><li>')+'</li></ul></div>';
 
     card.innerHTML =
-      '<div class="ph"><b>'+head+'</b><span>'+sub+' · ข้อมูล ณ '
+      '<div class="ph"><b><span class="beat">'+(lv===3?'🚨':(lv===2?'⚠️':'✅'))+'</span>'+head+'</b><span>'+sub+' · ข้อมูล ณ '
       + new Date().toLocaleString('th-TH',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'})+' น.</span>'
       + '<button class="x" onclick="wnbPop(false)" aria-label="ปิด">✕</button></div>'
       + '<div class="pb">'+body+'</div>'
@@ -227,15 +240,13 @@
 
     /* เด้งชั่วโมงละครั้ง — กันรบกวน */
     var seen=null; try{ seen=sessionStorage.getItem(SEEN); }catch(e){}
-    if(seen===hourKey()) return;
+    if(seen===hourKey()){ console.log('[popup] แสดงไปแล้วในชั่วโมงนี้'); return; }
 
     var res = await Promise.all([loadWater(), loadRain()]);
     render(res[0], res[1]);
     /* ไม่มีอะไรผิดปกติ = ไม่ต้องเด้งกวน */
-    if(!res[0].length && !res[1].length){
-      try{ sessionStorage.setItem(SEEN, hourKey()); }catch(e){}
-      return;
-    }
+    console.log('[popup] สถานีผิดปกติ',res[0].length,'| พื้นที่ฝนหนัก',res[1].length);
+    /* เด้งเสมอ — แม้ทุกอย่างปกติก็แจ้งให้อุ่นใจ (ครั้งเดียวต่อชั่วโมง) */
     wnbPop(true);
   }
 
