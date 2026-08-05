@@ -153,16 +153,21 @@
     <div class="mid">
       <div class="col">
         <div class="panel f1">
-          <div class="ph"><div><h3 data-tip="แท่งฟ้า = โอกาสเกิดฝนรายชั่วโมง (%) · เส้นส้ม = อุณหภูมิ (°C) — ใช้ดูว่าฝนจะตกช่วงไหนของวัน">ฝนและอุณหภูมิวันนี้<span class="sub">แท่ง = โอกาสฝน (%) · เส้น = อุณหภูมิ (°C)</span></h3></div><span class="meta" id="sun">—</span></div>
+          <div class="ph"><div><h3 data-tip="แท่งฟ้า = โอกาสเกิดฝนรายชั่วโมง (%) · เส้นส้ม = อุณหภูมิ (°C) — ใช้ดูว่าฝนจะตกช่วงไหนของวัน">ฝนและอุณหภูมิวันนี้<span class="sub">แท่ง = โอกาสฝน (%) · เส้น = อุณหภูมิ (°C)</span></h3></div><div class="segx" data-card="c1"><button class="on" data-v="chart">ฝน/อุณหภูมิ</button><button data-v="radar">เรดาร์ฝน</button></div><span class="meta" id="sun">—</span></div>
           <div class="pb"><canvas id="hourly"></canvas></div>
           <div class="hrow" id="hrow"></div>
+<div class="radarWrap">
+  <div class="radarBox" id="radarBox"><div class="layer" id="radarLayer"><img id="radarImg" alt="เรดาร์ฝน TMD"></div><div class="fail" id="radarFail">โหลดภาพเรดาร์ไม่ได้ · กดปุ่ม ↻ อีกครั้ง</div></div>
+  <div class="radarBar"><button data-z="in">＋</button><button data-z="out">－</button><button data-z="fit">ทั้งประเทศ</button><button data-z="isan">ซูมอีสานตอนบน</button><button data-z="reload">↻</button><span class="stamp" id="radarStamp">—</span></div>
+</div>
         </div>
       </div>
       <div class="col">
         <div class="panel f2">
-          <div class="ph"><div><h3 data-tip="สถานะสถานีตรวจวัดระดับน้ำทั้ง 20 จุดของจังหวัด และจุดที่ใกล้ล้นตลิ่งที่สุด">สถานการณ์น้ำวันนี้<span class="sub">20 สถานีตรวจวัด · 4 ลำน้ำ</span></h3></div><a href="dashboard.html">แผนที่ →</a></div>
+          <div class="ph"><div><h3 data-tip="สถานะสถานีตรวจวัดระดับน้ำทั้ง 20 จุดของจังหวัด และจุดที่ใกล้ล้นตลิ่งที่สุด">สถานการณ์น้ำวันนี้<span class="sub">20 สถานีตรวจวัด · 4 ลำน้ำ</span></h3></div><div class="segx" data-card="c2"><button class="on" data-v="water">น้ำวันนี้</button><button data-v="wx">อากาศ</button></div><a href="dashboard.html">แผนที่ →</a></div>
           <div class="wstat" id="wstat"></div>
           <div class="wlist" id="wlist"></div>
+<div class="wxWrap"><div id="wxBody" style="display:flex;flex-direction:column;gap:11px;flex:1;width:100%"></div></div>
         </div>
         <div class="panel f1">
           <div class="ph"><div><h3 data-tip="สถานะการเปิด-ปิดบานประตูระบายน้ำของกรมชลประทาน">ประตูระบายน้ำ<span class="sub">สถานะบานประตู</span></h3></div></div>
@@ -595,4 +600,135 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
 })();
 </script>
 <script src="alert_log.js?v=2" defer></script>
+<style id="ADD-CSS">
+.segx{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}
+.segx button{border:0;background:transparent;font-family:var(--disp);font-size:9.5px;font-weight:600;color:var(--muted);padding:4px 8px;border-radius:6px;cursor:pointer;white-space:nowrap}
+.segx button.on{background:var(--navy);color:#fff}
+.panel .radarWrap,.panel .wxWrap{display:none}
+.panel.mode-radar .pb,.panel.mode-radar .hrow,.panel.mode-radar .meta{display:none!important}
+.panel.mode-radar .radarWrap{display:flex}
+.panel.mode-wx .wstat,.panel.mode-wx .wlist{display:none!important}
+.panel.mode-wx .ph a{visibility:hidden}
+.panel.mode-wx .wxWrap{display:flex}
+/* ---- ตัวดูเรดาร์ TMD (ลาก/ซูม) ---- */
+.radarWrap{flex:1;min-height:0;flex-direction:column;padding:6px 10px 8px}
+.radarBox{position:relative;flex:1;min-height:120px;background:#0a1e3c;border-radius:10px;overflow:hidden;cursor:grab;touch-action:none}
+.radarBox.drag{cursor:grabbing}
+.radarBox .layer{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.radarBox .layer img{display:block;max-width:none;-webkit-user-drag:none;user-select:none}
+.radarBox .fail{position:absolute;inset:0;display:none;place-items:center;color:#cbd5e1;font-size:11px;text-align:center;padding:16px}
+.radarBar{display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap}
+.radarBar button{background:var(--bg);border:1px solid var(--line);border-radius:7px;font-family:var(--disp);font-size:10px;color:var(--navy);padding:4px 9px;cursor:pointer;line-height:1.2}
+.radarBar .stamp{margin-left:auto;font-size:9px;color:var(--muted);white-space:nowrap}
+/* ---- สภาพอากาศขณะนี้ (ในการ์ดน้ำวันนี้) ---- */
+.wxWrap{flex:1;min-height:0;flex-direction:column;padding:11px 13px;gap:11px;overflow-y:auto}
+.wxHead{display:flex;align-items:center;gap:13px}
+.wxHead .ico{font-size:42px;line-height:1}
+.wxHead .t{font-family:var(--disp);font-weight:800;font-size:34px;color:var(--navy);line-height:1}
+.wxHead .t small{font-size:16px;font-weight:600}
+.wxHead .d{font-size:11px;color:var(--muted);font-family:var(--disp);margin-top:3px}
+.wxGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.wxGrid>div{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 3px;text-align:center}
+.wxGrid b{font-family:var(--disp);font-size:15px;color:var(--navy);display:block;line-height:1.1}
+.wxGrid span{font-size:8.5px;color:var(--muted)}
+.wxSun{font-size:10px;color:var(--muted);text-align:center;font-family:var(--disp)}
+.wxWrap .wsrc{font-size:9px;color:#94a3b8;text-align:center;margin-top:auto}
+</style>
+
+<script id="ADD-JS">
+(function(){
+"use strict";
+var RADAR="https://satda.tmd.go.th/wp-content/uploads/data/radar_composite/max/composite_th_latest.gif";
+
+/* ---------- ปุ่มสลับในหัวการ์ด ---------- */
+document.addEventListener('click',function(e){
+  var b=e.target.closest('.segx button'); if(!b) return;
+  var seg=b.parentNode, panel=seg.closest('.panel'), card=seg.getAttribute('data-card'), v=b.getAttribute('data-v');
+  seg.querySelectorAll('button').forEach(function(x){x.classList.remove('on');}); b.classList.add('on');
+  if(card==='c1'){ panel.classList.toggle('mode-radar', v==='radar'); if(v==='radar') initRadar(); }
+  if(card==='c2'){ panel.classList.toggle('mode-wx', v==='wx'); if(v==='wx') renderWx(); }
+});
+
+/* ================= เรดาร์ TMD : ลาก/ซูม ================= */
+var R=null; // state
+function initRadar(){
+  if(R) { R.refit(); return; }
+  var box=document.getElementById('radarBox'), layer=document.getElementById('radarLayer'),
+      img=document.getElementById('radarImg'), fail=document.getElementById('radarFail'),
+      stamp=document.getElementById('radarStamp');
+  var s={scale:1,tx:0,ty:0,nw:0,nh:0,base:1,init:false};
+  function size(){return [box.clientWidth||1, box.clientHeight||1];}
+  function apply(){layer.style.transform='translate('+s.tx+'px,'+s.ty+'px) scale('+s.scale+')';}
+  function clamp(){var d=size(),w=d[0],h=d[1],iw=s.nw*s.scale,ih=s.nh*s.scale;
+    s.tx = iw<=w ? (w-iw)/2 : Math.min(0,Math.max(w-iw,s.tx));
+    s.ty = ih<=h ? (h-ih)/2 : Math.min(0,Math.max(h-ih,s.ty));}
+  function fit(){var d=size();s.base=Math.min(d[0]/s.nw,d[1]/s.nh)||1;s.scale=s.base;clamp();apply();}
+  function zoomAt(cx,cy,f){var ns=Math.max(s.base,Math.min(s.base*9,s.scale*f)),k=ns/s.scale;
+    s.tx=cx-(cx-s.tx)*k; s.ty=cy-(cy-s.ty)*k; s.scale=ns; clamp(); apply();}
+  function preset(fx,fy,scl){var d=size();s.scale=s.base*scl;
+    s.tx=d[0]/2-fx*s.nw*s.scale; s.ty=d[1]/2-fy*s.nh*s.scale; clamp(); apply();}
+  function stampNow(){stamp.textContent='อัปเดต '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})+' น.';}
+  function reload(){fail.style.display='none';img.src=RADAR+'?t='+Date.now();stampNow();}
+  img.onload=function(){s.nw=img.naturalWidth;s.nh=img.naturalHeight; if(!s.init){s.init=true;fit();} else {clamp();apply();}};
+  img.onerror=function(){fail.style.display='grid';};
+
+  /* ลาก + จีบนิ้ว */
+  var pts={},lastDist=0,lastMid=null;
+  box.addEventListener('pointerdown',function(e){box.setPointerCapture(e.pointerId);pts[e.pointerId]={x:e.clientX,y:e.clientY};box.classList.add('drag');});
+  box.addEventListener('pointermove',function(e){
+    if(!pts[e.pointerId])return; var ids=Object.keys(pts);
+    if(ids.length===1){var p=pts[e.pointerId];s.tx+=e.clientX-p.x;s.ty+=e.clientY-p.y;p.x=e.clientX;p.y=e.clientY;clamp();apply();}
+    else if(ids.length===2){pts[e.pointerId].x=e.clientX;pts[e.pointerId].y=e.clientY;
+      var a=pts[ids[0]],b=pts[ids[1]],dist=Math.hypot(a.x-b.x,a.y-b.y),r=box.getBoundingClientRect(),
+          mx=(a.x+b.x)/2-r.left,my=(a.y+b.y)/2-r.top;
+      if(lastDist)zoomAt(mx,my,dist/lastDist); lastDist=dist;}
+  });
+  function up(e){delete pts[e.pointerId]; if(Object.keys(pts).length<2)lastDist=0; if(!Object.keys(pts).length)box.classList.remove('drag');}
+  box.addEventListener('pointerup',up); box.addEventListener('pointercancel',up);
+  box.addEventListener('wheel',function(e){e.preventDefault();var r=box.getBoundingClientRect();zoomAt(e.clientX-r.left,e.clientY-r.top, e.deltaY<0?1.15:0.87);},{passive:false});
+
+  document.querySelector('.radarBar').addEventListener('click',function(e){
+    var z=e.target.getAttribute&&e.target.getAttribute('data-z'); if(!z)return; var d=size();
+    if(z==='in')zoomAt(d[0]/2,d[1]/2,1.4);
+    else if(z==='out')zoomAt(d[0]/2,d[1]/2,0.7);
+    else if(z==='fit')fit();
+    else if(z==='isan')preset(0.60,0.32,2.6);   /* ประมาณอีสานตอนบน */
+    else if(z==='reload')reload();
+  });
+  window.addEventListener('resize',function(){if(document.querySelector('.panel.mode-radar')){clamp();apply();}});
+
+  R={refit:function(){setTimeout(function(){if(!s.init&&s.nw){s.init=true;fit();}else{clamp();apply();}},30);}};
+  reload();
+  setInterval(reload,5*60*1000);
+}
+
+/* ================= สภาพอากาศขณะนี้ (reuse WX) ================= */
+var wxTries=0;
+function renderWx(){
+  var el=document.getElementById('wxBody'); if(!el)return;
+  if(!window.WX||!WX.current||!WX.daily){
+    el.innerHTML='<div style="color:var(--muted);font-size:12px;padding:18px;text-align:center">กำลังโหลดข้อมูลอากาศ…</div>';
+    if(wxTries++<8) setTimeout(renderWx,1200); return;
+  }
+  var c=WX.current, dd=WX.daily, w=(typeof wmo==='function')?wmo(dd.weather_code[0]):['',''];
+  var hi=Math.round(dd.temperature_2m_max[0]), lo=Math.round(dd.temperature_2m_min[0]);
+  var uv=dd.uv_index_max?Math.round(dd.uv_index_max[0]):'—';
+  var aqEl=document.getElementById('aqiN'); var aq=aqEl?aqEl.textContent.trim():'—';
+  var sr=(dd.sunrise&&dd.sunrise[0]?dd.sunrise[0].slice(11,16):'—'), ss=(dd.sunset&&dd.sunset[0]?dd.sunset[0].slice(11,16):'—');
+  el.innerHTML=
+    '<div class="wxHead"><span class="ico">'+w[1]+'</span>'+
+      '<div><div class="t">'+Math.round(c.temperature_2m)+'<small>°C</small></div>'+
+      '<div class="d">'+w[0]+' · สูง '+hi+'° ต่ำ '+lo+'°</div></div></div>'+
+    '<div class="wxGrid">'+
+      '<div><b>'+c.relative_humidity_2m+'%</b><span>ความชื้น</span></div>'+
+      '<div><b>'+Math.round(c.wind_speed_10m)+'</b><span>ลม กม./ชม.</span></div>'+
+      '<div><b>'+uv+'</b><span>ดัชนี UV</span></div>'+
+      '<div><b style="font-size:12px">'+aq+'</b><span>คุณภาพอากาศ</span></div>'+
+    '</div>'+
+    '<div class="wxSun">☀ '+sr+' น.   🌙 '+ss+' น.</div>'+
+    '<div class="wsrc">ข้อมูล © Open-Meteo · จุดอ้างอิง อ.เมืองหนองบัวลำภู</div>';
+}
+})();
+</script>
+
 </body></html>
