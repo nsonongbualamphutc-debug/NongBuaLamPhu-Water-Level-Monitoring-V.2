@@ -654,6 +654,16 @@ document.addEventListener('click',function(e){
 });
 
 /* ================= เรดาร์ TMD : ลาก/ซูม ================= */
+/* ---------- ค่าเริ่มต้น: แสดงเรดาร์และอากาศทันทีเมื่อเปิดหน้า ---------- */
+function initDefaultPanels(){
+  var radarPanel=document.querySelector('.panel.f1');
+  var weatherPanel=document.querySelector('.panel.f2');
+  if(radarPanel){radarPanel.classList.add('mode-radar');initRadar();}
+  if(weatherPanel){weatherPanel.classList.add('mode-wx');renderWx();}
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initDefaultPanels);
+else initDefaultPanels();
+
 var R=null; // state
 function initRadar(){
   if(R) { R.refit(); return; }
