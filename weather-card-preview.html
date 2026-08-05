@@ -1,0 +1,48 @@
+<!DOCTYPE html><html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0a1e3c;--muted:#64748b;--line:#e4eaf2;--crit:#dc2626;--info:#0ea5e9;--disp:'Kanit',sans-serif}
+body{background:#eef2f7;font-family:'Sarabun',sans-serif;display:grid;place-items:center;min-height:100vh;margin:0;padding:20px}
+.card{width:340px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 6px 20px rgba(15,40,80,.08);overflow:hidden}
+.ph{padding:9px 13px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}
+.ph h3{font-family:var(--disp);font-size:12.5px;font-weight:700;color:var(--navy);margin:0}
+.segx{display:inline-flex;background:#eef2f7;border:1px solid var(--line);border-radius:8px;padding:2px;gap:2px}
+.segx button{border:0;font-family:var(--disp);font-size:9.5px;font-weight:600;color:var(--muted);padding:4px 8px;border-radius:6px;cursor:pointer;background:transparent}
+.segx button.on{background:var(--navy);color:#fff}
+.wxTop{background:linear-gradient(135deg,#e0f2fe 0%,#eef4ff 60%,#f5f3ff 100%);padding:14px 16px 13px;display:flex;align-items:center;gap:14px;position:relative}
+.wxTop::after{content:"";position:absolute;left:14px;right:14px;bottom:0;height:1px;background:var(--line)}
+.wxTop .ico{font-size:50px;line-height:1;filter:drop-shadow(0 5px 9px rgba(2,132,199,.22))}
+.wxTop .t{font-family:var(--disp);font-weight:800;font-size:42px;color:var(--navy);line-height:.92;letter-spacing:-1px}
+.wxTop .t small{font-size:17px;font-weight:600;color:var(--muted)}
+.wxTop .cond{font-size:12.5px;color:#334155;font-family:var(--disp);font-weight:500;margin-top:3px}
+.wxTop .hl{display:flex;gap:6px;margin-top:7px}
+.wxTop .hl span{font-size:10px;font-family:var(--disp);font-weight:700;background:#fff;border:1px solid var(--line);border-radius:99px;padding:2px 10px}
+.wxTop .hl .hi{color:var(--crit)} .wxTop .hl .lo{color:var(--info)}
+.wxBody2{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.wxGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.wxT{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 4px 8px;text-align:center;box-shadow:0 2px 7px rgba(15,40,80,.05)}
+.wxT .ti{font-size:15px}.wxT b{font-family:var(--disp);font-size:16px;color:var(--navy);display:block;margin-top:3px;line-height:1}
+.wxT span{font-size:8.5px;color:var(--muted);display:block;margin-top:3px;line-height:1.2}
+.wxT.aq b{display:inline-flex;align-items:center;justify-content:center;gap:5px}
+.wxT .dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.wxSun{display:flex;justify-content:center;gap:18px;font-size:11px;color:#475569;font-family:var(--disp);font-weight:500;background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:8px}
+.wxSrc{font-size:9px;color:#94a3b8;text-align:center;line-height:1.5}
+</style></head><body>
+<div class="card">
+  <div class="ph"><h3>สถานการณ์น้ำวันนี้</h3>
+    <div class="segx"><button class="on">อากาศ</button><button>น้ำวันนี้</button></div></div>
+  <div class="wxTop"><span class="ico">⛈️</span>
+    <div><div class="t">25<small>°C</small></div>
+    <div class="cond">พายุฝนฟ้าคะนอง</div>
+    <div class="hl"><span class="hi">▲ 26°</span><span class="lo">▼ 24°</span></div></div></div>
+  <div class="wxBody2"><div class="wxGrid">
+    <div class="wxT"><div class="ti">💧</div><b>96%</b><span>ความชื้น</span></div>
+    <div class="wxT"><div class="ti">🍃</div><b>7</b><span>ลม กม./ชม.</span></div>
+    <div class="wxT"><div class="ti">☀️</div><b>1</b><span>ดัชนี UV</span></div>
+    <div class="wxT aq"><div class="ti">🌫️</div><b><span class="dot" style="background:#22c55e"></span>34</b><span>ดี</span></div>
+  </div>
+  <div class="wxSun">☀ ขึ้น 05:50 น.　🌙 ตก 18:41 น.</div>
+  <div class="wxSrc">คุณภาพอากาศ © Air4Thai กรมควบคุมมลพิษ · สถานีอุดรธานี<br>อุณหภูมิ/ฝน © Open-Meteo · อ้างอิง อ.เมืองหนองบัวลำภู</div></div>
+</div>
+</body></html>
