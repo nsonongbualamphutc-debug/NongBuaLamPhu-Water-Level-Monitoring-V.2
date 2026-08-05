@@ -174,14 +174,17 @@ var TYPES = {
   hydro:    { icon:"📡", title:"สถานีอุทกวิทยา", cols:[
       {f:"normal",label:"ปกติ (รทก.)"},{f:"warn",label:"เฝ้าระวัง (รทก.)"},{f:"crit",label:"วิกฤติ (รทก.)"},
       {f:"normal_h",label:"ปกติ (สูง)"},{f:"warn_h",label:"เฝ้าระวัง (สูง)"},{f:"crit_h",label:"วิกฤติ (สูง)"}],
-      legend:"มี 2 ชุด: ระดับ ม.รทก. และ ความสูงจากท้องน้ำ (ม.) — ใช้ตัวที่วิกฤติกว่า" }
+      legend:"มี 2 ชุด: ระดับ ม.รทก. และ ความสูงจากท้องน้ำ (ม.) — ใช้ตัวที่วิกฤติกว่า" },
+  reservoir:{ icon:"🏞️", title:"อ่างเก็บน้ำ", cols:[
+      {f:"normal",label:"น้ำน้อยกว่า (%)"},{f:"warn",label:"เฝ้าระวังน้ำมาก (%)"},{f:"crit",label:"ล้นความจุ (%)"}],
+      legend:"หน่วย % ของความจุ · ต่ำกว่า \"น้ำน้อยกว่า\" = น้ำน้อย · ≥ เฝ้าระวัง = น้ำมาก · ≥ ล้นความจุ = ล้น" }
 };
-var ORDER = ["station","floodgate","hydro"];
+var ORDER = ["station","floodgate","hydro","reservoir"];
 
 function esc(v){ return (v==null?"":String(v)).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 
 function render(list){
-  var byType = {station:[],floodgate:[],hydro:[]};
+  var byType = {station:[],floodgate:[],hydro:[],reservoir:[]};
   list.forEach(function(r){ if(byType[r.point_type]) byType[r.point_type].push(r); });
   var html = "";
   ORDER.forEach(function(tp){
