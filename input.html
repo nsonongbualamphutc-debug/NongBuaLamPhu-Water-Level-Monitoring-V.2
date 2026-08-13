@@ -578,15 +578,15 @@ const RESERVOIRS = [
 const FLOODGATES = [
   { gate_id:"FG01", name:"ปตร.หนองหว้าใหญ่", village:"บ้านหนองหว้า",
     tambon:"โพธิ์ชัย", amphoe:"เมืองหนองบัวลำภู",
-    lat:17.179444, lon:102.386111,
+    lat:17.179444, lon:102.386111, gates_total:4,
     threshold_normal:214, threshold_warn:214.5 },
   { gate_id:"FG02", name:"ปตร.ปู่หลอด", village:"บ้านโนนคูณ",
     tambon:"บ้านขาม", amphoe:"เมืองหนองบัวลำภู",
-    lat:17.115278, lon:102.453611,
+    lat:17.115278, lon:102.453611, gates_total:4,
     threshold_normal:203, threshold_warn:203.5 },
   { gate_id:"FG03", name:"ปตร.หัวนา", village:"บ้านหัวนา",
     tambon:"หัวนา", amphoe:"เมืองหนองบัวลำภู",
-    lat:17.000556, lon:102.423889,
+    lat:17.000556, lon:102.423889, gates_total:5,
     threshold_normal:190, threshold_warn:191 }
 ];
 
@@ -1089,7 +1089,7 @@ function buildForm(){
     h+=`<div class="fld"><label>${esc(f.label)} <span class="hint">(${esc(f.unit)})</span>
         ${f.hint?`<span class="hint">— ${esc(f.hint)}</span>`:''}</label>
       <input class="inp" id="f_${f.n}" type="text" inputmode="decimal" autocomplete="off"
-        placeholder="ไม่บังคับ" value="${draft[f.n]!=null?esc(draft[f.n]):''}" oninput="saveDraft()"></div>`;
+        placeholder="ไม่บังคับ" value="${draft[f.n]!=null?esc(draft[f.n]):''}" oninput="saveDraft();onMainInput()"></div>`;
   });
   h+=`<div class="fld"><label>หมายเหตุ</label>
       <textarea class="inp" id="f_remark" rows="2" placeholder="เช่น สภาพอากาศ ลักษณะน้ำ" oninput="saveDraft()">${esc(draft.remark||'')}</textarea></div>`;
@@ -1138,6 +1138,19 @@ function onMainInput(){
   box.className='bignum '+(kind==='info'?'':kind);
   st.className='banner '+kind;
   st.querySelector('.m').innerHTML='<strong>'+esc(title)+'</strong> · '+esc(detail);
+
+  /* สถานะเปิด-ปิดประตู (ปตร.) — แสดงคู่กับระดับน้ำ ตรงกับที่ขึ้นแดชบอร์ด */
+  if(T.key==='floodgate'){
+    const goEl=$('f_gate_opening');
+    if(goEl){
+      const go=numOrBlank(goEl.value);
+      if(go!==''){
+        const gt=SEL.gates_total?('/'+SEL.gates_total):'';
+        const gs=Number(go)>0 ? '🟦 เปิดระบาย '+go+gt+' บาน' : '⬜ ปิดทุกบาน';
+        st.querySelector('.m').innerHTML+=' · <span style="opacity:.9">'+gs+'</span>';
+      }
+    }
+  }
 
   /* ส่วนต่างจากค่าล่าสุด */
   if(CTX && CTX.last!=null){
