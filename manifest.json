@@ -1,17 +1,20 @@
 {
-  "name": "สถานการณ์น้ำ จ.หนองบัวลำภู",
-  "short_name": "น้ำ นภ.",
-  "description": "ศูนย์ติดตามสถานการณ์น้ำจังหวัดหนองบัวลำภู แบบเรียลไทม์ — สำนักงานสถิติจังหวัดหนองบัวลำภู",
+  "name": "ศูนย์บัญชาการข้อมูลสถานการณ์น้ำ จังหวัดหนองบัวลำภู",
+  "short_name": "น้ำหนองบัวลำภู",
+  "description": "แดชบอร์ดติดตามสถานการณ์น้ำ ระดับน้ำ ฝน อ่างเก็บน้ำ และประตูระบายน้ำ จังหวัดหนองบัวลำภู",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait-primary",
   "background_color": "#0a1e3c",
-  "theme_color": "#0c4a6e",
+  "theme_color": "#0a1e3c",
   "lang": "th",
+  "dir": "ltr",
+  "categories": ["government", "utilities", "weather"],
   "icons": [
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "favicon-32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "favicon-64.png", "sizes": "64x64", "type": "image/png" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "maskable" }
   ]
 }

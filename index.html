@@ -6,6 +6,20 @@
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <meta name="theme-color" content="#0a1e3c">
+<meta name="description" content="แดชบอร์ดติดตามสถานการณ์น้ำ ระดับน้ำ ฝน อ่างเก็บน้ำ และประตูระบายน้ำ จังหวัดหนองบัวลำภู แบบเรียลไทม์">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="น้ำหนองบัวลำภู">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="ศูนย์บัญชาการข้อมูลสถานการณ์น้ำ จ.หนองบัวลำภู">
+<meta property="og:title" content="ศูนย์บัญชาการข้อมูลสถานการณ์น้ำ จังหวัดหนองบัวลำภู">
+<meta property="og:description" content="ติดตามระดับน้ำ ฝน อ่างเก็บน้ำ ประตูระบายน้ำ แบบเรียลไทม์">
+<meta property="og:image" content="https://nsonongbualamphutc-debug.github.io/NongBuaLamPhu-Water-Level-Monitoring-V.2/apple-touch-icon.png">
+<meta property="og:url" content="https://nsonongbualamphutc-debug.github.io/NongBuaLamPhu-Water-Level-Monitoring-V.2/">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary">
 
 <link rel="stylesheet" href="ds.css?v=50">
 <link rel="stylesheet" href="mobile.css?v=4">
@@ -427,4 +441,17 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
 <script src="weather_alert.js?v=4" defer></script>
 <script src="alert_log.js?v=2" defer></script>
 <script src="alert_popup.js?v=2" defer></script>
+
+<div id="offlineBar" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:9999;
+  background:#b45309;color:#fff;font-family:'Kanit',sans-serif;font-size:13px;text-align:center;
+  padding:9px 14px;box-shadow:0 -4px 16px rgba(0,0,0,.25)">
+  ⚠️ ออฟไลน์ — ข้อมูลที่เห็นอาจไม่ใช่ล่าสุด กรุณาเชื่อมต่ออินเทอร์เน็ตเพื่อดึงข้อมูลใหม่
+</div>
+<script>
+(function(){
+  var bar=document.getElementById('offlineBar');
+  function upd(){ bar.style.display = navigator.onLine ? 'none' : 'block'; }
+  window.addEventListener('online',upd); window.addEventListener('offline',upd); upd();
+})();
+</script>
 </body></html>
