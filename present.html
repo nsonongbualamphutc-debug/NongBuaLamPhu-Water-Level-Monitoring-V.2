@@ -1,108 +1,113 @@
 <!DOCTYPE html><html lang="th"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#081321">
+<meta name="theme-color" content="#0a1e3c">
 <title>โหมดนำเสนอ · ศูนย์บัญชาการน้ำ จ.หนองบัวลำภู</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="64x64" href="favicon-64.png">
-<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ds.css?v=50">
+<link rel="stylesheet" href="mobile.css?v=4">
 <style>
-  :root{--disp:'Kanit',sans-serif;--ok:#34d399;--okd:#059669;--warn:#fbbf24;--warnd:#d97706;--crit:#f87171;--critd:#dc2626;
-    --bg:#081321;--panel:#0e2038;--panel2:#132a49;--line:#1e3a5c;--ink:#e6eefb;--muted:#8aa4c6;--sky:#38bdf8;}
-  *{box-sizing:border-box}
-  body{margin:0;background:radial-gradient(1200px 600px at 72% -12%,#12294a,#081321 60%);color:var(--ink);
-    font-family:'Sarabun',sans-serif;padding:16px 15px 54px;min-height:100vh}
-  .wrap{max-width:1280px;margin:0 auto}
-  .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:13px}
-  .brand{display:flex;align-items:center;gap:11px}
-  .brand .logo{width:42px;height:42px;border-radius:11px;background:linear-gradient(135deg,#1e40af,#0ea5e9);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 6px 18px rgba(14,165,233,.4)}
-  .brand h1{font-family:var(--disp);font-weight:700;font-size:17px;margin:0;line-height:1.15}
-  .brand p{margin:0;font-size:11px;color:var(--muted)}
-  .live{display:flex;align-items:center;gap:7px;font-family:var(--disp);font-weight:700;font-size:11px;color:#fff;background:linear-gradient(135deg,#dc2626,#ef4444);padding:5px 12px;border-radius:99px;box-shadow:0 4px 12px rgba(239,68,68,.35)}
-  .live .dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:beat 1.3s ease-in-out infinite}
-  @keyframes beat{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
-  .upd{font-size:11px;color:var(--muted)} .spacer{flex:1}
-  .rivertabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
-  .rivertabs button{font-family:var(--disp);font-weight:600;font-size:12px;color:var(--muted);background:var(--panel2);
-    border:1px solid var(--line);border-radius:99px;padding:7px 15px;cursor:pointer;transition:.15s}
-  .rivertabs button:hover{background:#1a3860}
-  .rivertabs button.on{background:linear-gradient(135deg,#0ea5e9,#2563eb);border-color:transparent;color:#fff}
-  .rivertabs button .n{opacity:.7;font-weight:500;margin-left:4px}
-  .seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:11px;overflow:hidden}
-  .seg button{border:0;background:transparent;color:var(--muted);font-family:var(--disp);font-weight:600;font-size:12px;padding:8px 14px;cursor:pointer;transition:.15s}
-  .seg button.on{background:linear-gradient(135deg,#0ea5e9,#2563eb);color:#fff}
-  .btn{font-family:var(--disp);font-weight:600;font-size:12.5px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:7px}
-  .btn:hover{background:#1a3860} .btn.on{background:linear-gradient(135deg,#0ea5e9,#2563eb);border-color:transparent;color:#fff}
-
-  .verdict{display:flex;align-items:center;gap:13px;background:linear-gradient(120deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:13px 17px;margin-bottom:13px}
-  .verdict .flag{font-family:var(--disp);font-weight:800;font-size:14px;color:#fff;padding:6px 15px;border-radius:99px;white-space:nowrap}
-  .verdict .txt{font-size:13.5px;line-height:1.5}
-
-  .ctl{background:linear-gradient(120deg,#0c1e37,#10294a);border:1px solid var(--line);border-radius:16px;padding:13px 17px;margin-bottom:15px}
-  .ctl .chead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px}
-  .ctl .chead b{font-family:var(--disp);font-weight:700;font-size:13.5px}
-  .ctl .chead .tag{font-size:10.5px;color:#7dd3fc;background:rgba(14,165,233,.14);border:1px solid rgba(14,165,233,.3);padding:2px 9px;border-radius:99px}
-  .ctl .srow{display:flex;align-items:center;gap:13px;min-height:40px}
-  .ctl .big{font-family:var(--disp);font-weight:800;font-size:26px;min-width:120px;color:var(--sky);font-variant-numeric:tabular-nums;white-space:nowrap}
-  .ctl .big small{font-size:12px;font-weight:600;color:var(--muted)}
-  .ctl input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:99px;outline:none;background:linear-gradient(90deg,#22d3ee,#fbbf24 55%,#f87171)}
-  .ctl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid #0ea5e9;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.4)}
-  .ctl .fcinfo{font-size:12.5px;line-height:1.5}
-  .ctl .fcinfo b{font-family:var(--disp);color:var(--sky)}
-  .ctl .sub{margin-top:8px;font-size:11px;color:var(--muted)} .ctl .sub .im{font-family:var(--disp);font-weight:700;color:var(--warn)}
-
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(216px,1fr));gap:12px}
-  .card{position:relative;background:linear-gradient(168deg,#0e2139,#0b1a30);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:transform .16s,box-shadow .16s}
-  .card:hover{transform:translateY(-4px);box-shadow:0 16px 34px rgba(0,0,0,.4)}
-  .card.flash{animation:flash 1.1s ease}
-  @keyframes flash{25%{box-shadow:0 0 0 3px rgba(56,189,248,.6)}100%{box-shadow:0 0 0 0 rgba(56,189,248,0)}}
-  .rib{height:3px}
-  .ch{display:flex;align-items:flex-start;gap:7px;padding:9px 12px 3px}
-  .ch .nm{flex:1;min-width:0} .ch .nm b{display:block;font-family:var(--disp);font-weight:700;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .ch .nm span{font-size:8.5px;color:var(--muted)}
-  .ch .pill{font-family:var(--disp);font-size:9px;font-weight:700;color:#06202c;padding:3px 9px;border-radius:99px;white-space:nowrap}
-  .scene{width:100%;height:92px;display:block}
-  .hero{display:flex;align-items:flex-end;justify-content:space-between;padding:3px 12px 2px}
-  .hero .g em{font-style:normal;font-size:9px;color:var(--muted);display:block;line-height:1}
-  .hero .g b{font-family:var(--disp);font-weight:800;font-size:21px;line-height:1;font-variant-numeric:tabular-nums}
-  .hero .g b s{font-size:10px;text-decoration:none;color:var(--muted);font-weight:600}
-  .hero .eta{text-align:right;font-family:var(--disp);font-weight:700;font-size:10px;padding:3px 8px;border-radius:9px;max-width:108px;line-height:1.2}
-  .rainbars{display:flex;align-items:flex-end;gap:3px;height:26px;padding:4px 12px 2px}
-  .rainbars .rb{flex:1;background:linear-gradient(180deg,#38bdf8,#0369a1);border-radius:2px 2px 0 0;min-height:2px;position:relative}
-  .rainbars .rb i{position:absolute;bottom:-11px;left:0;right:0;text-align:center;font-style:normal;font-size:6.5px;color:#5b7a9c}
-  .proj{display:flex;align-items:center;gap:6px;padding:12px 12px 9px;font-size:10px;color:var(--muted);border-top:1px solid var(--line);margin-top:7px}
-  .proj .pv{margin-left:auto;font-family:var(--disp);font-weight:700;font-size:11.5px}
-  .note{margin-top:16px;font-size:10.5px;color:#6b86aa;line-height:1.6;border-top:1px dashed var(--line);padding-top:12px}
-  .note b{color:#9fb8d6}
-  .wsurf{animation:bob 3.4s ease-in-out infinite} @keyframes bob{50%{transform:translateY(-1.2px)}}
-  .loading{color:var(--muted);font-size:12px;padding:3px 2px}
+.pres{padding:16px 18px 54px}
+.pres-toolbar{display:flex;align-items:center;gap:11px;margin-bottom:13px;flex-wrap:wrap}
+.pres .live{display:flex;align-items:center;gap:7px;font-family:'Kanit',sans-serif;font-weight:700;font-size:11px;color:#fff;background:linear-gradient(135deg,#dc2626,#ef4444);padding:5px 12px;border-radius:99px;box-shadow:0 4px 12px rgba(239,68,68,.3)}
+.pres .live .dot{width:8px;height:8px;border-radius:50%;background:#fff;animation:pbeat 1.3s ease-in-out infinite}
+@keyframes pbeat{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
+.pres .upd{font-size:11.5px;color:var(--muted,#64748b)} .pres .spacer{flex:1}
+.pres .btn{font-family:'Kanit',sans-serif;font-weight:600;font-size:12.5px;color:var(--navy,#0a1e3c);background:#fff;border:1px solid var(--line,#e6edf5);border-radius:11px;padding:8px 14px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.pres .btn:hover{background:#f1f6fb} .pres .btn.on{background:linear-gradient(135deg,#0ea5e9,#2563eb);border-color:transparent;color:#fff}
+.pres .rivertabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.pres .rivertabs button{font-family:'Kanit',sans-serif;font-weight:600;font-size:12px;color:var(--muted,#64748b);background:#fff;border:1px solid var(--line,#e6edf5);border-radius:99px;padding:7px 15px;cursor:pointer;transition:.15s}
+.pres .rivertabs button:hover{background:#f1f6fb}
+.pres .rivertabs button.on{background:var(--navy,#0a1e3c);border-color:transparent;color:#fff}
+.pres .rivertabs button .n{opacity:.6;font-weight:500;margin-left:4px}
+.pres .seg{display:inline-flex;background:#f1f5f9;border:1px solid var(--line,#e6edf5);border-radius:10px;overflow:hidden}
+.pres .seg button{border:0;background:transparent;color:var(--muted,#64748b);font-family:'Kanit',sans-serif;font-weight:600;font-size:11.5px;padding:7px 13px;cursor:pointer}
+.pres .seg button.on{background:var(--navy,#0a1e3c);color:#fff}
+.pres .verdict{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line,#e6edf5);border-left-width:5px;border-radius:14px;padding:13px 17px;margin-bottom:13px;box-shadow:0 2px 10px rgba(15,40,80,.05)}
+.pres .verdict .flag{font-family:'Kanit',sans-serif;font-weight:800;font-size:14px;color:#fff;padding:6px 15px;border-radius:99px;white-space:nowrap}
+.pres .verdict .txt{font-size:13.5px;line-height:1.5;color:var(--ink,#0f172a)}
+.pres .ctl{background:linear-gradient(120deg,#f6fbff,#eef5fc);border:1px solid var(--line,#e6edf5);border-radius:14px;padding:13px 17px;margin-bottom:15px}
+.pres .ctl .chead{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:9px}
+.pres .ctl .chead b{font-family:'Kanit',sans-serif;font-weight:700;font-size:13.5px;color:var(--navy,#0a1e3c)}
+.pres .ctl .chead .tag{font-size:10.5px;color:#0369a1;background:#e0f2fe;border:1px solid #bae6fd;padding:2px 9px;border-radius:99px}
+.pres .ctl .srow{display:flex;align-items:center;gap:13px;min-height:40px}
+.pres .ctl .big{font-family:'Kanit',sans-serif;font-weight:800;font-size:26px;min-width:120px;color:#0369a1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pres .ctl .big small{font-size:12px;font-weight:600;color:var(--muted,#64748b)}
+.pres .ctl input[type=range]{flex:1;-webkit-appearance:none;height:8px;border-radius:99px;outline:none;background:linear-gradient(90deg,#22d3ee,#fbbf24 55%,#f87171)}
+.pres .ctl input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:#fff;border:4px solid #0ea5e9;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.pres .ctl .fcinfo{font-size:12.5px;line-height:1.5;color:var(--ink,#0f172a)} .pres .ctl .fcinfo b{font-family:'Kanit',sans-serif;color:#0369a1}
+.pres .ctl .sub{margin-top:8px;font-size:11px;color:var(--muted,#64748b)} .pres .ctl .sub .im{font-family:'Kanit',sans-serif;font-weight:700;color:#d97706}
+.pres .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pres .card{position:relative;background:linear-gradient(168deg,#fff,#f6fbff);border:1px solid var(--line,#e6edf5);border-radius:15px;overflow:hidden;box-shadow:0 3px 12px rgba(15,40,80,.06);transition:transform .16s,box-shadow .16s}
+.pres .card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(15,40,80,.14)}
+.pres .card.flash{animation:pflash 1.1s ease}@keyframes pflash{25%{box-shadow:0 0 0 3px rgba(14,165,233,.5)}100%{box-shadow:0 0 0 0 rgba(14,165,233,0)}}
+.pres .rib{height:3px}
+.pres .ch{display:flex;align-items:flex-start;gap:7px;padding:8px 11px 3px}
+.pres .ch .nm{flex:1;min-width:0} .pres .ch .nm b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:12.5px;color:var(--navy,#0a1e3c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pres .ch .nm span{font-size:8.5px;color:var(--muted,#64748b)}
+.pres .ch .pill{font-family:'Kanit',sans-serif;font-size:9px;font-weight:700;color:#fff;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.pres .scene{width:100%;height:88px;display:block}
+.pres .hero{display:flex;align-items:flex-end;justify-content:space-between;padding:3px 11px 2px}
+.pres .hero .g em{font-style:normal;font-size:9px;color:var(--muted,#64748b);display:block;line-height:1}
+.pres .hero .g b{font-family:'Kanit',sans-serif;font-weight:800;font-size:20px;line-height:1;font-variant-numeric:tabular-nums}
+.pres .hero .g b s{font-size:10px;text-decoration:none;color:var(--muted,#64748b);font-weight:600}
+.pres .hero .eta{text-align:right;font-family:'Kanit',sans-serif;font-weight:700;font-size:10px;padding:3px 8px;border-radius:9px;max-width:106px;line-height:1.2}
+.pres .rainbars{display:flex;align-items:flex-end;gap:3px;height:24px;padding:3px 11px 1px}
+.pres .rainbars .rb{flex:1;background:linear-gradient(180deg,#38bdf8,#0369a1);border-radius:2px 2px 0 0;min-height:2px}
+.pres .proj{display:flex;align-items:center;gap:6px;padding:10px 11px 9px;font-size:10px;color:var(--muted,#64748b);border-top:1px solid var(--line,#e6edf5);margin-top:6px}
+.pres .proj .pv{margin-left:auto;font-family:'Kanit',sans-serif;font-weight:700;font-size:11.5px}
+.pres .note{margin-top:16px;font-size:10.5px;color:var(--muted,#64748b);line-height:1.6;border-top:1px dashed var(--line,#e6edf5);padding-top:12px} .pres .note b{color:var(--navy,#0a1e3c)}
+.pres .wsurf{animation:pbob 3.4s ease-in-out infinite}@keyframes pbob{50%{transform:translateY(-1.1px)}}
+.pres .loading{color:var(--muted,#64748b);font-size:12px;padding:3px 2px}
+html[data-theme="dark"] .pres .card{background:linear-gradient(168deg,#13243f,#0e1d33);border-color:#243a58}
+html[data-theme="dark"] .pres .ch .nm b,html[data-theme="dark"] .pres .verdict .txt,html[data-theme="dark"] .pres .ctl .fcinfo{color:#dbe8f8}
+html[data-theme="dark"] .pres .verdict,html[data-theme="dark"] .pres .btn,html[data-theme="dark"] .pres .rivertabs button,html[data-theme="dark"] .pres .seg{background:#13243f;border-color:#243a58;color:#cdddf0}
+html[data-theme="dark"] .pres .ctl{background:linear-gradient(120deg,#13243f,#0e1d33);border-color:#243a58}
 </style></head>
-<body><div class="wrap">
-  <div class="top">
-    <div class="brand"><div class="logo">🌊</div><div><h1>ศูนย์บัญชาการข้อมูลสถานการณ์น้ำ</h1><p>จังหวัดหนองบัวลำภู · โหมดนำเสนอ</p></div></div>
-    <div class="spacer"></div>
-    <div class="live"><span class="dot"></span>LIVE</div>
+<body>
+<div class="app" id="app">
+<div class="scrim" onclick="document.getElementById('app').classList.remove('navopen')"></div>
+<aside class="side">
+  <div class="brand"><a href="index.html" title="กลับหน้าปกนำเสนอ" style="display:contents"><img src="logo-nbp.png" alt="ตราจังหวัด"><div class="bt"><div class="kick">Water Command</div><div class="ttl">สถานการณ์น้ำจังหวัด</div><div class="en">NONG BUA LAM PHU</div></div></a></div>
+  <nav class="menu"><a href="dashboard.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></span><span class="lbl"><b>ภาพรวมสถานการณ์</b><i>Executive Summary</i></span></a><a href="daily_briefing.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></svg></span><span class="lbl"><b>รายงานประจำวัน</b><i>Daily Briefing</i></span></a><a href="rivers.html" title="ภาพรวมทุกลำน้ำ"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18M3 12h18M3 17h18"/><circle cx="7" cy="7" r="1.6"/><circle cx="13" cy="12" r="1.6"/><circle cx="9" cy="17" r="1.6"/></svg></span><span class="lbl"><b>ภาพรวมทุกลำน้ำ</b><i>All Rivers</i></span></a><a href="paneang.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพะเนียง</b><i>Phaneang</i></span></a><a href="mong.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำโมง</b><i>Mong</i></span></a><a href="mo.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำมอ</b><i>Mo</i></span></a><a href="phuay.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8c3-2 6-2 9 0s6 2 9 0M2 14c3-2 6-2 9 0s6 2 9 0"/></svg></span><span class="lbl"><b>ลำน้ำพวย</b><i>Phuay</i></span></a><a href="rainfall.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a4 4 0 0 0 0-8 6 6 0 0 0-11.6 2A3.5 3.5 0 0 0 6 18z"/><path d="M8 20l1 2M12 20l1 2M16 20l1 2"/></svg></span><span class="lbl"><b>ปริมาณฝน</b><i>Rainfall</i></span></a><a href="reservoir.html"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v6a8 8 0 0 1-16 0zM4 5c3 2 5 2 8 0s5-2 8 0"/></svg></span><span class="lbl"><b>อ่างเก็บน้ำ</b><i>Reservoir</i></span></a><a href="flood_risk.html" class="" title="พื้นที่เสี่ยงน้ำท่วม"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 8v8l8 6 8-6V8z"/><path d="M8 13h8M8 17h5"/></svg></span><span class="lbl"><b>พื้นที่เสี่ยงน้ำท่วม</b><i>Flood Risk Area</i></span></a><a href="input.html" class=""><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></span><span class="lbl"><b>บันทึกข้อมูล</b><i>Data Input</i></span></a></nav>
+  <div class="side-foot"><b>สำนักงานสถิติจังหวัดหนองบัวลำภู</b>ศาลากลางจังหวัดหนองบัวลำภู ชั้น 2<br>ถ.หนองบัวลำภู - เลย ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000<div class="cp">© 2025 จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>โทร 0 4231 6736<br><span class="ver-stamp" style="opacity:.65;font-size:9px">รุ่น v27</span></div></div>
+</aside>
+<div class="main-col">
+<header class="topbar">
+  <button class="burger" onclick="var a=document.getElementById('app');window.innerWidth<=820?a.classList.toggle('navopen'):a.classList.toggle('collapsed')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  <div class="tt">โหมดนำเสนอ · จำลองพยากรณ์<i>Presentation &amp; Forecast Simulation</i></div>
+  <div class="tr"><button class="btn" onclick="window.print()" title="พิมพ์/บันทึก PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg> PDF</button></div>
+</header>
+<div class="content pres">
+  <div class="pres-toolbar">
+    <span class="live"><span class="dot"></span>LIVE</span>
     <span class="upd" id="upd">—</span>
+    <span class="spacer"></span>
     <button class="btn" id="tourBtn">▶ ทัวร์อัตโนมัติ</button>
   </div>
-
   <div class="rivertabs" id="rivertabs"></div>
   <div class="verdict" id="verdict"></div>
-
   <div class="ctl">
     <div class="chead"><span style="font-size:16px">🌧️</span><b>จำลองสถานการณ์น้ำ</b>
       <span class="tag" id="srcTag">เชื่อมพยากรณ์ Open-Meteo</span>
-      <div class="spacer"></div>
+      <span class="spacer"></span>
       <div class="seg" id="modeSeg"><button data-m="forecast" class="on">ตามพยากรณ์ 7 วัน</button><button data-m="manual">ลองเอง</button></div>
     </div>
     <div class="srow" id="ctlRow"><div class="loading" id="ldg">กำลังดึงพยากรณ์ฝนรายสถานีจาก Open-Meteo…</div></div>
     <div class="sub">ฝน = พยากรณ์จริงรายพิกัด (วันไม่ตก = 0 · เปลี่ยนตามฤดูอัตโนมัติ) · ระดับน้ำที่คาดเป็น<strong>ช่วงประมาณการ</strong> · <span class="im" id="impact">—</span></div>
   </div>
-
   <div class="grid" id="grid"></div>
-
   <div class="note">⚠️ <b>คำเตือนการใช้งาน:</b> ปริมาณฝนเป็นพยากรณ์จริงจาก Open-Meteo (อัปเดตตามฤดูกาลและสภาพจริงรายวัน). ส่วน "ระดับน้ำที่คาด" เป็น<b>การประมาณการเพื่อเตรียมพร้อม</b> คำนวณจากฝน × ค่าความไวของแต่ละสถานี (ค่าเริ่มต้น · จะแม่นขึ้นเมื่อปรับเทียบกับสถิติจริงที่เก็บสะสม) — <b>ไม่ใช่การพยากรณ์อุทกภัยอย่างเป็นทางการ</b> ควรใช้ร่วมกับประกาศของกรมชลประทาน/กรมอุตุฯ</div>
 </div>
-
+</div>
+</div>
+<script src="ds.js?v=27" defer></script>
+<script src="alert_log.js?v=2" defer></script>
 <script>
+
 const STATIONS=[{"id": "PN01", "name": "วังปลาป้อม", "river": "ลำน้ำพะเนียง", "amphoe": "นาวัง", "lat": 17.42065, "lon": 101.99304, "warn": 289.5, "bank": 290.0, "cur": 288.2}, {"id": "PN02", "name": "โคกกระทอ", "river": "ลำน้ำพะเนียง", "amphoe": "นาวัง", "lat": 17.34314, "lon": 102.07167, "warn": 265.5, "bank": 266.0, "cur": 264.1}, {"id": "PN03", "name": "วังสามหาบ", "river": "ลำน้ำพะเนียง", "amphoe": "นาวัง", "lat": 17.3099, "lon": 102.10789, "warn": 257.5, "bank": 258.0, "cur": 255.8}, {"id": "PN04", "name": "บ้านหนองด่าน", "river": "ลำน้ำพะเนียง", "amphoe": "นากลาง", "lat": 17.27936, "lon": 102.16552, "warn": 248.5, "bank": 249.0, "cur": 247.4}, {"id": "PN05", "name": "บ้านฝั่งแดง", "river": "ลำน้ำพะเนียง", "amphoe": "นากลาง", "lat": 17.2673, "lon": 102.22728, "warn": 236.5, "bank": 237.0, "cur": 236.7}, {"id": "PN06", "name": "ปตร.หนองหว้าใหญ่", "river": "ลำน้ำพะเนียง", "amphoe": "เมืองหนองบัวลำภู", "lat": 17.17981, "lon": 102.38617, "warn": 214.0, "bank": 214.5, "cur": 214.14}, {"id": "PN07", "name": "วังหมื่น", "river": "ลำน้ำพะเนียง", "amphoe": "เมืองหนองบัวลำภู", "lat": 17.18317, "lon": 102.43244, "warn": 209.5, "bank": 210.0, "cur": 208.1}, {"id": "PN08", "name": "ปตร.ปู่หลอด", "river": "ลำน้ำพะเนียง", "amphoe": "เมืองหนองบัวลำภู", "lat": 17.11487, "lon": 102.45435, "warn": 202.9, "bank": 203.4, "cur": 198.3}, {"id": "PN09", "name": "บ้านข้องโป้", "river": "ลำน้ำพะเนียง", "amphoe": "เมืองหนองบัวลำภู", "lat": 17.08217, "lon": 102.45068, "warn": 200.5, "bank": 201.0, "cur": 199.2}, {"id": "PN10", "name": "ปตร.หัวนา", "river": "ลำน้ำพะเนียง", "amphoe": "เมืองหนองบัวลำภู", "lat": 17.00067, "lon": 102.424, "warn": 191.2, "bank": 192.2, "cur": 189.67}, {"id": "MG01", "name": "คลองบุญทัน", "river": "ลำน้ำโมง", "amphoe": "สุวรรณคูหา", "lat": 17.54512, "lon": 102.16832, "warn": 230.5, "bank": 231.0, "cur": 229.1}, {"id": "MG02", "name": "บ้านโคก", "river": "ลำน้ำโมง", "amphoe": "สุวรรณคูหา", "lat": 17.54952, "lon": 102.20425, "warn": 217.5, "bank": 218.0, "cur": 216.4}, {"id": "MG03", "name": "บ้านนาตาแหลว", "river": "ลำน้ำโมง", "amphoe": "สุวรรณคูหา", "lat": 17.57567, "lon": 102.27326, "warn": 201.5, "bank": 202.0, "cur": 200.1}, {"id": "MG04", "name": "บ้านกุดผึ้ง", "river": "ลำน้ำโมง", "amphoe": "สุวรรณคูหา", "lat": 17.56062, "lon": 102.31572, "warn": 191.5, "bank": 192.0, "cur": 190.2}, {"id": "MO01", "name": "อ่างเก็บน้ำมอ", "river": "ลำน้ำมอ", "amphoe": "ศรีบุญเรือง", "lat": 17.16608, "lon": 102.18177, "warn": 241.5, "bank": 242.0, "cur": 240.2}, {"id": "MO02", "name": "บ้านวังคูณ", "river": "ลำน้ำมอ", "amphoe": "ศรีบุญเรือง", "lat": 17.03214, "lon": 102.2492, "warn": 210.5, "bank": 211.0, "cur": 209.3}, {"id": "MO03", "name": "บ้านโนนสูงเปลือย", "river": "ลำน้ำมอ", "amphoe": "ศรีบุญเรือง", "lat": 16.96934, "lon": 102.27002, "warn": 201.5, "bank": 202.0, "cur": 200.4}, {"id": "PY01", "name": "บ้านวังโปร่ง", "river": "ลำน้ำพวย", "amphoe": "ศรีบุญเรือง", "lat": 17.01415, "lon": 102.19359, "warn": 211.5, "bank": 212.0, "cur": 210.3}, {"id": "PY02", "name": "บ้านทุ่งโพธิ์", "river": "ลำน้ำพวย", "amphoe": "ศรีบุญเรือง", "lat": 16.97482, "lon": 102.22344, "warn": 196.5, "bank": 197.0, "cur": 195.4}, {"id": "PY03", "name": "บ้านโคกล่าม", "river": "ลำน้ำพวย", "amphoe": "ศรีบุญเรือง", "lat": 16.91317, "lon": 102.23807, "warn": 192.5, "bank": 193.0, "cur": 191.5}];
 /* ── ค่าความไว k (ม. ต่อ มม.ฝนสะสม) — ค่าเริ่มต้น ปรับเทียบจากสถิติจริงภายหลัง ──
    วิธีจูน: เมื่อมีคู่ข้อมูล (ฝนสะสม, ระดับน้ำที่ขึ้นจริง) มากพอ ให้ fit k=Δระดับ/ฝน รายสถานี */
@@ -134,7 +139,7 @@ function loadLive(){
 }
 let livS=0;
 
-const PAL={ok:{c:'#34d399',d:'#059669',t:'ปกติ'},warn:{c:'#fbbf24',d:'#d97706',t:'เฝ้าระวัง'},crit:{c:'#f87171',d:'#dc2626',t:'วิกฤติ'}};
+const PAL={ok:{c:'#16a34a',d:'#15803d',t:'ปกติ'},warn:{c:'#f59e0b',d:'#d97706',t:'เฝ้าระวัง'},crit:{c:'#dc2626',d:'#b91c1c',t:'วิกฤติ'}};
 const nf=(v,d)=>v==null||isNaN(v)?'—':Number(v).toLocaleString('th-TH',{minimumFractionDigits:d,maximumFractionDigits:d});
 const stOf=(cur,warn,bank)=> cur>=bank?'crit': cur>=warn?'warn':'ok';
 const TMON=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
@@ -153,7 +158,7 @@ function etaOf(s){
   for(let d=0;d<fc.rain.length;d++){ lvl+=fc.rain[d]*s.k; if(lvl>=s.bank) return {t:'คาดถึงตลิ่ง '+dLabel(fc.days[d]),c:PAL.crit.c,bg:'rgba(248,113,113,.15)'}; if(lvl>=s.warn && d===0){} }
   // ไม่ถึงตลิ่ง — เช็กว่าถึงเฝ้าระวังไหม
   if(lvl>=s.warn) return {t:'เข้าเฝ้าระวังใน 7 วัน',c:PAL.warn.c,bg:'rgba(251,191,36,.14)'};
-  return {t:'ปลอดภัยใน 7 วัน',c:PAL.ok.c,bg:'rgba(52,211,153,.12)'};
+  return {t:'ปลอดภัยใน 7 วัน',c:PAL.ok.c,bg:'rgba(22,163,74,.12)'};
 }
 
 function scene(s,level){
@@ -170,17 +175,17 @@ function scene(s,level){
   const wash=over?'<rect x="0" y="'+(topY-6)+'" width="'+W+'" height="'+(yBank-topY+10)+'" fill="'+P.c+'" opacity=".16"/>':'';
   return '<svg class="scene" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"><defs>'
    +'<linearGradient id="w'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+P.c+'"/><stop offset="1" stop-color="'+P.d+'"/></linearGradient>'
-   +'<linearGradient id="bk'+id+'" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3a4f6a"/><stop offset=".5" stop-color="#52708f"/><stop offset="1" stop-color="#3a4f6a"/></linearGradient>'
+   +'<linearGradient id="bk'+id+'" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d6c3a2"/><stop offset=".5" stop-color="#efe3cd"/><stop offset="1" stop-color="#d6c3a2"/></linearGradient>'
    +'<filter id="g'+id+'"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>'
-   +'<path d="M '+Lx+' '+topY+' L '+(Lx+inset)+' '+bedY+' L '+(Rx-inset)+' '+bedY+' L '+Rx+' '+topY+' L '+Rx+' '+botY+' L '+Lx+' '+botY+' Z" fill="#0a1a30"/>'
+   +'<path d="M '+Lx+' '+topY+' L '+(Lx+inset)+' '+bedY+' L '+(Rx-inset)+' '+bedY+' L '+Rx+' '+topY+' L '+Rx+' '+botY+' L '+Lx+' '+botY+' Z" fill="#e7f0fa"/>'
    +'<path d="M '+(Lx-12)+' '+topY+' L '+Lx+' '+topY+' L '+(Lx+inset)+' '+bedY+' L '+(Lx-12)+' '+bedY+' Z" fill="url(#bk'+id+')"/>'
    +'<path d="M '+(Rx+12)+' '+topY+' L '+Rx+' '+topY+' L '+(Rx-inset)+' '+bedY+' L '+(Rx+12)+' '+bedY+' Z" fill="url(#bk'+id+')"/>'
    +wash+'<g class="wsurf" style="animation-delay:'+((parseInt((id||'0').replace(/\D/g,''))||0)%7*0.3)+'s">'
    +'<path d="'+front+'" fill="url(#w'+id+')" filter="url(#g'+id+')"/>'
    +'<path d="'+top+'" fill="#fff" opacity=".30"/>'
    +'<ellipse cx="'+(sM-ell*.2)+'" cy="'+(yCur-1)+'" rx="'+(ell*.5)+'" ry="'+(eH*.5)+'" fill="#fff" opacity=".4"/></g>'
-   +ln(yBank,'#f87171','0')+'<text x="'+(Lx-6)+'" y="'+(yBank-2)+'" font-family="Kanit" font-size="7.5" font-weight="700" fill="#f87171">ตลิ่ง</text>'
-   +ln(yWarn,'#fbbf24','4 3')+'</svg>';
+   +ln(yBank,'#dc2626','0')+'<text x="'+(Lx-6)+'" y="'+(yBank-2)+'" font-family="Kanit" font-size="7.5" font-weight="700" fill="#dc2626">ตลิ่ง</text>'
+   +ln(yWarn,'#f59e0b','4 3')+'</svg>';
 }
 
 function rainbars(s){
