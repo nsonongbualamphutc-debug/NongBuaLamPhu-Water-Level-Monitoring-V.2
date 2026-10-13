@@ -573,6 +573,32 @@ function dvMount(){
 if(typeof renderWatch==='function'){ var _dvrw=renderWatch; renderWatch=function(){ _dvrw.apply(this,arguments); if(window.DVIEW3D) dvRender3d(); }; }
 if(document.readyState!=='loading') dvMount(); else document.addEventListener('DOMContentLoaded',dvMount);
 
+
+/* ═══════ หมุดแผนที่มีชีวิต — วงกระเพื่อมที่จุดวิกฤต/เฝ้าระวัง (เพิ่มใหม่) ═══════ */
+(function(){ if(document.getElementById('dvPulseCss'))return;
+  var c=document.createElement('style'); c.id='dvPulseCss'; c.textContent=
+   ".pulse-halo{width:30px;height:30px;position:relative;pointer-events:none}"
+  +".pulse-halo::before,.pulse-halo::after{content:'';position:absolute;inset:0;border-radius:50%;background:var(--pc,#dc2626)}"
+  +".pulse-halo::before{opacity:.55;animation:phalo 1.7s ease-out infinite}"
+  +".pulse-halo::after{opacity:.5;animation:phalo 1.7s ease-out .85s infinite}"
+  +"@keyframes phalo{0%{transform:scale(.35);opacity:.6}80%,100%{transform:scale(1.7);opacity:0}}";
+  document.head.appendChild(c);
+})();
+function dvPulseUpdate(){
+  try{
+    if(typeof L==='undefined'||!window._map||!window._d||!window._d.stations) return;
+    if(!window.__pulseLayer){ window.__pulseLayer=L.layerGroup().addTo(window._map); }
+    window.__pulseLayer.clearLayers();
+    window._d.stations.forEach(function(s){
+      if(s.st!=='crit'&&s.st!=='warn') return;
+      var col=(typeof COL!=='undefined'&&COL[s.st])?COL[s.st]:'#dc2626';
+      var ic=L.divIcon({className:'',html:'<div class="pulse-halo" style="--pc:'+col+'"></div>',iconSize:[30,30],iconAnchor:[15,15]});
+      L.marker([s.lat,s.lon],{icon:ic,interactive:false,keyboard:false,zIndexOffset:-200}).addTo(window.__pulseLayer);
+    });
+  }catch(e){}
+}
+if(typeof renderWatch==='function'){ var _dvp=renderWatch; renderWatch=function(){ _dvp.apply(this,arguments); setTimeout(dvPulseUpdate,80); }; }
+
 (async()=>{const d=await loadData();window._d=d;document.getElementById('upd').textContent=d.updated;
  renderSrc(d);renderAlert(d);renderKPI(d);renderMap(d);renderToday(d);renderOverview(d);renderTrend(d);renderReservoir(d);renderFloodgate(d);renderWatch(d);
  hideLoad();

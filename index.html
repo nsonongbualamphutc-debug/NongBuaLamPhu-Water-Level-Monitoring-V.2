@@ -454,4 +454,87 @@ html[data-theme="dark"] .sosshare .line{background:#06c755;color:#fff}
   window.addEventListener('online',upd); window.addEventListener('offline',upd); upd();
 })();
 </script>
+
+<style id="cineCss">
+  .inner>*{opacity:0;transform:translateY(14px);animation:cineUp .7s cubic-bezier(.2,.8,.25,1) forwards}
+  .inner>.seal{animation-delay:.05s}.inner>.kick{animation-delay:.14s}.inner>.rule{animation-delay:.2s}
+  .inner>h1{animation-delay:.26s}.inner>.sub{animation-delay:.34s}.inner>.lvpill{animation-delay:.4s}
+  .inner>.stats{animation-delay:.46s}.inner>.acts{animation-delay:.56s}.inner>.quick{animation-delay:.66s}
+  @keyframes cineUp{to{opacity:1;transform:none}}
+  .lvpill{display:inline-flex;align-items:center;gap:9px;margin:4px auto 2px;padding:8px 18px;border-radius:99px;
+    font-family:'Kanit',sans-serif;font-weight:700;font-size:14px;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.25);backdrop-filter:blur(3px)}
+  .lvpill .d{width:10px;height:10px;border-radius:50%;background:#fff;animation:lvb 1.3s ease-in-out infinite}
+  @keyframes lvb{50%{opacity:.35;transform:scale(.7)}}
+  .lvpill small{font-weight:500;font-size:11px;opacity:.9}
+  .q{position:relative}
+  .q .qd{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle;box-shadow:0 0 0 2px rgba(255,255,255,.25)}
+  @keyframes provBob{50%{transform:translateY(-7px)}}
+</style>
+<script>
+(function(){
+  var GAS="https://script.google.com/macros/s/AKfycbyNbwf9250krK8ObZwR83RYgg139pf72T7QMh1paVb2BI3OD5n1U4nIPEDCdIZGkU7F/exec";
+  /* 1) KPI นับขึ้น */
+  document.querySelectorAll('.stats .st .n').forEach(function(el){
+    var html=el.innerHTML, m=html.match(/^(\d+)/); if(!m)return;
+    var target=+m[1], rest=html.slice(m[1].length), t0=null;
+    el.innerHTML='0'+rest;
+    requestAnimationFrame(function step(t){t0=t0||t;var p=Math.min((t-t0)/1100,1),e=1-Math.pow(1-p,3);
+      el.innerHTML=Math.round(target*e)+rest; if(p<1)requestAnimationFrame(step);});
+  });
+  /* 2) จังหวัดค่อย ๆ เติมน้ำ (clip น้ำเข้ารูปจังหวัด) */
+  var svg=document.querySelector('.mapwm'), fp=svg&&svg.querySelector('.fillp'), waterRect=null;
+  function setupWater(){
+    if(!svg||!fp) return;
+    var ns='http://www.w3.org/2000/svg';
+    var defs=document.createElementNS(ns,'defs');
+    var cp=document.createElementNS(ns,'clipPath'); cp.setAttribute('id','provClip');
+    var pc=fp.cloneNode(true); pc.removeAttribute('class'); cp.appendChild(pc); defs.appendChild(cp);
+    var lg=document.createElementNS(ns,'linearGradient'); lg.setAttribute('id','provWater');
+    lg.setAttribute('x1','0');lg.setAttribute('y1','0');lg.setAttribute('x2','0');lg.setAttribute('y2','1');
+    lg.innerHTML='<stop offset="0" stop-color="#38bdf8" stop-opacity=".7"/><stop offset="1" stop-color="#0369a1" stop-opacity=".82"/>';
+    defs.appendChild(lg);
+    svg.insertBefore(defs, svg.firstChild);
+    var g=document.createElementNS(ns,'g'); g.setAttribute('clip-path','url(#provClip)'); g.setAttribute('opacity','.5');
+    waterRect=document.createElementNS(ns,'rect'); waterRect.setAttribute('x','-40'); waterRect.setAttribute('width','1080');
+    waterRect.setAttribute('height','1400'); waterRect.setAttribute('fill','url(#provWater)'); waterRect.setAttribute('y','1306');
+    waterRect.style.animation='provBob 4.5s ease-in-out infinite';
+    g.appendChild(waterRect); svg.appendChild(g);
+  }
+  function riseTo(frac){
+    if(!waterRect)return; var H=1306, targetY=H-Math.max(.1,Math.min(1,frac))*H, t0=null, startY=+waterRect.getAttribute('y');
+    requestAnimationFrame(function s(t){t0=t0||t;var p=Math.min((t-t0)/1700,1),e=1-Math.pow(1-p,3);
+      waterRect.setAttribute('y', startY+(targetY-startY)*e); if(p<1)requestAnimationFrame(s);});
+  }
+  setupWater(); riseTo(0.55);  /* ค่าเริ่มต้น จะปรับตามข้อมูลจริงเมื่อโหลดเสร็จ */
+
+  /* 3) ป้ายสถานการณ์วันนี้ (สด) + สีน้ำ + จุดสถานะ quick links */
+  var COL={crit:'#dc2626',warn:'#f59e0b',normal:'#16a34a'};
+  function num(o,ks){for(var i=0;i<ks.length;i++){var v=o&&o[ks[i]];if(v!=null&&!isNaN(+v))return +v;}return null;}
+  fetch(GAS+'?action=summary&_t='+Date.now(),{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
+    d=(d&&d.v)?d.v:d; var k=d&&d.kpi?d.kpi:d;
+    var crit=num(k,['crit','overflow','over'])||0, warn=num(k,['warn','warnHigh','watch'])||0;
+    var resAvg=num(k,['resAvg','reservoirAvg','resPct']);
+    var st = crit>0?'crit':warn>0?'warn':'normal';
+    var label = crit>0?('เฝ้าระวังสูง — เกินตลิ่ง '+crit+' จุด'):warn>0?('เฝ้าระวัง '+warn+' จุด'):'สถานการณ์ปกติ';
+    /* ป้าย verdict แทรกหลัง .sub */
+    var sub=document.querySelector('.inner .sub');
+    if(sub){ var pill=document.createElement('div'); pill.className='lvpill';
+      pill.style.background='linear-gradient(135deg,'+COL[st]+','+COL[st]+'cc)';
+      pill.innerHTML='<span class="d"></span>สถานการณ์วันนี้ · '+(st==='crit'?'🔴':st==='warn'?'🟡':'🟢')+' '+label+(d&&d.updated?'<small> · '+d.updated+'</small>':'');
+      sub.parentNode.insertBefore(pill, sub.nextSibling);
+    }
+    /* สีน้ำจังหวัดตามสถานะ + ระดับตาม resAvg ถ้ามี */
+    var gradStops=document.querySelectorAll('#provWater stop');
+    if(gradStops.length){ var c=COL[st];
+      gradStops[0].setAttribute('stop-color', st==='normal'?'#38bdf8':c); gradStops[0].setAttribute('stop-opacity','.55');
+      gradStops[1].setAttribute('stop-color', st==='normal'?'#0369a1':c); gradStops[1].setAttribute('stop-opacity','.8'); }
+    if(resAvg!=null) riseTo(Math.max(.25,Math.min(.95,resAvg/100)));
+    /* จุดสถานะบน quick links ของลำน้ำ/อ่าง */
+    [['paneang.html',st],['mong.html',st],['mo.html',st],['phuay.html',st],['reservoir.html', resAvg!=null&&resAvg>=85?'warn':'normal']].forEach(function(p){
+      var a=document.querySelector('.quick a[href="'+p[0]+'"]'); if(a&&!a.querySelector('.qd')){
+        var dot=document.createElement('span'); dot.className='qd'; dot.style.background=COL[p[1]]; a.insertBefore(dot,a.firstChild);} });
+  }).catch(function(){ /* ออฟไลน์: คงหน้าปกนิ่ง ๆ ไม่มีป้ายสด */ });
+})();
+</script>
+
 </body></html>
