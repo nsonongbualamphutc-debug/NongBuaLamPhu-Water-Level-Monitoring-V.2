@@ -486,6 +486,93 @@ function flyTo(la,lo,mode){setMode(mode||'stn');map.flyTo([la,lo],12,{duration:.
 setTimeout(function(){try{hideLoad();}catch(e){}},8000);
 function hideLoad(){const m=document.getElementById('loadmask');if(m)m.classList.add('hide');}
 function loadSlow(){const w=document.getElementById('lmWarn');if(w)w.style.display='inline-block';}
+
+/* ═══════ มุมมอง 3 มิติ สถานีน้ำ — สลับกับแผนที่ (เพิ่มใหม่ add-only) ═══════ */
+(function(){
+  if(document.getElementById('dv3dCss')) return;
+  var css=document.createElement('style'); css.id='dv3dCss'; css.textContent=
+    "#dview3d{position:absolute;inset:0;overflow-y:auto;display:none;padding:10px;z-index:460;background:linear-gradient(170deg,#f3f8fd,#eaf1f9)}"
+   +"#dview3d.on{display:block}"
+   +".dv3grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:9px}"
+   +".dv3c{background:linear-gradient(168deg,#fff,#f6fbff);border:1px solid var(--line,#e6edf5);border-radius:13px;overflow:hidden;cursor:pointer;transition:transform .15s,box-shadow .15s}"
+   +".dv3c:hover{transform:translateY(-3px);box-shadow:0 12px 24px rgba(15,40,80,.15)}"
+   +".dv3c .rib{height:3px}"
+   +".dv3h{display:flex;align-items:flex-start;gap:5px;padding:7px 9px 2px}"
+   +".dv3h .nm{flex:1;min-width:0}.dv3h .nm b{display:block;font-family:'Kanit',sans-serif;font-weight:700;font-size:11.5px;color:var(--navy,#0a1e3c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}"
+   +".dv3h .nm span{font-size:8px;color:var(--muted,#64748b)}"
+   +".dv3h .pill{font-family:'Kanit',sans-serif;font-size:8px;font-weight:700;color:#fff;padding:2px 7px;border-radius:99px;white-space:nowrap}"
+   +".dv3c svg{width:100%;height:72px;display:block}"
+   +".dv3f{display:flex;align-items:flex-end;justify-content:space-between;padding:2px 9px 8px}"
+   +".dv3f em{font-style:normal;font-size:8px;color:var(--muted,#64748b);display:block;line-height:1}"
+   +".dv3f b{font-family:'Kanit',sans-serif;font-weight:800;font-size:17px;line-height:1}"
+   +".dv3f b s{font-size:9px;text-decoration:none;color:var(--muted,#64748b);font-weight:600}"
+   +".dv3f .cur{text-align:right;font-family:'Kanit',sans-serif;font-weight:700;font-size:10px;color:var(--ink,#0f172a)}"
+   +".dv3seg{display:inline-flex;background:var(--bg,#f1f5f9);border:1px solid var(--line,#e6edf5);border-radius:9px;overflow:hidden;margin-left:7px}"
+   +".dv3seg button{border:0;background:transparent;font-family:'Kanit',sans-serif;font-weight:600;font-size:10.5px;color:var(--muted,#64748b);padding:5px 10px;cursor:pointer}"
+   +".dv3seg button.on{background:var(--navy,#0a1e3c);color:#fff}"
+   +".dv3wsurf{animation:dv3bob 3.6s ease-in-out infinite}@keyframes dv3bob{50%{transform:translateY(-1px)}}"
+   +"html[data-theme=\"dark\"] #dview3d{background:linear-gradient(170deg,#0f2038,#0b1a2f)}"
+   +"html[data-theme=\"dark\"] .dv3c{background:linear-gradient(168deg,#13243f,#0e1d33);border-color:#243a58}"
+   +"html[data-theme=\"dark\"] .dv3h .nm b{color:#dbe8f8}html[data-theme=\"dark\"] .dv3f .cur{color:#dbe8f8}"
+   +"html[data-theme=\"dark\"] .dv3seg{background:#13243f;border-color:#243a58}";
+  document.head.appendChild(css);
+})();
+function dvNf(v,d){ return (v==null||isNaN(v))?'—':Number(v).toLocaleString('th-TH',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function dvScene(s){
+  var col=(typeof COL!=='undefined'&&COL[s.st])?COL[s.st]:'#16a34a';
+  var warn=+s.warnLv, bank=+s.bank, cur=+s.cur, gap=bank-cur, over=cur>=bank;
+  var span=Math.max(bank-warn,Math.abs(gap),0.6)*2.0, topRef=bank+span*0.14, botRef=bank-span;
+  var W=150,H=72,padX=18,topY=9,botY=H-8,inset=15,Lx=padX,Rx=W-padX,bedY=botY;
+  var yOf=function(e){return topY+(topRef-e)/(topRef-botRef)*(botY-topY);};
+  var yBank=yOf(bank),yWarn=yOf(warn),yCur=yOf(Math.min(cur,topRef));
+  var tt=Math.max(0,Math.min(1,(yCur-topY)/(bedY-topY))), sL=Lx+inset*tt, sR=Rx-inset*tt, ell=(sR-sL)/2, eH=4+5*(1-tt);
+  var front='M '+sL+' '+yCur+' A '+ell+' '+eH+' 0 0 0 '+sR+' '+yCur+' L '+(Rx-inset)+' '+bedY+' L '+(Lx+inset)+' '+bedY+' Z';
+  var top='M '+sL+' '+yCur+' A '+ell+' '+eH+' 0 0 0 '+sR+' '+yCur+' A '+ell+' '+eH+' 0 0 1 '+sL+' '+yCur+' Z';
+  var id=String(s.id).replace(/[^A-Za-z0-9]/g,''), wash=over?'<rect x="0" y="'+(topY-5)+'" width="'+W+'" height="'+(yBank-topY+9)+'" fill="'+col+'" opacity=".15"/>':'';
+  return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"><defs>'
+   +'<linearGradient id="dvw'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+col+'"/><stop offset="1" stop-color="'+col+'" stop-opacity=".6"/></linearGradient></defs>'
+   +'<path d="M '+Lx+' '+topY+' L '+(Lx+inset)+' '+bedY+' L '+(Rx-inset)+' '+bedY+' L '+Rx+' '+topY+' L '+Rx+' '+botY+' L '+Lx+' '+botY+' Z" fill="#e7f0fa"/>'
+   +'<path d="M '+(Lx-10)+' '+topY+' L '+Lx+' '+topY+' L '+(Lx+inset)+' '+bedY+' L '+(Lx-10)+' '+bedY+' Z" fill="#d6c3a2"/>'
+   +'<path d="M '+(Rx+10)+' '+topY+' L '+Rx+' '+topY+' L '+(Rx-inset)+' '+bedY+' L '+(Rx+10)+' '+bedY+' Z" fill="#d6c3a2"/>'
+   +wash+'<g class="dv3wsurf"><path d="'+front+'" fill="url(#dvw'+id+')"/><path d="'+top+'" fill="#fff" opacity=".28"/></g>'
+   +'<line x1="'+(Lx-5)+'" y1="'+yBank+'" x2="'+(Rx+5)+'" y2="'+yBank+'" stroke="#dc2626" stroke-width="1.3"/>'
+   +'<text x="'+(Lx-4)+'" y="'+(yBank-2)+'" font-family="Kanit" font-size="7" font-weight="700" fill="#dc2626">ตลิ่ง</text>'
+   +'<line x1="'+(Lx-5)+'" y1="'+yWarn+'" x2="'+(Rx+5)+'" y2="'+yWarn+'" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="3 2"/></svg>';
+}
+function dvCard(s){
+  var col=(typeof COL!=='undefined'&&COL[s.st])?COL[s.st]:'#16a34a';
+  var gap=(+s.bank)-(+s.cur), over=gap<=0, lab=(s.st==='crit'?'วิกฤติ':s.st==='warn'?'เฝ้าระวัง':'ปกติ');
+  return '<div class="dv3c" onclick="try{focusStation&&focusStation(\''+s.id+'\')}catch(e){}">'
+   +'<div class="rib" style="background:'+col+'"></div>'
+   +'<div class="dv3h"><div class="nm"><b>'+s.name+'</b><span>'+(s.river||'')+' · อ.'+s.amphoe+'</span></div><span class="pill" style="background:'+col+'">'+lab+'</span></div>'
+   +dvScene(s)
+   +'<div class="dv3f"><div>'+(over?'<em>&nbsp;</em><b style="color:'+col+';font-size:13px">น้ำล้นตลิ่ง</b>':'<em>เหลือถึงตลิ่ง</em><b style="color:'+col+'">'+dvNf(gap,2)+'<s> ม.</s></b>')+'</div>'
+   +'<div class="cur">'+dvNf(s.cur,2)+'<br><span style="font-size:7px;color:var(--muted,#64748b)">ม.รทก.</span></div></div></div>';
+}
+function dvRender3d(){
+  var host=document.getElementById('dview3d'); if(!host||!window._d||!window._d.stations) return;
+  var list=window._d.stations.slice().sort(function(a,b){var o={crit:0,warn:1,normal:2};return (o[a.st]-o[b.st])||((a.bank-a.cur)-(b.bank-b.cur));});
+  host.innerHTML='<div class="dv3grid">'+list.map(dvCard).join('')+'</div>';
+}
+window.DVIEW3D=false;
+function dvMount(){
+  var mapEl=document.getElementById('map'); if(!mapEl||document.getElementById('dview3d')) return;
+  var pb=mapEl.parentNode; pb.style.position='relative';
+  var v=document.createElement('div'); v.id='dview3d'; pb.appendChild(v);
+  var panel=mapEl.closest('.panel'), seg=panel&&panel.querySelector('.seg');
+  if(seg){ var ts=document.createElement('div'); ts.className='dv3seg';
+    ts.innerHTML='<button data-v="map" class="on">🗺️ แผนที่</button><button data-v="3d">🧊 3 มิติ</button>';
+    ts.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+      var on=b.dataset.v==='3d'; window.DVIEW3D=on; v.classList.toggle('on',on);
+      ts.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});
+      if(on) dvRender3d(); else { try{window._map&&window._map.invalidateSize&&setTimeout(function(){window._map.invalidateSize();},60);}catch(e){} }
+    });
+    seg.parentNode.insertBefore(ts, seg.nextSibling);
+  }
+}
+if(typeof renderWatch==='function'){ var _dvrw=renderWatch; renderWatch=function(){ _dvrw.apply(this,arguments); if(window.DVIEW3D) dvRender3d(); }; }
+if(document.readyState!=='loading') dvMount(); else document.addEventListener('DOMContentLoaded',dvMount);
+
 (async()=>{const d=await loadData();window._d=d;document.getElementById('upd').textContent=d.updated;
  renderSrc(d);renderAlert(d);renderKPI(d);renderMap(d);renderToday(d);renderOverview(d);renderTrend(d);renderReservoir(d);renderFloodgate(d);renderWatch(d);
  hideLoad();
