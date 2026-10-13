@@ -873,6 +873,147 @@ function renderList(){
         <span class="fgz-lb"><em style="color:#b45309">🟡 ${nf(x.normal,2)}</em><em style="color:#dc2626">🔴 ${nf(x.warn,2)}</em></span>
       </div>`:''}</div>`;}).join('');
 }
+
+/* ═══════════════════ มุมมอง 3 มิติ (ถัง/ประตู/อุทก) — เพิ่มใหม่ ═══════════════════
+   สลับกับแผนที่ในพาเนลเดียว (ประหยัดพื้นที่) · ใช้ข้อมูลสดชุดเดียวกับรายการ */
+(function(){
+  if(document.getElementById('v3dCss')) return;
+  var css=document.createElement('style'); css.id='v3dCss'; css.textContent=
+    "#view3d{position:absolute;inset:0;overflow-y:auto;display:none;padding:10px;background:linear-gradient(170deg,#f3f8fd,#eaf1f9);z-index:450}"
+   +"#view3d.on{display:block}"
+   +".v3grid{display:grid;gap:9px}"
+   +".v3grid.tanks{grid-template-columns:repeat(auto-fill,minmax(104px,1fr))}"
+   +".v3grid.gates{grid-template-columns:repeat(auto-fill,minmax(228px,1fr))}"
+   +".v3grid.hydro{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}"
+   +".v3t,.v3g{background:linear-gradient(168deg,#fff,#f6fbff);border:1px solid var(--line,#e6edf5);border-radius:13px;padding:8px 8px 9px;text-align:center;cursor:pointer;transition:transform .15s,box-shadow .15s}"
+   +".v3t:hover,.v3g:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(15,40,80,.14)}"
+   +".v3n{font-family:'Kanit',sans-serif;font-weight:700;font-size:11px;color:var(--navy,#0a1e3c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}"
+   +".v3t svg,.v3g svg{width:100%;display:block;overflow:visible}"
+   +".v3t svg{height:92px} .v3g svg{height:108px}"
+   +".v3p{font-family:'Kanit',sans-serif;font-weight:800;font-size:18px;line-height:1;margin-top:1px}"
+   +".v3v{font-size:8.5px;color:var(--muted,#64748b);margin-top:1px}"
+   +".v3wsurf{animation:v3bob 3.6s ease-in-out infinite}@keyframes v3bob{50%{transform:translateY(-1px)}}"
+   +".v3flow{animation:v3flow 1s linear infinite}@keyframes v3flow{to{stroke-dashoffset:-14}}"
+   +".map3seg{display:inline-flex;background:var(--bg,#f1f5f9);border:1px solid var(--line,#e6edf5);border-radius:9px;overflow:hidden;margin-left:7px}"
+   +".map3seg button{border:0;background:transparent;font-family:'Kanit',sans-serif;font-weight:600;font-size:10.5px;color:var(--muted,#64748b);padding:5px 10px;cursor:pointer}"
+   +".map3seg button.on{background:var(--navy,#0a1e3c);color:#fff}"
+   /* dark */
+   +"html[data-theme=\"dark\"] #view3d{background:linear-gradient(170deg,#0f2038,#0b1a2f)}"
+   +"html[data-theme=\"dark\"] .v3t,html[data-theme=\"dark\"] .v3g{background:linear-gradient(168deg,#13243f,#0e1d33);border-color:#243a58}"
+   +"html[data-theme=\"dark\"] .v3n{color:#dbe8f8}"
+   +"html[data-theme=\"dark\"] .map3seg{background:#13243f;border-color:#243a58}";
+  document.head.appendChild(css);
+})();
+
+function nfx3(v,d){ return (v==null||isNaN(v))?'—':Number(v).toLocaleString('th-TH',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+
+/* ── ถังอ่างเก็บน้ำ 3 มิติ ── */
+function tank3d(pct,color,id){
+  var W=104,H=92,cx=W/2,RX=32,RY=10,topY=14,botY=H-9;
+  var fill=Math.max(0,Math.min(112,pct))/100, waterY=botY-Math.min(1,fill)*(botY-topY), over=pct>=100;
+  var sil='M '+(cx-RX)+' '+topY+' A '+RX+' '+RY+' 0 0 0 '+(cx+RX)+' '+topY+' L '+(cx+RX)+' '+botY+' A '+RX+' '+RY+' 0 0 1 '+(cx-RX)+' '+botY+' Z';
+  var d=color, dd=color;
+  return '<svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><defs>'
+   +'<clipPath id="v3c'+id+'"><path d="'+sil+'"/></clipPath>'
+   +'<linearGradient id="v3w'+id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+color+'"/><stop offset="1" stop-color="'+color+'" stop-opacity=".62"/></linearGradient></defs>'
+   +'<ellipse cx="'+cx+'" cy="'+botY+'" rx="'+RX+'" ry="'+RY+'" fill="#dfe8f2"/>'
+   +'<path d="M '+(cx-RX)+' '+topY+' L '+(cx-RX)+' '+botY+' M '+(cx+RX)+' '+topY+' L '+(cx+RX)+' '+botY+'" stroke="#cfdbe8" stroke-width="1.3" fill="none"/>'
+   +'<g clip-path="url(#v3c'+id+')" class="v3wsurf">'
+   +'<rect x="'+(cx-RX)+'" y="'+waterY+'" width="'+(2*RX)+'" height="'+(botY-waterY+RY)+'" fill="url(#v3w'+id+')"/>'
+   +'<ellipse cx="'+cx+'" cy="'+waterY+'" rx="'+RX+'" ry="'+RY+'" fill="'+color+'" opacity=".9"/>'
+   +'<ellipse cx="'+(cx-10)+'" cy="'+(waterY-1)+'" rx="9" ry="'+(RY*0.4)+'" fill="#fff" opacity=".4"/></g>'
+   +'<ellipse cx="'+cx+'" cy="'+topY+'" rx="'+RX+'" ry="'+RY+'" fill="none" stroke="#b9cadd" stroke-width="1.5"/>'
+   +(over?'<text x="'+cx+'" y="'+(topY-5)+'" text-anchor="middle" font-size="8" font-family="Kanit" font-weight="700" fill="#dc2626">▲ ล้น</text>':'')
+   +'<path d="'+sil+'" fill="none" stroke="#9fb3c9" stroke-width="1.5"/></svg>';
+}
+
+/* ── ประตูระบายน้ำ 3 มิติ + น้ำไหล ── */
+function gate3d(g){
+  var W=228,H=108,baseY=80,pierW=9,bays=g.gates||1,x0=13,span=W-26,bw=span/bays;
+  var wl=Math.min(1,Math.max(.2,((+g.level)-((+g.normal)-1))/(((+g.warn)+0.5)-((+g.normal)-1)))), upY=baseY-22-wl*18;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" aria-hidden="true"><defs><linearGradient id="v3g'+g.id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38bdf8"/><stop offset="1" stop-color="#0369a1"/></linearGradient></defs>';
+  s+='<rect x="0" y="'+upY+'" width="'+(x0+2)+'" height="'+(H-upY)+'" fill="url(#v3g'+g.id+')" opacity=".9"/>';
+  s+='<rect x="'+(W-x0-2)+'" y="'+(baseY-8)+'" width="'+(x0+2)+'" height="'+(H-baseY+8)+'" fill="url(#v3g'+g.id+')" opacity=".8"/>';
+  s+='<rect x="0" y="'+baseY+'" width="'+W+'" height="'+(H-baseY)+'" fill="#cdbb98"/><rect x="0" y="'+(baseY-2)+'" width="'+W+'" height="3" fill="#a98b5d"/>';
+  for(var i=0;i<bays;i++){ var bx=x0+i*bw, gx=bx+pierW/2, gw=bw-pierW, opened=i<g.open;
+    s+='<rect x="'+(bx-pierW/2)+'" y="'+(baseY-40)+'" width="'+pierW+'" height="40" fill="#8794a6"/>';
+    if(opened){ s+='<rect x="'+gx+'" y="'+(baseY-40)+'" width="'+gw+'" height="12" fill="#475569" rx="2"/>';
+      for(var k=0;k<3;k++) s+='<line class="v3flow" x1="'+(gx+gw*(0.25+k*0.25))+'" y1="'+(baseY-26)+'" x2="'+(gx+gw*(0.25+k*0.25))+'" y2="'+baseY+'" stroke="#7dd3fc" stroke-width="2.2" stroke-dasharray="5 4" stroke-linecap="round"/>';
+    } else { s+='<rect x="'+gx+'" y="'+(baseY-30)+'" width="'+gw+'" height="30" fill="#64748b" rx="2"/>'; }
+  }
+  s+='<rect x="'+(x0+bays*bw-pierW/2)+'" y="'+(baseY-40)+'" width="'+pierW+'" height="40" fill="#8794a6"/></svg>';
+  return s;
+}
+
+/* ── ภาพตัดสถานีอุทกวิทยา 3 มิติ (ใช้ normal=เฝ้าระวัง, warn=วิกฤติ) ── */
+function hydro3d(x){
+  var warn=+x.normal, bank=+x.warn, cur=+x.level, s=lvStatus(x), col=s.c;
+  var span=Math.max(bank-warn,Math.abs(bank-cur),0.6)*2.0, topRef=bank+span*0.14, botRef=bank-span;
+  var W=150,H=86,padX=18,topY=10,botY=H-9,inset=15,Lx=padX,Rx=W-padX,bedY=botY;
+  var yOf=function(e){return topY+(topRef-e)/(topRef-botRef)*(botY-topY);};
+  var yBank=yOf(bank),yWarn=yOf(warn),yCur=yOf(Math.min(cur,topRef));
+  var tt=Math.max(0,Math.min(1,(yCur-topY)/(bedY-topY))), sL=Lx+inset*tt, sR=Rx-inset*tt, ell=(sR-sL)/2, eH=4+5*(1-tt);
+  var front='M '+sL+' '+yCur+' A '+ell+' '+eH+' 0 0 0 '+sR+' '+yCur+' L '+(Rx-inset)+' '+bedY+' L '+(Lx+inset)+' '+bedY+' Z';
+  return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true"><defs>'
+   +'<linearGradient id="v3h'+x.id+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+col+'"/><stop offset="1" stop-color="'+col+'" stop-opacity=".6"/></linearGradient></defs>'
+   +'<path d="M '+Lx+' '+topY+' L '+(Lx+inset)+' '+bedY+' L '+(Rx-inset)+' '+bedY+' L '+Rx+' '+topY+' L '+Rx+' '+botY+' L '+Lx+' '+botY+' Z" fill="#e7f0fa"/>'
+   +'<g class="v3wsurf"><path d="'+front+'" fill="url(#v3h'+x.id+')"/>'
+   +'<path d="M '+sL+' '+yCur+' A '+ell+' '+eH+' 0 0 0 '+sR+' '+yCur+' A '+ell+' '+eH+' 0 0 1 '+sL+' '+yCur+' Z" fill="#fff" opacity=".28"/></g>'
+   +'<line x1="'+(Lx-5)+'" y1="'+yBank+'" x2="'+(Rx+5)+'" y2="'+yBank+'" stroke="#dc2626" stroke-width="1.3"/>'
+   +'<line x1="'+(Lx-5)+'" y1="'+yWarn+'" x2="'+(Rx+5)+'" y2="'+yWarn+'" stroke="#f59e0b" stroke-width="1.2" stroke-dasharray="3 2"/></svg>';
+}
+
+function render3d(){
+  var host=document.getElementById('view3d'); if(!host) return;
+  var list=items().filter(function(x){return !AMPF||x.amphoe===AMPF;});
+  var html,cls;
+  if(TAB==='res'){ cls='tanks';
+    html=list.slice().sort(function(a,b){return pctOf(b)-pctOf(a);}).map(function(r){
+      var p=pctOf(r),col=bandR(r).c;
+      return '<div class="v3t" data-tipid="'+r.id+'" onclick="focus(\''+r.id+'\')"><div class="v3n">'+r.name+'</div>'
+        +tank3d(p,col,r.id)+'<div class="v3p" style="color:'+col+'">'+nfx3(p,0)+'%</div>'
+        +'<div class="v3v">'+nfx3(r.cur,2)+'/'+nfx3(r.cap,2)+' ล.ลบ.ม.</div></div>';
+    }).join('');
+  } else if(TAB==='fg'){ cls='gates';
+    html=list.map(function(g){ var s=lvStatus(g);
+      return '<div class="v3g" data-tipid="'+g.id+'" onclick="focus(\''+g.id+'\')"><div class="v3n">'+g.name+' · เปิด '+g.open+'/'+g.gates+'</div>'
+        +gate3d(g)+'<div class="v3v" style="color:'+s.c+'">ระดับ '+nfx3(g.level,2)+' · ระบาย '+nfx3(g.q,1)+' ลบ.ม./ว</div></div>';
+    }).join('');
+  } else { cls='hydro';
+    html=list.map(function(x){ var s=lvStatus(x);
+      return '<div class="v3t" data-tipid="'+x.id+'" onclick="focus(\''+x.id+'\')"><div class="v3n">'+x.name+'</div>'
+        +hydro3d(x)+'<div class="v3v" style="color:'+s.c+'">'+nfx3(x.level,2)+' ม.รทก.</div></div>';
+    }).join('');
+  }
+  host.innerHTML='<div class="v3grid '+cls+'">'+html+'</div>';
+}
+
+/* ── ติดตั้งปุ่มสลับ + คอนเทนเนอร์ 3 มิติ ในพาเนลแผนที่ ── */
+window.VIEW3D=false;
+function mountView3d(){
+  var mapEl=document.getElementById('map'); if(!mapEl||document.getElementById('view3d')) return;
+  var pb=mapEl.parentNode; pb.style.position='relative';
+  var v=document.createElement('div'); v.id='view3d'; pb.appendChild(v);
+  var panel=mapEl.closest('.panel'), ph=panel&&panel.querySelector('.ph');
+  if(ph){ var seg=document.createElement('div'); seg.className='map3seg';
+    seg.innerHTML='<button data-v="map" class="on">🗺️ แผนที่</button><button data-v="3d">🧊 3 มิติ</button>';
+    seg.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;
+      setView3d(b.dataset.v==='3d');
+      seg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);});});
+    ph.appendChild(seg);
+  }
+}
+function setView3d(on){
+  window.VIEW3D=on; var v=document.getElementById('view3d'); if(!v)return;
+  v.classList.toggle('on',on);
+  if(on){ render3d(); }
+  else { try{ map&&map.invalidateSize&&setTimeout(function(){map.invalidateSize();},60); }catch(e){} }
+}
+
+/* ── ให้ renderList รีเฟรช 3 มิติด้วย (ไม่แตะ body เดิม) ── */
+if(typeof renderList==='function'){ var _rl=renderList; renderList=function(){ _rl.apply(this,arguments); if(window.VIEW3D) render3d(); }; }
+if(document.readyState!=='loading') mountView3d(); else document.addEventListener('DOMContentLoaded',mountView3d);
+
 /* ================= summary / kpi / acts ================= */
 function renderSummary(){
   const cv=document.getElementById('mix');
