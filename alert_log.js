@@ -207,7 +207,23 @@
     });
   }
 
+  /* ── แทรกลิงก์ "โหมดนำเสนอ" เข้าเมนูด้านข้าง (ทุกหน้าที่โหลดไฟล์นี้) · กันซ้ำ ── */
+  function mountPresentLink(){
+    var menu = document.querySelector('nav.menu') || document.querySelector('.menu');
+    if (!menu || menu.querySelector('a[href="present.html"]')) return;
+    var onPage = /present\.html/.test(location.pathname);
+    var a = document.createElement('a');
+    a.href='present.html'; a.className = onPage?'active':''; a.title='โหมดนำเสนอ · จำลองพยากรณ์';
+    a.innerHTML='<span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" '
+      +'stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'
+      +'<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>'
+      +'<span class="lbl"><b>โหมดนำเสนอ</b><i>Presentation</i></span>';
+    var input = menu.querySelector('a[href="input.html"]');
+    if (input) menu.insertBefore(a, input); else menu.appendChild(a);
+  }
+
   async function boot(){
+    mountPresentLink();
     if (!document.getElementById('alertLogCSS')){
       var st = document.createElement('style'); st.id='alertLogCSS'; st.textContent=CSS;
       document.head.appendChild(st);
