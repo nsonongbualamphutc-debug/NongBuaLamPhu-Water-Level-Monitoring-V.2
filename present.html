@@ -10,6 +10,10 @@
 <link rel="stylesheet" href="ds.css?v=50">
 <link rel="stylesheet" href="mobile.css?v=4">
 <style>
+/* ── แก้บั๊กเลื่อนไม่ได้: ds.css ตั้ง .content เป็น grid สูงคงที่ + overflow:hidden
+   (ออกแบบไว้สำหรับหน้าที่ fit จอ) ทำให้การ์ด present ที่ยาวกว่า 1 จอถูกตัดขาด
+   → บังคับให้หน้า present เลื่อนแนวตั้งได้เต็มที่ทุกความกว้าง ── */
+.content.pres{display:block!important;grid-template-rows:none!important;overflow-y:auto!important;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 .pres{padding:16px 18px 54px}
 .pres-toolbar{display:flex;align-items:center;gap:11px;margin-bottom:13px;flex-wrap:wrap}
 .pres .live{display:flex;align-items:center;gap:7px;font-family:'Kanit',sans-serif;font-weight:700;font-size:11px;color:#fff;background:linear-gradient(135deg,#dc2626,#ef4444);padding:5px 12px;border-radius:99px;box-shadow:0 4px 12px rgba(239,68,68,.3)}
