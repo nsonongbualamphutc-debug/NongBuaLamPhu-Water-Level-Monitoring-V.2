@@ -968,7 +968,7 @@ function showStationModal(id){
   document.getElementById('stxOv').classList.add('on');
 }
 function closeStationModal(){ var o=document.getElementById('stxOv'); if(o)o.classList.remove('on'); }
-function openStation(id){ try{ select(id); }catch(e){} showStationModal(id); }
+function openStation(id){ try{var tb=document.getElementById('tipbox'); if(tb)tb.style.display='none';}catch(e){} try{ if(typeof tipHide==='function')tipHide(); }catch(e){} try{ if(typeof closeTips==='function')closeTips(); }catch(e){} try{ select(id); }catch(e){} showStationModal(id); }
 
 
 /* ── แสดง tooltip ด้วยกล่องลอยระดับหน้าจอ — ไม่ถูกกรอบแผนที่ตัดขอบ ── */
